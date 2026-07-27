@@ -1,0 +1,25 @@
+# Secrets & local dumps
+.env
+.env.*
+!.env.example
+admin_explore/
+seo_audit/
+.tmp/
+homepage.html
+headers.txt
+robots.txt
+sitemap-headers.txt
+psi-*.json
+lighthouse-*.json
+*.pyc
+__pycache__/
+
+# Build helpers (optional keep - exclude temp)
+anna-audit-report/_build_report.py
+anna-audit-report/_patch_seo.py
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
