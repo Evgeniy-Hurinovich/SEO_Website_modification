@@ -3,8 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Полный отчёт аудита производительности и технического SEO a2c.by — A2 Consulting" />
-  <title>A2 Consulting — аудит скорости a2c.by</title>
+  <title>A2 Consulting — аудит a2c.by</title>
+  <meta name="description" content="Внутренний отчёт: производительность, Битрикс-админка и SEO-видимость сайта a2c.by. LCP, Core Web Vitals, план работ." />
+  <meta name="theme-color" content="#0c6e6b" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="./favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+
+  <!-- Open Graph / превью ссылки -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="A2 Consulting" />
+  <meta property="og:title" content="A2 Consulting — аудит a2c.by" />
+  <meta property="og:description" content="Производительность · SEO · Битрикс. Performance 47, LCP 6.4 с, АвтоКомпозит выкл. План действий для команды." />
+  <meta property="og:image" content="./og-preview.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="675" />
+  <meta property="og:image:alt" content="A2 Consulting — аудит производительности и SEO a2c.by" />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="A2 Consulting — аудит a2c.by" />
+  <meta name="twitter:description" content="Производительность · SEO · Битрикс. Performance 47, LCP 6.4 с, план работ." />
+  <meta name="twitter:image" content="./og-preview.png" />
+
+  <script>
+    /* Абсолютные URL для превью (мессенджеры/соцсети требуют absolute) */
+    (function () {
+      var origin = location.origin + location.pathname.replace(/\/[^/]*$/, "/");
+      if (origin.indexOf("file:") === 0) return;
+      document.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]').forEach(function (m) {
+        var c = m.getAttribute("content") || "";
+        if (c.indexOf("http") !== 0) m.setAttribute("content", new URL(c, origin).href);
+      });
+      var ogUrl = document.querySelector('meta[property="og:url"]');
+      if (!ogUrl) {
+        ogUrl = document.createElement("meta");
+        ogUrl.setAttribute("property", "og:url");
+        document.head.appendChild(ogUrl);
+      }
+      ogUrl.setAttribute("content", location.href.split("#")[0]);
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
