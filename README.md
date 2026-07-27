@@ -4,30 +4,32 @@
 
 ## Локальный просмотр
 
+Откройте `index.html` в браузере или:
+
 ```bash
-cd anna-audit-report
 python -m http.server 8765
 ```
 
-Открыть: http://127.0.0.1:8765/
-
-Или открыть файл `anna-audit-report/index.html` напрямую в браузере.
+http://127.0.0.1:8765/
 
 ## Деплой на Vercel
 
-1. Импортировать этот репозиторий на [vercel.com/new](https://vercel.com/new).
-2. **Root Directory** → `anna-audit-report`
+1. Import репозитория на [vercel.com/new](https://vercel.com/new)
+2. **Root Directory** — оставить **пустым** (сайт в корне репо)
 3. Framework Preset → **Other**
-4. Build Command → оставить пустым
-5. Output → оставить по умолчанию
+4. Build Command → пусто
+5. Output Directory → пусто
 6. Deploy
 
-После пуша в `main` Vercel пересоберёт сайт автоматически.
+После пуша в `main` Vercel обновит сайт автоматически.
 
-## Данные отчёта
+## Структура
 
-Все цифры в `anna-audit-report/index.html` в объектах `REPORT_DATA` и `SEO_DATA`. Секреты админки хранятся только локально в `.env` (не коммитятся).
+- `index.html` — отчёт (данные в `REPORT_DATA` и `SEO_DATA`)
+- `favicon.*`, `og-preview.png` — иконка и превью ссылки
+- `*.py` — скрипты аудита (локально)
+- `.env.example` — шаблон секретов (настоящий `.env` не в git)
 
 ## Важно
 
-Отчёт не вносит изменений на боевой сайт a2c.by.
+Отчёт не меняет боевой сайт a2c.by. В meta стоит `noindex`.
