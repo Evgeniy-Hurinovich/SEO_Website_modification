@@ -168,6 +168,10 @@
     .rec p { margin: 0; font-size: .9rem; color: var(--ink-muted); flex: 1; }
     .check-row { display: flex; align-items: center; gap: .5rem; font-size: .88rem; font-weight: 600; cursor: pointer; user-select: none; }
     .check-row input { width: 1.05rem; height: 1.05rem; accent-color: var(--accent); }
+    .data-table tr.step-done td { background: #f7fcf8; color: var(--ink-muted); }
+    .data-table tr.step-done td:nth-child(n+2) { text-decoration: line-through; text-decoration-color: #b7d7c4; }
+    .data-table .step-check { width: 4.5rem; text-align: center; vertical-align: middle; }
+    .data-table .step-check .check-row { justify-content: center; font-size: 0; gap: 0; }
     .tech-btn { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: var(--radius-sm); padding: .55rem .75rem; cursor: pointer; font-family: var(--font); font-weight: 600; font-size: .82rem; }
     .tech-btn[aria-expanded="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
     .tech-panel { display: none; background: #15202b; color: #d7e0ea; border-radius: var(--radius-sm); padding: .85rem .95rem; font-family: ui-monospace, Consolas, monospace; font-size: .78rem; line-height: 1.5; white-space: pre-wrap; }
@@ -189,6 +193,16 @@
     .kpi-table th { font-family: var(--font); font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-muted); background: #f7f9fb; }
     .kpi-table tr:last-child td { border-bottom: 0; }
     .progress-box { margin-top: 1rem; padding: 1rem 1.15rem; border-radius: var(--radius); background: var(--accent-soft); border: 1px solid #c5e0dd; }
+    .progress-box.vis-progress-sticky {
+      position: sticky;
+      top: var(--topbar-offset, 4.75rem);
+      z-index: 40;
+      margin-left: -0.15rem;
+      margin-right: -0.15rem;
+      backdrop-filter: blur(10px);
+      background: rgba(232, 244, 242, .94);
+      box-shadow: 0 8px 24px rgba(20, 40, 50, .08);
+    }
     .progress-bar { height: 10px; background: #cfe3e1; border-radius: 999px; overflow: hidden; margin-top: .55rem; }
     .progress-fill { height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .45s var(--ease); }
     .footer { border-top: 1px solid var(--line); padding: 1.5rem 0 2.5rem; color: var(--ink-faint); font-size: .82rem; }
@@ -345,27 +359,32 @@
       <p class="section-sub">Цель — рост позиций, органического трафика и заявок с поиска. Порядок: индексация → скорость/CWV → on-page → разметка → контент-кластеры → замер.</p>
       <div class="callout" id="vis-plan-note"></div>
 
+      <div class="progress-box vis-progress-sticky" id="vis-progress-box" style="margin-top:1rem">
+        <strong id="vis-progress-label">Прогресс плана: 0 из 0 (0%)</strong>
+        <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="vis-progress-fill"></div></div>
+      </div>
+
       <div class="metrics" id="vis-plan-stats" style="margin-top:1rem"></div>
 
       <h2 class="section-title">Фаза A — Индексация и обход</h2>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Фаза B — Скорость как SEO-сигнал</h2>
       <p class="section-sub">Медленная мобильная главная (LCP 6.4 с) бьёт по отказам и косвенно по ранжированию.</p>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-b"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-b"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Фаза C — On-page и CTR сниппета</h2>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-c"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-c"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Фаза D — Schema / расширенные сниппеты</h2>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-d"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-d"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Фаза E — Контент-кластеры</h2>
       <p class="section-sub">После A–C (и желательно зеленеющего LCP). Иначе контент упрётся в технический потолок.</p>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-e"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-e"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Фаза F — Измерение видимости</h2>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-f"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-f"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Порядок реализации (спринты)</h2>
       <div class="grid-3" id="vis-sprints"></div>
@@ -1012,15 +1031,51 @@
     ],
   };
 
-  function fillPhaseTable(id, rows) {
+  const VIS_DONE_KEY = "a2c-visibility-plan-done-v1";
+  const loadVisDone = () => { try { return JSON.parse(localStorage.getItem(VIS_DONE_KEY) || "{}"); } catch { return {}; } };
+  const saveVisDone = (m) => localStorage.setItem(VIS_DONE_KEY, JSON.stringify(m));
+
+  function allVisSteps() {
+    return Object.values(VISIBILITY_PLAN.phases).flat();
+  }
+
+  function updateVisProgress(doneMap) {
+    const total = allVisSteps().length;
+    const done = allVisSteps().filter((row) => doneMap[row[0]]).length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    const label = document.getElementById("vis-progress-label");
+    const fill = document.getElementById("vis-progress-fill");
+    if (label) label.textContent = `Прогресс плана: ${done} из ${total} (${pct}%)`;
+    if (fill) fill.style.width = pct + "%";
+  }
+
+  function fillPhaseTable(id, rows, doneMap) {
     const tb = document.querySelector("#" + id + " tbody");
     if (!tb) return;
     tb.innerHTML = "";
-    rows.forEach((row) => tb.appendChild(el("tr", {}, row.map((c) => el("td", { text: c })))));
+    rows.forEach((row) => {
+      const stepId = row[0];
+      const checked = !!doneMap[stepId];
+      const tr = el("tr", { className: checked ? "step-done" : "" });
+      const label = el("label", { className: "check-row" });
+      const input = el("input", { type: "checkbox", "aria-label": `Выполнено: ${stepId} ${row[1]}` });
+      input.checked = checked;
+      input.addEventListener("change", (e) => {
+        doneMap[stepId] = e.target.checked;
+        saveVisDone(doneMap);
+        tr.classList.toggle("step-done", e.target.checked);
+        updateVisProgress(doneMap);
+      });
+      label.appendChild(input);
+      tr.appendChild(el("td", { className: "step-check" }, [label]));
+      row.forEach((c) => tr.appendChild(el("td", { text: c })));
+      tb.appendChild(tr);
+    });
   }
 
   function renderVisibilityPlan() {
     if (!document.getElementById("panel-visibility-plan")) return;
+    const doneMap = loadVisDone();
     document.getElementById("vis-plan-note").textContent = VISIBILITY_PLAN.note;
     const stats = document.getElementById("vis-plan-stats");
     stats.innerHTML = "";
@@ -1031,12 +1086,13 @@
         el("div", { className: "tooltip" }, [el("strong", { text: m.tipTitle }), document.createTextNode(m.tip)]),
       ]));
     });
-    fillPhaseTable("vis-phase-a", VISIBILITY_PLAN.phases.a);
-    fillPhaseTable("vis-phase-b", VISIBILITY_PLAN.phases.b);
-    fillPhaseTable("vis-phase-c", VISIBILITY_PLAN.phases.c);
-    fillPhaseTable("vis-phase-d", VISIBILITY_PLAN.phases.d);
-    fillPhaseTable("vis-phase-e", VISIBILITY_PLAN.phases.e);
-    fillPhaseTable("vis-phase-f", VISIBILITY_PLAN.phases.f);
+    fillPhaseTable("vis-phase-a", VISIBILITY_PLAN.phases.a, doneMap);
+    fillPhaseTable("vis-phase-b", VISIBILITY_PLAN.phases.b, doneMap);
+    fillPhaseTable("vis-phase-c", VISIBILITY_PLAN.phases.c, doneMap);
+    fillPhaseTable("vis-phase-d", VISIBILITY_PLAN.phases.d, doneMap);
+    fillPhaseTable("vis-phase-e", VISIBILITY_PLAN.phases.e, doneMap);
+    fillPhaseTable("vis-phase-f", VISIBILITY_PLAN.phases.f, doneMap);
+    updateVisProgress(doneMap);
     const sp = document.getElementById("vis-sprints");
     sp.innerHTML = "";
     VISIBILITY_PLAN.sprints.forEach((s) => {
@@ -1049,6 +1105,13 @@
     });
   }
 
+
+  function syncTopbarOffset() {
+    const tb = document.querySelector(".topbar");
+    if (tb) document.documentElement.style.setProperty("--topbar-offset", tb.offsetHeight + "px");
+  }
+  syncTopbarOffset();
+  window.addEventListener("resize", syncTopbarOffset);
 
   renderSeo();
   renderVisibilityPlan();
