@@ -111,6 +111,14 @@
     .tooltip { position: absolute; left: .7rem; right: .7rem; bottom: calc(100% + 8px); background: var(--ink); color: #f5f7fa; padding: .8rem .9rem; border-radius: 12px; font-size: .8rem; line-height: 1.45; opacity: 0; pointer-events: none; transform: translateY(6px); transition: .2s var(--ease); z-index: 5; box-shadow: 0 12px 30px rgba(0,0,0,.18); }
     .tooltip strong { display: block; margin-bottom: .25rem; color: #fff; }
     .metric:hover .tooltip, .metric:focus-within .tooltip { opacity: 1; transform: none; }
+    #vis-plan-stats .tooltip {
+      bottom: auto;
+      top: calc(100% + 8px);
+      transform: translateY(-6px);
+      z-index: 45;
+    }
+    #vis-plan-stats .metric:hover .tooltip,
+    #vis-plan-stats .metric:focus-within .tooltip { transform: none; }
     .verdict { margin-top: 1.25rem; display: grid; grid-template-columns: 1.4fr 1fr; gap: 1rem; }
     @media (max-width: 820px) { .verdict { grid-template-columns: 1fr; } .tabs { width: 100%; overflow-x: auto; } }
     .card { background: var(--bg-elevated); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.2rem 1.3rem; box-shadow: var(--shadow); }
@@ -382,12 +390,12 @@
       <p class="section-sub">Цель — рост позиций, органического трафика и заявок с поиска. Порядок: индексация → скорость/CWV → on-page → разметка → контент-кластеры → замер. Клик по строке шага — подробнее: что даст для цели и как работает.</p>
       <div class="callout" id="vis-plan-note"></div>
 
+      <div class="metrics" id="vis-plan-stats" style="margin-top:1rem"></div>
+
       <div class="progress-box vis-progress-sticky" id="vis-progress-box" style="margin-top:1rem">
         <strong id="vis-progress-label">Прогресс плана: 0 из 0 (0%)</strong>
         <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="vis-progress-fill"></div></div>
       </div>
-
-      <div class="metrics" id="vis-plan-stats" style="margin-top:1rem"></div>
 
       <h2 class="section-title">Фаза A — Индексация и обход</h2>
       <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
