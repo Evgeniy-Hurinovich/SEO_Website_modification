@@ -172,6 +172,29 @@
     .data-table tr.step-done td:nth-child(n+2) { text-decoration: line-through; text-decoration-color: #b7d7c4; }
     .data-table .step-check { width: 4.5rem; text-align: center; vertical-align: middle; }
     .data-table .step-check .check-row { justify-content: center; font-size: 0; gap: 0; }
+    .data-table tr.step-row { cursor: pointer; transition: background .15s var(--ease); }
+    .data-table tr.step-row:hover td { background: #f0f7f6; }
+    .data-table tr.step-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .data-table tr.step-row.step-done:hover td { background: #eef8f1; }
+    .data-table .step-hint { font-size: .72rem; color: var(--accent-dark); font-weight: 600; white-space: nowrap; }
+    .step-modal { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1rem; }
+    .step-modal[hidden] { display: none; }
+    .step-modal-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 32, .45); }
+    .step-modal-dialog {
+      position: relative; z-index: 1; width: min(560px, 100%); max-height: min(85vh, 640px); overflow: auto;
+      background: var(--bg-elevated); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: 0 24px 60px rgba(15, 23, 32, .22); padding: 1.35rem 1.4rem 1.4rem; animation: rise .25s var(--ease);
+    }
+    .step-modal-close {
+      position: absolute; top: .7rem; right: .7rem; width: 2rem; height: 2rem; border: 0; border-radius: 8px;
+      background: var(--bg); color: var(--ink-muted); font-size: 1.35rem; line-height: 1; cursor: pointer;
+    }
+    .step-modal-close:hover { background: var(--ink); color: #fff; }
+    .step-modal-id { margin: 0 0 .35rem; font-family: var(--font); font-size: .75rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--accent-dark); }
+    .step-modal-dialog h3 { margin: 0 2rem .85rem 0; font-family: var(--font); font-size: 1.15rem; letter-spacing: -.02em; }
+    .step-modal-block { margin-top: .95rem; padding-top: .9rem; border-top: 1px solid var(--line); }
+    .step-modal-block h4 { margin: 0 0 .4rem; font-family: var(--font); font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-muted); }
+    .step-modal-block p { margin: 0; font-size: .95rem; line-height: 1.55; color: var(--ink); }
     .tech-btn { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: var(--radius-sm); padding: .55rem .75rem; cursor: pointer; font-family: var(--font); font-weight: 600; font-size: .82rem; }
     .tech-btn[aria-expanded="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
     .tech-panel { display: none; background: #15202b; color: #d7e0ea; border-radius: var(--radius-sm); padding: .85rem .95rem; font-family: ui-monospace, Consolas, monospace; font-size: .78rem; line-height: 1.5; white-space: pre-wrap; }
@@ -356,7 +379,7 @@
 
     <section class="panel" id="panel-visibility-plan" role="tabpanel" aria-labelledby="tab-visibility-plan" hidden>
       <h2 class="section-title">План: видимость a2c.by в поиске</h2>
-      <p class="section-sub">Цель — рост позиций, органического трафика и заявок с поиска. Порядок: индексация → скорость/CWV → on-page → разметка → контент-кластеры → замер.</p>
+      <p class="section-sub">Цель — рост позиций, органического трафика и заявок с поиска. Порядок: индексация → скорость/CWV → on-page → разметка → контент-кластеры → замер. Клик по строке шага — подробнее: что даст для цели и как работает.</p>
       <div class="callout" id="vis-plan-note"></div>
 
       <div class="progress-box vis-progress-sticky" id="vis-progress-box" style="margin-top:1rem">
@@ -398,6 +421,23 @@
     Источники сведены из аудита производительности (Lighthouse) и аудита админки Битрикс · 27.07.2026.
     Все цифры — в объекте <code>REPORT_DATA</code>.</p>
   </footer>
+
+  <div id="step-modal" class="step-modal" hidden>
+    <div class="step-modal-backdrop" data-close-step-modal tabindex="-1"></div>
+    <div class="step-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="step-modal-title">
+      <button type="button" class="step-modal-close" data-close-step-modal aria-label="Закрыть">×</button>
+      <p class="step-modal-id" id="step-modal-id"></p>
+      <h3 id="step-modal-title"></h3>
+      <div class="step-modal-block">
+        <h4>Что даст для цели</h4>
+        <p id="step-modal-goal"></p>
+      </div>
+      <div class="step-modal-block">
+        <h4>Как именно работает</h4>
+        <p id="step-modal-how"></p>
+      </div>
+    </div>
+  </div>
 
   <script>
   const REPORT_DATA = {
@@ -987,41 +1027,141 @@
     ],
     phases: {
       a: [
-        ["A1", "Заполнить robots.txt", "Правила обхода + ссылка на карту сайта", "Маркетинг → SEO или Аспро → генерация robots.txt"],
-        ["A2", "Сгенерировать sitemap.xml", "Быстрее индексируются услуги, кейсы, новости", "SEO / Aspro → sitemap → URL = 200"],
-        ["A3", "Отправить sitemap в Вебмастера", "Контроль покрытия индекса и ошибок", "Google Search Console + Яндекс.Вебмастер"],
-        ["A4", "Canonical на все типы страниц", "Не размывается вес дублей", "Шаблон Aspro / SEO-модуль → rel=canonical HTTPS"],
+        {
+          id: "A1", title: "Заполнить robots.txt", brief: "Правила обхода + ссылка на карту сайта", where: "Маркетинг → SEO или Аспро → генерация robots.txt",
+          goal: "Поисковик получает явные правила обхода и путь к карте сайта; меньше риска, что важные разделы не обходятся или служебные URL засоряют обход.",
+          how: "Файл говорит ботам: куда ходить / куда не ходить + Sitemap: https://a2c.by/…. Сейчас robots пустой — это «слепое пятно» для индексации.",
+        },
+        {
+          id: "A2", title: "Сгенерировать sitemap.xml", brief: "Быстрее индексируются услуги, кейсы, новости", where: "SEO / Aspro → sitemap → URL = 200",
+          goal: "Услуги, кейсы, новости попадают в индекс быстрее и полнее — растёт покрытие коммерческих URL, база для роста видимости.",
+          how: "Sitemap — список приоритетных URL. Google/Yandex не обязаны ждать случайного обхода ссылок; карта ускоряет обнаружение посадочных.",
+        },
+        {
+          id: "A3", title: "Отправить sitemap в Вебмастера", brief: "Контроль покрытия индекса и ошибок", where: "Google Search Console + Яндекс.Вебмастер",
+          goal: "Появляется контроль: сколько URL в индексе, ошибки, исключения. Можно управлять покрытием, а не гадать.",
+          how: "Без кабинетов A1–A2 работают «в пустоту»: нет сигнала об ошибках и факта индексации. A3 замыкает контур «сделали → видим эффект».",
+        },
+        {
+          id: "A4", title: "Canonical на все типы страниц", brief: "Не размывается вес дублей", where: "Шаблон Aspro / SEO-модуль → rel=canonical HTTPS",
+          goal: "Сигнал ранжирования не размазывается по дублям (http/https, параметры, копии) — вес и релевантность собираются на одном URL.",
+          how: "Canonical указывает «главную» версию страницы. Иначе 2–3 дубля делят клики и позиции одной услуги.",
+        },
       ],
       b: [
-        ["B1", "Включить АвтоКомпозит", "Быстрее HTML для гостей → FCP/LCP", "Настройки → Композитный сайт → АвтоКомпозит"],
-        ["B2", "JS в конец + сжатые копии CSS/JS", "Меньше блокировки отрисовки (~2.57 с)", "Настройки main → Оптимизация CSS/JS"],
-        ["B3", "Hero баннеров → WebP ≤120 KB", "Сильное ускорение LCP первого экрана", "Реклама → Большие баннеры (IB 23)"],
-        ["B4", "Отложить Метрику и CRM-формы", "Ниже TBT/INP, отзывчивее клики", "Модуль Метрики + отложенная инициализация форм"],
-        ["B5", "Perfmon: БД + тикет хостингу", "Убрать серверный потолок (11.4)", "Perfmon → таблицы; хостинг Redis/NVMe"],
+        {
+          id: "B1", title: "Включить АвтоКомпозит", brief: "Быстрее HTML для гостей → FCP/LCP", where: "Настройки → Композитный сайт → АвтоКомпозит",
+          goal: "Гостевая страница отдаётся быстрее — ниже отказы на первом экране и сильнее сигнал Core Web Vitals, который влияет на ранжирование и конверсию.",
+          how: "Битрикс кеширует HTML для незалогиненных. Без АвтоКомпозита каждый гость ждёт полную сборку страницы — сейчас композит выключен.",
+        },
+        {
+          id: "B2", title: "JS в конец + сжатые копии CSS/JS", brief: "Меньше блокировки отрисовки (~2.57 с)", where: "Настройки main → Оптимизация CSS/JS",
+          goal: "Снимает главный блокер отрисовки (~2.57 с экономии) — быстрее появляется контент, выше шанс дождаться услуги и заявки.",
+          how: "Скрипты уходят в конец страницы, CSS/JS отдаются сжатыми копиями. Браузер раньше рисует HTML вместо ожидания тяжёлого бандла Aspro.",
+        },
+        {
+          id: "B3", title: "Hero баннеров → WebP ≤120 KB", brief: "Сильное ускорение LCP первого экрана", where: "Реклама → Большие баннеры (IB 23)",
+          goal: "Сокращает LCP (сейчас 6.4 с) — главный визуальный блок грузится быстрее, улучшается мобильный UX и SEO-сигнал скорости.",
+          how: "LCP часто = hero-баннер. Замена тяжёлых JPG/PNG на WebP ≤120 KB ускоряет загрузку largest paint без смены вёрстки.",
+        },
+        {
+          id: "B4", title: "Отложить Метрику и CRM-формы", brief: "Ниже TBT/INP, отзывчивее клики", where: "Модуль Метрики + отложенная инициализация форм",
+          goal: "Страница быстрее отвечает на клики (ниже TBT/INP) — меньше «зависаний» до заявки, выше конверсия с мобилы.",
+          how: "Метрика и Bitrix24-формы не грузятся в критический путь first load, а стартуют после взаимодействия или по таймеру.",
+        },
+        {
+          id: "B5", title: "Perfmon: БД + тикет хостингу", brief: "Убрать серверный потолок (11.4)", where: "Perfmon → таблицы; хостинг Redis/NVMe",
+          goal: "Убирает серверный потолок (Perfmon 11.4, FS 24) — иначе фронтенд-оптимизации упираются в медленный бэкенд.",
+          how: "Чиним индексы/таблицы БД и эскалируем хостинг (Redis, NVMe). Без этого композит и сжатие CSS не дадут полного эффекта.",
+        },
       ],
       c: [
-        ["C1", "H1 главной = коммерческий оффер", "Релевантность IT/КХД/BI вместо вебинара", "Большие баннеры / контент главной"],
-        ["C2", "Уникальные title услуг (50–65)", "Выше CTR, бренд + интент", "IBLOCK Услуги 42 — SEO-поля"],
-        ["C3", "Уникальные description услуг", "Убрать дубль шаблонного desc", "SEO-поля; 140–160 символов"],
-        ["C4", "Доработать /contacts/ meta", "Сейчас title/desc почти пустые", "Страница контактов → SEO-мета"],
-        ["C5", "width/height у изображений", "Стабильный CLS", "Баннеры и карточки"],
+        {
+          id: "C1", title: "H1 главной = коммерческий оффер", brief: "Релевантность IT/КХД/BI вместо вебинара", where: "Большие баннеры / контент главной",
+          goal: "Главная начинает ранжироваться по коммерческому интенту (IT/КХД/BI), а не по разовому вебинару — выше релевантность брендового и категорийного спроса.",
+          how: "H1 — сильный on-page сигнал. Меняем hero/баннер так, чтобы заголовок отражал основное предложение компании.",
+        },
+        {
+          id: "C2", title: "Уникальные title услуг (50–65)", brief: "Выше CTR, бренд + интент", where: "IBLOCK Услуги 42 — SEO-поля",
+          goal: "Уникальные заголовки сниппета повышают CTR в выдаче — больше кликов при тех же позициях, быстрее рост трафика.",
+          how: "В SEO-полях IBLOCK 42 пишем title 50–65 символов: интент + бренд. Сейчас шаблонные/слабые titles не выделяются в SERP.",
+        },
+        {
+          id: "C3", title: "Уникальные description услуг", brief: "Убрать дубль шаблонного desc", where: "SEO-поля; 140–160 символов",
+          goal: "Убирает дубли meta description — поисковик лучше различает услуги и чаще показывает релевантный сниппет с высоким CTR.",
+          how: "Одинаковый шаблонный desc на многих URL — сигнал низкого качества. Пишем уникальные 140–160 символов под каждую услугу.",
+        },
+        {
+          id: "C4", title: "Доработать /contacts/ meta", brief: "Сейчас title/desc почти пустые", where: "Страница контактов → SEO-мета",
+          goal: "Страница контактов начинает нормально отображаться в выдаче по навигационным запросам (адрес, телефон, «контакты A2»).",
+          how: "Сейчас title/description почти пустые. Заполняем SEO-мета: бренд, город, способ связи — без пустого сниппета.",
+        },
+        {
+          id: "C5", title: "width/height у изображений", brief: "Стабильный CLS", where: "Баннеры и карточки",
+          goal: "Сохраняет отличный CLS (0.001) при правках баннеров — стабильная вёрстка не бьёт по CWV и восприятию качества.",
+          how: "Явные width/height (или aspect-ratio) резервируют место до загрузки картинки — контент не прыгает при появлении изображений.",
+        },
       ],
       d: [
-        ["D1", "JSON-LD Organization + WebSite", "Доверие к бренду / граф знаний", "Шаблон header/footer или SEO-модуль"],
-        ["D2", "JSON-LD Service на услугах", "Шанс расширенного сниппета", "Шаблон детальной услуги"],
-        ["D3", "Review на отзывах", "Доверие в выдаче", "/company/reviews/ + разметка"],
+        {
+          id: "D1", title: "JSON-LD Organization + WebSite", brief: "Доверие к бренду / граф знаний", where: "Шаблон header/footer или SEO-модуль",
+          goal: "Усиливает понимание бренда поисковиком (организация, сайт, соцпрофили) — фундамент для knowledge graph и доверия в выдаче.",
+          how: "В шаблон добавляем JSON-LD Organization + WebSite. Сейчас структурированной разметки на ключевых URL нет.",
+        },
+        {
+          id: "D2", title: "JSON-LD Service на услугах", brief: "Шанс расширенного сниппета", where: "Шаблон детальной услуги",
+          goal: "Повышает шанс расширенного сниппета по услугам — больше площади в выдаче и выше CTR по коммерческим запросам.",
+          how: "На детальных услугах размечаем Service (название, описание, провайдер). Поисковик явнее связывает страницу с типом предложения.",
+        },
+        {
+          id: "D3", title: "Review на отзывах", brief: "Доверие в выдаче", where: "/company/reviews/ + разметка",
+          goal: "Отзывы могут усилить доверие в сниппете и поддержать конверсию с поиска за счёт социального доказательства.",
+          how: "На /company/reviews/ (и связанных блоках) добавляем разметку Review/AggregateRating там, где отзывы реальные и соответствуют гайдлайнам.",
+        },
       ],
       e: [
-        ["E1", "P1: DWH / КХД посадочная", "Коммерческий спрос №1", "/services/dwh/ — H1, FAQ, кейсы, CTA"],
-        ["E2", "P1: BI внедрение", "Второй коммерческий кластер", "/services/bi/ + implementation-bi"],
-        ["E3", "P1: AI / RPA / ML", "Растущий спрос", "/services/ai-rpa-ml/ + ai-solutions"],
-        ["E4", "Перелинковка кейсы ↔ услуги", "Вес и релевантность внутри сайта", "Проекты + услуги, коммерческие анкоры"],
-        ["E5", "Чистка демо-каталога", "Не размывать индекс", "Каталог Aspro / noindex или удаление"],
+        {
+          id: "E1", title: "P1: DWH / КХД посадочная", brief: "Коммерческий спрос №1", where: "/services/dwh/ — H1, FAQ, кейсы, CTA",
+          goal: "Закрывает главный коммерческий кластер спроса — посадочная под КХД/DWH становится точкой входа в заявки из органики.",
+          how: "Дорабатываем /services/dwh/: H1 под интент, FAQ, кейсы, CTA. После A–C страница уже индексируема и быстра — контент даёт вес.",
+        },
+        {
+          id: "E2", title: "P1: BI внедрение", brief: "Второй коммерческий кластер", where: "/services/bi/ + implementation-bi",
+          goal: "Второй приоритетный кластер (BI) даёт дополнительный поток целевого трафика и заявок рядом с DWH.",
+          how: "Усиливаем /services/bi/ и связанные URL: структура под «внедрение BI», внутренняя перелинковка, оффер и доказательства.",
+        },
+        {
+          id: "E3", title: "P1: AI / RPA / ML", brief: "Растущий спрос", where: "/services/ai-rpa-ml/ + ai-solutions",
+          goal: "Захватывает растущий спрос на AI/RPA/ML — расширяет видимость за пределы классических DWH/BI запросов.",
+          how: "Собираем/усиливаем посадочные ai-rpa-ml и ai-solutions под коммерческие формулировки, без демо-шума.",
+        },
+        {
+          id: "E4", title: "Перелинковка кейсы ↔ услуги", brief: "Вес и релевантность внутри сайта", where: "Проекты + услуги, коммерческие анкоры",
+          goal: "Передаёт вес и тематическую связь между кейсами и услугами — услуги лучше ранжируются, кейсы усиливают доверие.",
+          how: "С проектов ставим коммерческие анкоры на услуги и наоборот. Внутренние ссылки помогают ботам и пользователям находить целевые URL.",
+        },
+        {
+          id: "E5", title: "Чистка демо-каталога", brief: "Не размывать индекс", where: "Каталог Aspro / noindex или удаление",
+          goal: "Убирает демо-страницы из индекса — краулинговый бюджет и вес не размываются по мусорным URL Aspro.",
+          how: "Демо-каталог noindex или удаляем. Иначе поисковик индексирует шаблонный шум вместо коммерческих услуг.",
+        },
       ],
       f: [
-        ["F1", "Доступы GSC + Вебмастер", "Факт: запросы, CTR, покрытие", "Выдать доступы команде"],
-        ["F2", "Еженедельный дашборд видимости", "Видим эффект правок", "Топ-запросы P1, клики, CWV"],
-        ["F3", "Цели Метрики: заявка из органики", "Связь видимости → лиды", "Метрика: цели + organic"],
+        {
+          id: "F1", title: "Доступы GSC + Вебмастер", brief: "Факт: запросы, CTR, покрытие", where: "Выдать доступы команде",
+          goal: "Без доступов нельзя управлять видимостью по факту: нет топ-запросов, CTR, покрытия индекса и ошибок.",
+          how: "Выдаём команде Google Search Console и Яндекс.Вебмастер. Дальше все спринты опираются на реальные данные, не на гипотезы.",
+        },
+        {
+          id: "F2", title: "Еженедельный дашборд видимости", brief: "Видим эффект правок", where: "Топ-запросы P1, клики, CWV",
+          goal: "Регулярный замер показывает, какие правки A–E двигают позиции и клики — можно усиливать то, что работает.",
+          how: "Раз в неделю смотрим топ P1-запросы, клики, покрытие, CWV. Дашборд связывает технические изменения с видимостью.",
+        },
+        {
+          id: "F3", title: "Цели Метрики: заявка из органики", brief: "Связь видимости → лиды", where: "Метрика: цели + organic",
+          goal: "Доказывает связь «видимость → лиды»: видно, сколько заявок пришло из органики после роста позиций.",
+          how: "В Яндекс.Метрике настраиваем цели заявки и сегмент organic. KPI становится бизнес-метрикой, а не только «позиция ~10».",
+        },
       ],
     },
     sprints: [
@@ -1041,7 +1181,7 @@
 
   function updateVisProgress(doneMap) {
     const total = allVisSteps().length;
-    const done = allVisSteps().filter((row) => doneMap[row[0]]).length;
+    const done = allVisSteps().filter((step) => doneMap[step.id]).length;
     const pct = total ? Math.round((done / total) * 100) : 0;
     const label = document.getElementById("vis-progress-label");
     const fill = document.getElementById("vis-progress-fill");
@@ -1049,26 +1189,73 @@
     if (fill) fill.style.width = pct + "%";
   }
 
+  let stepModalLastFocus = null;
+  function openStepModal(step) {
+    const modal = document.getElementById("step-modal");
+    if (!modal || !step) return;
+    stepModalLastFocus = document.activeElement;
+    document.getElementById("step-modal-id").textContent = step.id;
+    document.getElementById("step-modal-title").textContent = step.title;
+    document.getElementById("step-modal-goal").textContent = step.goal;
+    document.getElementById("step-modal-how").textContent = step.how;
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+    const closeBtn = modal.querySelector(".step-modal-close");
+    if (closeBtn) closeBtn.focus();
+  }
+  function closeStepModal() {
+    const modal = document.getElementById("step-modal");
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    document.body.style.overflow = "";
+    if (stepModalLastFocus && typeof stepModalLastFocus.focus === "function") stepModalLastFocus.focus();
+  }
+  document.getElementById("step-modal").addEventListener("click", (e) => {
+    if (e.target.closest("[data-close-step-modal]")) closeStepModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeStepModal();
+  });
+
   function fillPhaseTable(id, rows, doneMap) {
     const tb = document.querySelector("#" + id + " tbody");
     if (!tb) return;
     tb.innerHTML = "";
-    rows.forEach((row) => {
-      const stepId = row[0];
-      const checked = !!doneMap[stepId];
-      const tr = el("tr", { className: checked ? "step-done" : "" });
+    rows.forEach((step) => {
+      const checked = !!doneMap[step.id];
+      const tr = el("tr", {
+        className: "step-row" + (checked ? " step-done" : ""),
+        tabindex: "0",
+        role: "button",
+        "aria-label": `${step.id}. ${step.title}. Открыть подробности`,
+      });
       const label = el("label", { className: "check-row" });
-      const input = el("input", { type: "checkbox", "aria-label": `Выполнено: ${stepId} ${row[1]}` });
+      const input = el("input", { type: "checkbox", "aria-label": `Выполнено: ${step.id} ${step.title}` });
       input.checked = checked;
+      input.addEventListener("click", (e) => e.stopPropagation());
       input.addEventListener("change", (e) => {
-        doneMap[stepId] = e.target.checked;
+        doneMap[step.id] = e.target.checked;
         saveVisDone(doneMap);
         tr.classList.toggle("step-done", e.target.checked);
         updateVisProgress(doneMap);
       });
+      label.addEventListener("click", (e) => e.stopPropagation());
       label.appendChild(input);
-      tr.appendChild(el("td", { className: "step-check" }, [label]));
-      row.forEach((c) => tr.appendChild(el("td", { text: c })));
+      const checkTd = el("td", { className: "step-check" }, [label]);
+      checkTd.addEventListener("click", (e) => e.stopPropagation());
+      tr.appendChild(checkTd);
+      tr.appendChild(el("td", { text: step.id }));
+      tr.appendChild(el("td", {}, [
+        document.createTextNode(step.title),
+        el("div", { className: "step-hint", text: "Подробнее →" }),
+      ]));
+      tr.appendChild(el("td", { text: step.brief }));
+      tr.appendChild(el("td", { text: step.where }));
+      const open = () => openStepModal(step);
+      tr.addEventListener("click", open);
+      tr.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+      });
       tb.appendChild(tr);
     });
   }
