@@ -211,6 +211,7 @@
         <button class="tab" role="tab" id="tab-details" aria-controls="panel-details" aria-selected="false" data-tab="details">Детали</button>
         <button class="tab" role="tab" id="tab-plan" aria-controls="panel-plan" aria-selected="false" data-tab="plan">План действий</button>
         <button class="tab" role="tab" id="tab-seo" aria-controls="panel-seo" aria-selected="false" data-tab="seo">Видимость SEO</button>
+        <button class="tab" role="tab" id="tab-visibility-plan" aria-controls="panel-visibility-plan" aria-selected="false" data-tab="visibility-plan">План видимости</button>
       </nav>
     </div>
   </header>
@@ -337,6 +338,38 @@
       <h2 class="section-title">KPI видимости (30 дней)</h2>
       <div class="scroll-x"><table class="kpi-table" id="seo-kpi-table"><thead><tr><th>Метрика</th><th>Сейчас</th><th>День 14</th><th>День 30</th></tr></thead><tbody></tbody></table></div>
       <div class="callout" id="seo-note"></div>
+    </section>
+
+    <section class="panel" id="panel-visibility-plan" role="tabpanel" aria-labelledby="tab-visibility-plan" hidden>
+      <h2 class="section-title">План: видимость a2c.by в поиске</h2>
+      <p class="section-sub">Цель — рост позиций, органического трафика и заявок с поиска. Порядок: индексация → скорость/CWV → on-page → разметка → контент-кластеры → замер.</p>
+      <div class="callout" id="vis-plan-note"></div>
+
+      <div class="metrics" id="vis-plan-stats" style="margin-top:1rem"></div>
+
+      <h2 class="section-title">Фаза A — Индексация и обход</h2>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза B — Скорость как SEO-сигнал</h2>
+      <p class="section-sub">Медленная мобильная главная (LCP 6.4 с) бьёт по отказам и косвенно по ранжированию.</p>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-b"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза C — On-page и CTR сниппета</h2>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-c"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза D — Schema / расширенные сниппеты</h2>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-d"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза E — Контент-кластеры</h2>
+      <p class="section-sub">После A–C (и желательно зеленеющего LCP). Иначе контент упрётся в технический потолок.</p>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-e"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза F — Измерение видимости</h2>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-f"><thead><tr><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Порядок реализации (спринты)</h2>
+      <div class="grid-3" id="vis-sprints"></div>
+      <div class="callout" style="margin-top:1rem">Следующий шаг: берём пункт A1 (robots.txt) и реализуем в админке с проверкой результата.</div>
     </section>
 
   </main>
@@ -924,10 +957,104 @@
   }
 
 
+
+  const VISIBILITY_PLAN = {
+    note: "Без GSC / Яндекс.Вебмастер нельзя точно назвать топ-запросы. План закрывает технические и on-page барьеры, уже доказанные аудитом; кластеры контента уточним после выгрузки кабинетов.",
+    stats: [
+      { label: "Фаз плана", value: "6", tone: "info", status: "План", tipTitle: "Структура", tip: "A индексация → B скорость → C on-page → D schema → E контент → F замер." },
+      { label: "Спринт 1", value: "A+B+C1", tone: "danger", status: "Сейчас", tipTitle: "Первый спринт", tip: "robots/sitemap, композит, WebP, H1 главной." },
+      { label: "Рычаг", value: "Админка", tone: "ok", status: "Основной", tipTitle: "Где правим", tip: "Большая часть пунктов A–C делается в Битрикс/Aspro без правки ядра." },
+      { label: "Нужны доступы", value: "GSC", tone: "warn", status: "Замер", tipTitle: "Вебмастера", tip: "Для управления позициями нужны Google Search Console и Яндекс.Вебмастер." },
+    ],
+    phases: {
+      a: [
+        ["A1", "Заполнить robots.txt", "Правила обхода + ссылка на карту сайта", "Маркетинг → SEO или Аспро → генерация robots.txt"],
+        ["A2", "Сгенерировать sitemap.xml", "Быстрее индексируются услуги, кейсы, новости", "SEO / Aspro → sitemap → URL = 200"],
+        ["A3", "Отправить sitemap в Вебмастера", "Контроль покрытия индекса и ошибок", "Google Search Console + Яндекс.Вебмастер"],
+        ["A4", "Canonical на все типы страниц", "Не размывается вес дублей", "Шаблон Aspro / SEO-модуль → rel=canonical HTTPS"],
+      ],
+      b: [
+        ["B1", "Включить АвтоКомпозит", "Быстрее HTML для гостей → FCP/LCP", "Настройки → Композитный сайт → АвтоКомпозит"],
+        ["B2", "JS в конец + сжатые копии CSS/JS", "Меньше блокировки отрисовки (~2.57 с)", "Настройки main → Оптимизация CSS/JS"],
+        ["B3", "Hero баннеров → WebP ≤120 KB", "Сильное ускорение LCP первого экрана", "Реклама → Большие баннеры (IB 23)"],
+        ["B4", "Отложить Метрику и CRM-формы", "Ниже TBT/INP, отзывчивее клики", "Модуль Метрики + отложенная инициализация форм"],
+        ["B5", "Perfmon: БД + тикет хостингу", "Убрать серверный потолок (11.4)", "Perfmon → таблицы; хостинг Redis/NVMe"],
+      ],
+      c: [
+        ["C1", "H1 главной = коммерческий оффер", "Релевантность IT/КХД/BI вместо вебинара", "Большие баннеры / контент главной"],
+        ["C2", "Уникальные title услуг (50–65)", "Выше CTR, бренд + интент", "IBLOCK Услуги 42 — SEO-поля"],
+        ["C3", "Уникальные description услуг", "Убрать дубль шаблонного desc", "SEO-поля; 140–160 символов"],
+        ["C4", "Доработать /contacts/ meta", "Сейчас title/desc почти пустые", "Страница контактов → SEO-мета"],
+        ["C5", "width/height у изображений", "Стабильный CLS", "Баннеры и карточки"],
+      ],
+      d: [
+        ["D1", "JSON-LD Organization + WebSite", "Доверие к бренду / граф знаний", "Шаблон header/footer или SEO-модуль"],
+        ["D2", "JSON-LD Service на услугах", "Шанс расширенного сниппета", "Шаблон детальной услуги"],
+        ["D3", "Review на отзывах", "Доверие в выдаче", "/company/reviews/ + разметка"],
+      ],
+      e: [
+        ["E1", "P1: DWH / КХД посадочная", "Коммерческий спрос №1", "/services/dwh/ — H1, FAQ, кейсы, CTA"],
+        ["E2", "P1: BI внедрение", "Второй коммерческий кластер", "/services/bi/ + implementation-bi"],
+        ["E3", "P1: AI / RPA / ML", "Растущий спрос", "/services/ai-rpa-ml/ + ai-solutions"],
+        ["E4", "Перелинковка кейсы ↔ услуги", "Вес и релевантность внутри сайта", "Проекты + услуги, коммерческие анкоры"],
+        ["E5", "Чистка демо-каталога", "Не размывать индекс", "Каталог Aspro / noindex или удаление"],
+      ],
+      f: [
+        ["F1", "Доступы GSC + Вебмастер", "Факт: запросы, CTR, покрытие", "Выдать доступы команде"],
+        ["F2", "Еженедельный дашборд видимости", "Видим эффект правок", "Топ-запросы P1, клики, CWV"],
+        ["F3", "Цели Метрики: заявка из органики", "Связь видимости → лиды", "Метрика: цели + organic"],
+      ],
+    },
+    sprints: [
+      { title: "Спринт 1", badge: "Сейчас", tone: "now", items: "A1–A3, B1–B3, C1", desc: "Индексация + быстрые рычаги админки + H1 главной" },
+      { title: "Спринт 2", badge: "Далее", tone: "week", items: "A4, B4–B5, C2–C4, D1–D2", desc: "Canonical, meta услуг, schema, хостинг" },
+      { title: "Спринт 3", badge: "Потом", tone: "later", items: "E1–E5, F1–F3", desc: "Кластеры, перелинковка, регулярный замер" },
+    ],
+  };
+
+  function fillPhaseTable(id, rows) {
+    const tb = document.querySelector("#" + id + " tbody");
+    if (!tb) return;
+    tb.innerHTML = "";
+    rows.forEach((row) => tb.appendChild(el("tr", {}, row.map((c) => el("td", { text: c })))));
+  }
+
+  function renderVisibilityPlan() {
+    if (!document.getElementById("panel-visibility-plan")) return;
+    document.getElementById("vis-plan-note").textContent = VISIBILITY_PLAN.note;
+    const stats = document.getElementById("vis-plan-stats");
+    stats.innerHTML = "";
+    VISIBILITY_PLAN.stats.forEach((m) => {
+      stats.appendChild(el("article", { className: "metric tone-" + m.tone, tabindex: "0" }, [
+        el("div", { className: "metric-label" }, [el("span", { text: m.label }), el("span", { className: "badge", text: m.status })]),
+        el("div", { className: "metric-value", text: m.value }),
+        el("div", { className: "tooltip" }, [el("strong", { text: m.tipTitle }), document.createTextNode(m.tip)]),
+      ]));
+    });
+    fillPhaseTable("vis-phase-a", VISIBILITY_PLAN.phases.a);
+    fillPhaseTable("vis-phase-b", VISIBILITY_PLAN.phases.b);
+    fillPhaseTable("vis-phase-c", VISIBILITY_PLAN.phases.c);
+    fillPhaseTable("vis-phase-d", VISIBILITY_PLAN.phases.d);
+    fillPhaseTable("vis-phase-e", VISIBILITY_PLAN.phases.e);
+    fillPhaseTable("vis-phase-f", VISIBILITY_PLAN.phases.f);
+    const sp = document.getElementById("vis-sprints");
+    sp.innerHTML = "";
+    VISIBILITY_PLAN.sprints.forEach((s) => {
+      const prio = s.tone === "now" ? "prio-now" : s.tone === "week" ? "prio-week" : "prio-later";
+      sp.appendChild(el("div", { className: "card" }, [
+        el("div", { className: "rec-top" }, [el("h3", { text: s.title }), el("span", { className: "prio " + prio, text: s.badge })]),
+        el("p", { text: s.items }),
+        el("p", { className: "muted", text: s.desc }),
+      ]));
+    });
+  }
+
+
   renderSeo();
+  renderVisibilityPlan();
 
   const hash = (location.hash || "#overview").replace("#", "");
-  switchTab(["overview", "details", "plan", "seo"].includes(hash) ? hash : "overview");
+  switchTab(["overview", "details", "plan", "seo", "visibility-plan"].includes(hash) ? hash : "overview");
   </script>
 </body>
 </html>
