@@ -391,6 +391,58 @@
         <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="vis-progress-fill"></div></div>
       </div>
 
+      <h2 class="section-title">Отчёт для руководства (A → C)</h2>
+      <p class="section-sub">Сводка работ по плану видимости: конец июля — 10 августа 2026. Как было → что сделали → влияние. Рост позиций и заявок измеряется с лагом 2–6 недель в GSC / Вебмастере / Метрике.</p>
+      <div class="callout">
+        <strong>Суть:</strong> закрыта техническая индексация (фаза A); включены админ-рычаги скорости и зачищена аналитика (часть B);
+        на P1-услугах и контактах — уникальные title/description и коммерческий H1 главной (C1–C4).
+        В работе у маркетинга: B3 (WebP), диалог с хостером (OPcache/Redis). У разработки: отложенная загрузка Метрики/CRM (B4.2–B4.3).
+      </div>
+
+      <h3 class="section-title" style="font-size:1.05rem;margin-top:1.5rem">Фаза A — Индексация</h3>
+      <div class="card scroll-x"><table class="data-table">
+        <thead><tr><th>Пункт</th><th>Как было</th><th>Что сделали</th><th>Влияние</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A1</strong> robots.txt</td><td>Пустой / без явных правил</td><td>Заполнен; указан Sitemap</td><td>Боты получают правила обхода и путь к карте</td></tr>
+          <tr><td><strong>A2</strong> sitemap.xml</td><td>Не было рабочей публичной карты</td><td>Sitemapindex, 8 дочерних карт, HTTP 200</td><td>Услуги, кейсы, новости быстрее обнаруживаются</td></tr>
+          <tr><td><strong>A3</strong> GSC / Вебмастер</td><td>Нет контроля индексации</td><td>GSC: sitemap «Успешно»; Яндекс — в очереди</td><td>Видим покрытие и ошибки, а не «гадание»</td></tr>
+          <tr><td><strong>A4</strong> Canonical</td><td>Риск дублей; кривые URL новостей</td><td>Canonical на услугах/проектах/новостях</td><td>Вес страниц не размазывается по дублям</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="section-title" style="font-size:1.05rem;margin-top:1.5rem">Фаза B — Скорость</h3>
+      <p class="section-sub">Старт аудита: мобильный Performance ~47, LCP ~6,4 с. Perfmon конфигурации сейчас ~7,25 (эталон ≥30).</p>
+      <div class="card scroll-x"><table class="data-table">
+        <thead><tr><th>Пункт</th><th>Как было</th><th>Что сделали</th><th>Влияние / статус</th></tr></thead>
+        <tbody>
+          <tr><td><strong>B1</strong> АвтоКомпозит</td><td>Выкл.</td><td>Включён</td><td>Быстрее HTML для гостей → FCP/LCP</td></tr>
+          <tr><td><strong>B2</strong> JS + сжатие CSS/JS</td><td>JS не в конце; без сжатых копий</td><td>Включено в main</td><td>Меньше блокировки отрисовки (~2,5 с в аудите)</td></tr>
+          <tr><td><strong>B3</strong> Hero → WebP</td><td>Тяжёлые JPG баннеров (LCP)</td><td>Поручено маркетингу (≤120 KB)</td><td>В работе; без режима «Отдельная картинка»</td></tr>
+          <tr><td><strong>B4.1</strong> Метрика</td><td>Два счётчика (старый + новый)</td><td>Старый 107023549 убран из модуля</td><td>Рабочий 108757686; чище аналитика</td></tr>
+          <tr><td><strong>B4.2–B4.4</strong></td><td>Метрика, CRM B24, n8n в first load</td><td>Декомпозировано; нужен код</td><td>Открыто — разработчик</td></tr>
+          <tr><td><strong>B5.1–B5.2</strong></td><td>Таблицы БД «необходимо оптимизировать»</td><td>Замер Perfmon + оптимизация таблиц</td><td>Вкладка Битрикс → «оптимально»</td></tr>
+          <tr><td><strong>B5.3–B5.5</strong></td><td>Нет OPcache; isolation; кеш в файлах</td><td>Тикет хостеру (ведёт маркетинг)</td><td>Ответ: тариф Bitrix; пункты не закрыты</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="section-title" style="font-size:1.05rem;margin-top:1.5rem">Фаза C — On-page</h3>
+      <div class="card scroll-x"><table class="data-table">
+        <thead><tr><th>Пункт</th><th>Как было</th><th>Что сделали</th><th>Влияние</th></tr></thead>
+        <tbody>
+          <tr><td><strong>C1</strong> H1 главной</td><td>H1 на слайде BI / не общий оффер</td><td>H1: IT-консалтинг, КХД и BI</td><td>Главная сигналит коммерческий интент</td></tr>
+          <tr><td><strong>C2</strong> Title услуг</td><td>Короткие title без бренда</td><td>Уникальные title на 5 P1-URL</td><td>Выше шанс CTR при тех же позициях</td></tr>
+          <tr><td><strong>C3</strong> Description</td><td>Один шаблонный desc на услугах</td><td>Уникальные description на тех же URL</td><td>Поиск различает услуги; релевантнее сниппет</td></tr>
+          <tr><td><strong>C4</strong> Контакты</td><td>«Контакты» / «Корпоративный сайт»</td><td>Нормальные title + description</td><td>Нормальный сниппет по навигационным запросам</td></tr>
+          <tr><td><strong>C5</strong> width/height</td><td>Риск CLS при смене баннеров</td><td>Не делали</td><td>Отложено (с B3 / шаблоном)</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="callout" style="margin-top:1rem">
+        <strong>Как читать влияние:</strong> прямые позиции и заявки — в кабинетах с лагом.
+        Сейчас созданы условия (индексация + коммерческие сниппеты + часть скорости).
+        Контроль: повторный мобильный PageSpeed после B3 и ответа хостера; еженедельно — клики и покрытие в GSC.
+      </div>
+
       <h2 class="section-title">Фаза A — Индексация и обход</h2>
       <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
 
@@ -413,7 +465,7 @@
 
       <h2 class="section-title">Порядок реализации (спринты)</h2>
       <div class="grid-3" id="vis-sprints"></div>
-      <div class="callout" style="margin-top:1rem">Следующий шаг: берём пункт A1 (robots.txt) и реализуем в админке с проверкой результата.</div>
+      <div class="callout" style="margin-top:1rem">Следующие шаги: C5 (по возможности) или фаза D (schema); параллельно — B3 у маркетинга и ответ хостера по B5.3–B5.5.</div>
     </section>
 
   </main>
