@@ -421,7 +421,7 @@
 
       <h2 class="section-title">Порядок реализации (спринты)</h2>
       <div class="grid-3" id="vis-sprints"></div>
-      <div class="callout" style="margin-top:1rem">Следующий шаг: <strong>D1</strong> (JSON-LD Organization + WebSite, черновик в <code>snippets/</code>). C5 — после B3. Параллельно: B3 у маркетинга, хостер B5.3–B5.5, код B4.2–B4.3.</div>
+      <div class="callout" style="margin-top:1rem">Следующий шаг: <strong>D2</strong> (JSON-LD Service на услугах). C5 — после B3. Параллельно: B3 у маркетинга, хостер B5.3–B5.5, код B4.2–B4.3. D1 ✅</div>
     </section>
 
     <section class="panel" id="panel-exec-report" role="tabpanel" aria-labelledby="tab-exec-report" hidden>
@@ -528,7 +528,7 @@
             <li>B3 — сжатие hero (маркетинг)</li>
             <li>B5.3–5 — OPcache / MySQL / Redis (хостер)</li>
             <li>B4.2–4 — отложенные скрипты (разработка)</li>
-            <li>Далее: D1 (schema), C5 после B3, контент E</li>
+            <li>Далее: D2 (Service), C5 после B3, контент E</li>
           </ul>
         </article>
       </div>
@@ -1294,10 +1294,11 @@
       ],
       d: [
         {
-          id: "D1", title: "JSON-LD Organization + WebSite", brief: "Доверие к бренду / граф знаний", where: "Шаблон footer (перед </body>) · snippets/d1-org-website.jsonld.html",
+          id: "D1", title: "JSON-LD Organization + WebSite", brief: "Доверие к бренду / граф знаний", where: "/bitrix/templates/aspro-allcorp3/page_blocks/footer_1.php",
           goal: "Усиливает понимание бренда поисковиком (организация, сайт, соцпрофили) — фундамент для knowledge graph и доверия в выдаче.",
           how: "Один блок application/ld+json с @graph Organization + WebSite на всех страницах. Данные с контактов: sales@a2c.by, телефоны BY/RU, адрес Куйбышева 35/1, Facebook + LinkedIn, логотип из шапки.",
-          note: "Черновик готов в репо: snippets/d1-org-website.jsonld.html. Что надо: вставить script один раз в общий footer шаблона Aspro (не на одну страницу). Кто: разработчик Битрикс / доступ к шаблону. Где: /local/templates/aspro_allcorp3/footer.php или include футера; после — сброс композита/кеша. Проверка: исходный код главной + Google Rich Results Test. Живой сайт не трогаем без подтверждения.",
+          note: "Сделано 10.08.2026: JSON-LD вставлен в конец активного footer_1.php (после </footer>). footer_custom.php — запасная копия, в Aspro custom не включали. Черновик: snippets/d1-org-website.jsonld.html. Проверка: исходный код главной → ld+json.",
+          done: true,
         },
         {
           id: "D2", title: "JSON-LD Service на услугах", brief: "Шанс расширенного сниппета", where: "Шаблон детальной услуги",
