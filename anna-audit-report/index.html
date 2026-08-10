@@ -421,7 +421,7 @@
 
       <h2 class="section-title">Порядок реализации (спринты)</h2>
       <div class="grid-3" id="vis-sprints"></div>
-      <div class="callout" style="margin-top:1rem">Следующие шаги: C5 (по возможности) или фаза D (schema); параллельно — B3 у маркетинга и ответ хостера по B5.3–B5.5.</div>
+      <div class="callout" style="margin-top:1rem">Следующий шаг: <strong>D1</strong> (JSON-LD Organization + WebSite, черновик в <code>snippets/</code>). C5 — после B3. Параллельно: B3 у маркетинга, хостер B5.3–B5.5, код B4.2–B4.3.</div>
     </section>
 
     <section class="panel" id="panel-exec-report" role="tabpanel" aria-labelledby="tab-exec-report" hidden>
@@ -505,7 +505,7 @@
           <tr><td><strong>C2</strong> Title услуг</td><td>Короткие title без бренда</td><td>Уникальные title на 5 P1-URL</td><td>Выше шанс CTR в выдаче при тех же позициях</td></tr>
           <tr><td><strong>C3</strong> Description</td><td>Один шаблонный desc на всех услугах</td><td>Уникальные description на тех же 5 URL</td><td>Поиск различает услуги; релевантнее сниппет</td></tr>
           <tr><td><strong>C4</strong> Контакты</td><td>Title «Контакты», desc «Корпоративный сайт»</td><td>Нормальные title + description с адресом/email</td><td>Нормальный сниппет по навигационным запросам</td></tr>
-          <tr><td><strong>C5</strong> width/height</td><td>Риск CLS при смене баннеров</td><td>Не делали</td><td>Отложено (с B3 / шаблоном)</td></tr>
+          <tr><td><strong>C5</strong> width/height</td><td>Риск CLS при смене баннеров</td><td>Не делали</td><td>Отложено: CLS уже 0.001; размеры ставим после B3 (иначе устареют при WebP)</td></tr>
         </tbody>
       </table></div>
 
@@ -528,7 +528,7 @@
             <li>B3 — сжатие hero (маркетинг)</li>
             <li>B5.3–5 — OPcache / MySQL / Redis (хостер)</li>
             <li>B4.2–4 — отложенные скрипты (разработка)</li>
-            <li>Далее: C5, фаза D (schema), контент E</li>
+            <li>Далее: D1 (schema), C5 после B3, контент E</li>
           </ul>
         </article>
       </div>
@@ -1286,16 +1286,18 @@
           done: true,
         },
         {
-          id: "C5", title: "width/height у изображений", brief: "Стабильный CLS", where: "Баннеры и карточки",
+          id: "C5", title: "width/height у изображений", brief: "Стабильный CLS", where: "Баннеры и карточки (после B3)",
           goal: "Сохраняет отличный CLS (0.001) при правках баннеров — стабильная вёрстка не бьёт по CWV и восприятию качества.",
           how: "Явные width/height (или aspect-ratio) резервируют место до загрузки картинки — контент не прыгает при появлении изображений.",
+          note: "Отложено намеренно. CLS уже отличный (0.001) — срочности нет. Width/height нужно ставить на финальные размеры hero после сжатия/замены в B3; иначе атрибуты устареют при смене JPG→WebP. Часть картинок идёт через lazy/Aspro без одной точки правки — править удобнее одним проходом вместе с B3 и шаблоном баннеров, а не отдельно по старым файлам.",
         },
       ],
       d: [
         {
-          id: "D1", title: "JSON-LD Organization + WebSite", brief: "Доверие к бренду / граф знаний", where: "Шаблон header/footer или SEO-модуль",
+          id: "D1", title: "JSON-LD Organization + WebSite", brief: "Доверие к бренду / граф знаний", where: "Шаблон footer (перед </body>) · snippets/d1-org-website.jsonld.html",
           goal: "Усиливает понимание бренда поисковиком (организация, сайт, соцпрофили) — фундамент для knowledge graph и доверия в выдаче.",
-          how: "В шаблон добавляем JSON-LD Organization + WebSite. Сейчас структурированной разметки на ключевых URL нет.",
+          how: "Один блок application/ld+json с @graph Organization + WebSite на всех страницах. Данные с контактов: sales@a2c.by, телефоны BY/RU, адрес Куйбышева 35/1, Facebook + LinkedIn, логотип из шапки.",
+          note: "Черновик готов в репо: snippets/d1-org-website.jsonld.html. Что надо: вставить script один раз в общий footer шаблона Aspro (не на одну страницу). Кто: разработчик Битрикс / доступ к шаблону. Где: /local/templates/aspro_allcorp3/footer.php или include футера; после — сброс композита/кеша. Проверка: исходный код главной + Google Rich Results Test. Живой сайт не трогаем без подтверждения.",
         },
         {
           id: "D2", title: "JSON-LD Service на услугах", brief: "Шанс расширенного сниппета", where: "Шаблон детальной услуги",
