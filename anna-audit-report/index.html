@@ -421,7 +421,7 @@
 
       <h2 class="section-title">Порядок реализации (спринты)</h2>
       <div class="grid-3" id="vis-sprints"></div>
-      <div class="callout" style="margin-top:1rem">Следующий шаг: <strong>D2</strong> (JSON-LD Service на услугах). C5 — после B3. Параллельно: B3 у маркетинга, хостер B5.3–B5.5, код B4.2–B4.3. D1 ✅</div>
+      <div class="callout" style="margin-top:1rem">Следующий шаг: <strong>D3</strong> (Review) по желанию, или пауза. D1–D2 ✅. C5 — после B3. Параллельно: B3, хостер B5.3–B5.5, код B4.2–B4.3.</div>
     </section>
 
     <section class="panel" id="panel-exec-report" role="tabpanel" aria-labelledby="tab-exec-report" hidden>
@@ -528,7 +528,7 @@
             <li>B3 — сжатие hero (маркетинг)</li>
             <li>B5.3–5 — OPcache / MySQL / Redis (хостер)</li>
             <li>B4.2–4 — отложенные скрипты (разработка)</li>
-            <li>Далее: D2 (Service), C5 после B3, контент E</li>
+            <li>Далее: D3 (опционально), C5 после B3, контент E</li>
           </ul>
         </article>
       </div>
@@ -1301,9 +1301,11 @@
           done: true,
         },
         {
-          id: "D2", title: "JSON-LD Service на услугах", brief: "Шанс расширенного сниппета", where: "Шаблон детальной услуги",
+          id: "D2", title: "JSON-LD Service на услугах", brief: "Шанс расширенного сниппета", where: "news/services section.php+detail.php · /include/service_jsonld.php",
           goal: "Повышает шанс расширенного сниппета по услугам — больше площади в выдаче и выше CTR по коммерческим запросам.",
-          how: "На детальных услугах размечаем Service (название, описание, провайдер). Поисковик явнее связывает страницу с типом предложения.",
+          how: "Include /include/service_jsonld.php в конец section.php и detail.php шаблона bitrix:news/services. Service + provider → Organization (D1). Не в footer.",
+          note: "Сделано 10.08.2026: /include/service_jsonld.php + include в section.php и detail.php. Проверено: P1 (dwh/bi/ai/it-consulting) и вложенные (big-data-platforms, implementation-dwh-systems) — корректные name/url; главная/контакты без Service. Черновик: snippets/d2-service.jsonld.php.",
+          done: true,
         },
         {
           id: "D3", title: "Review на отзывах", brief: "Доверие в выдаче", where: "/company/reviews/ + разметка",
