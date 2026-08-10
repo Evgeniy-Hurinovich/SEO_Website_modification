@@ -81,7 +81,7 @@
     .brand-mark { width: 40px; height: 40px; border-radius: 11px; background: linear-gradient(145deg, var(--accent), #1a4a5c); color: #fff; display: grid; place-items: center; font-family: var(--font); font-weight: 800; font-size: .85rem; }
     .brand-text strong { display: block; font-family: var(--font); font-size: 1rem; letter-spacing: -.02em; }
     .brand-text span { font-size: .78rem; color: var(--ink-muted); }
-    .tabs { display: flex; gap: .35rem; padding: .25rem; background: #e8edf3; border-radius: 999px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: .35rem; padding: .25rem; background: #e8edf3; border-radius: 999px; }
     .tab { border: 0; background: transparent; color: var(--ink-muted); padding: .55rem 1rem; border-radius: 999px; cursor: pointer; font-family: var(--font); font-weight: 600; font-size: .88rem; transition: .25s var(--ease); }
     .tab:hover { color: var(--ink); }
     .tab[aria-selected="true"] { background: var(--bg-elevated); color: var(--ink); box-shadow: 0 1px 3px rgba(26,35,50,.08); }
@@ -251,6 +251,7 @@
         <button class="tab" role="tab" id="tab-plan" aria-controls="panel-plan" aria-selected="false" data-tab="plan">План действий</button>
         <button class="tab" role="tab" id="tab-seo" aria-controls="panel-seo" aria-selected="false" data-tab="seo">Видимость SEO</button>
         <button class="tab" role="tab" id="tab-visibility-plan" aria-controls="panel-visibility-plan" aria-selected="false" data-tab="visibility-plan">План видимости</button>
+        <button class="tab" role="tab" id="tab-exec-report" aria-controls="panel-exec-report" aria-selected="false" data-tab="exec-report">Отчёт руководству</button>
       </nav>
     </div>
   </header>
@@ -391,8 +392,39 @@
         <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="vis-progress-fill"></div></div>
       </div>
 
-      <h2 class="section-title">Отчёт для руководства (A → C)</h2>
-      <p class="section-sub">Сводка работ по плану видимости: конец июля — 10 августа 2026. Как было → что сделали → влияние. Рост позиций и заявок измеряется с лагом 2–6 недель в GSC / Вебмастере / Метрике.</p>
+      <h2 class="section-title">Фаза A — Индексация и обход</h2>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза B — Скорость как SEO-сигнал</h2>
+      <p class="section-sub">Медленная мобильная главная (LCP 6.4 с) бьёт по отказам и косвенно по ранжированию.</p>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-b"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза C — On-page и CTR сниппета</h2>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-c"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза D — Schema / расширенные сниппеты</h2>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-d"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза E — Контент-кластеры</h2>
+      <p class="section-sub">После A–C (и желательно зеленеющего LCP). Иначе контент упрётся в технический потолок.</p>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-e"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Фаза F — Измерение видимости</h2>
+      <div class="card scroll-x"><table class="data-table" id="vis-phase-f"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Порядок реализации (спринты)</h2>
+      <div class="grid-3" id="vis-sprints"></div>
+      <div class="callout" style="margin-top:1rem">Следующие шаги: C5 (по возможности) или фаза D (schema); параллельно — B3 у маркетинга и ответ хостера по B5.3–B5.5.</div>
+    </section>
+
+    <section class="panel" id="panel-exec-report" role="tabpanel" aria-labelledby="tab-exec-report" hidden>
+      <h2 class="section-title">Отчёт для руководства: план видимости a2c.by</h2>
+      <p class="section-sub">Период: конец июля — 10 августа 2026 · Как было → что сделали → влияние. Рост позиций и заявок измеряется с лагом 2–6 недель в GSC / Вебмастере / Метрике.</p>
+      <div class="hero-meta" style="margin:0 0 1rem">
+        <span class="chip">Фаза A — закрыта</span>
+        <span class="chip">Фаза B — частично</span>
+        <span class="chip">Фаза C — C1–C4 закрыты</span>
+      </div>
       <div class="callout">
         <strong>Суть:</strong> закрыта техническая индексация (фаза A); включены админ-рычаги скорости и зачищена аналитика (часть B);
         на P1-услугах и контактах — уникальные title/description и коммерческий H1 главной (C1–C4).
@@ -442,30 +474,9 @@
         Сейчас созданы условия (индексация + коммерческие сниппеты + часть скорости).
         Контроль: повторный мобильный PageSpeed после B3 и ответа хостера; еженедельно — клики и покрытие в GSC.
       </div>
-
-      <h2 class="section-title">Фаза A — Индексация и обход</h2>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
-
-      <h2 class="section-title">Фаза B — Скорость как SEO-сигнал</h2>
-      <p class="section-sub">Медленная мобильная главная (LCP 6.4 с) бьёт по отказам и косвенно по ранжированию.</p>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-b"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
-
-      <h2 class="section-title">Фаза C — On-page и CTR сниппета</h2>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-c"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
-
-      <h2 class="section-title">Фаза D — Schema / расширенные сниппеты</h2>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-d"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
-
-      <h2 class="section-title">Фаза E — Контент-кластеры</h2>
-      <p class="section-sub">После A–C (и желательно зеленеющего LCP). Иначе контент упрётся в технический потолок.</p>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-e"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
-
-      <h2 class="section-title">Фаза F — Измерение видимости</h2>
-      <div class="card scroll-x"><table class="data-table" id="vis-phase-f"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
-
-      <h2 class="section-title">Порядок реализации (спринты)</h2>
-      <div class="grid-3" id="vis-sprints"></div>
-      <div class="callout" style="margin-top:1rem">Следующие шаги: C5 (по возможности) или фаза D (schema); параллельно — B3 у маркетинга и ответ хостера по B5.3–B5.5.</div>
+      <div class="callout" style="margin-top:1rem">
+        Детальный чеклист шагов — во вкладке <a href="#visibility-plan" data-tab-link="visibility-plan">План видимости</a>.
+      </div>
     </section>
 
   </main>
@@ -1430,7 +1441,7 @@
   renderVisibilityPlan();
 
   const hash = (location.hash || "#overview").replace("#", "");
-  switchTab(["overview", "details", "plan", "seo", "visibility-plan"].includes(hash) ? hash : "overview");
+  switchTab(["overview", "details", "plan", "seo", "visibility-plan", "exec-report"].includes(hash) ? hash : "overview");
   </script>
 </body>
 </html>
