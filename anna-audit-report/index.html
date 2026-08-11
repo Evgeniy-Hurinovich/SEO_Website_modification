@@ -421,7 +421,7 @@
 
       <h2 class="section-title">Порядок реализации (спринты)</h2>
       <div class="grid-3" id="vis-sprints"></div>
-      <div class="callout" style="margin-top:1rem">Следующий шаг: <strong>D3</strong> (Review) по желанию, или пауза. D1–D2 ✅. C5 — после B3. Параллельно: B3, хостер B5.3–B5.5, код B4.2–B4.3.</div>
+      <div class="callout" style="margin-top:1rem">Фаза schema <strong>D1–D3 ✅</strong>. Далее: контент E по желанию; C5 — после B3. Параллельно: B3, хостер B5.3–B5.5, код B4.2–B4.3.</div>
     </section>
 
     <section class="panel" id="panel-exec-report" role="tabpanel" aria-labelledby="tab-exec-report" hidden>
@@ -528,7 +528,7 @@
             <li>B3 — сжатие hero (маркетинг)</li>
             <li>B5.3–5 — OPcache / MySQL / Redis (хостер)</li>
             <li>B4.2–4 — отложенные скрипты (разработка)</li>
-            <li>Далее: D3 (опционально), C5 после B3, контент E</li>
+            <li>Далее: контент E, C5 после B3</li>
           </ul>
         </article>
       </div>
@@ -1308,9 +1308,11 @@
           done: true,
         },
         {
-          id: "D3", title: "Review на отзывах", brief: "Доверие в выдаче", where: "/company/reviews/ + разметка",
+          id: "D3", title: "Review на отзывах", brief: "Доверие в выдаче", where: "news.list отзывов · /include/reviews_jsonld.php · snippets/d3-reviews.jsonld.php",
           goal: "Отзывы могут усилить доверие в сниппете и поддержать конверсию с поиска за счёт социального доказательства.",
-          how: "На /company/reviews/ (и связанных блоках) добавляем разметку Review/AggregateRating там, где отзывы реальные и соответствуют гайдлайнам.",
+          how: "JSON-LD Review из элементов списка (автор=NAME, текст=PREVIEW_TEXT, дата, рейтинг из свойства если есть) + AggregateRating только при реальных оценках. itemReviewed → Organization (D1). Не в footer.",
+          note: "Сделано 11.08.2026: /include/reviews_jsonld.php + include в news.list/review-list-inner/template.php. Проверено: 16 Review + AggregateRating (5/5, reviewCount 16); главная/услуги без Review. Google может не показывать звёзды (self-serving) — ок для Яндекса/графа. Черновик: snippets/d3-reviews.jsonld.php.",
+          done: true,
         },
       ],
       e: [

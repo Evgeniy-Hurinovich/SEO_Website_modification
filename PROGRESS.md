@@ -2,8 +2,8 @@
 
 **Сайт:** https://a2c.by/  
 **Платформа:** 1С-Битрикс 25.750 · Aspro Allcorp3 (шаблон **`aspro-allcorp3`**, дефис)  
-**Пауза:** 10 августа 2026, вечер — чекпоинт для продолжения завтра  
-**Отчёт (main):** `3e3e2cb` — D1–D2 закрыты, вкладка «Отчёт руководству»
+**Пауза / обновлено:** 11 августа 2026 — фаза D (schema) закрыта: D1–D3  
+**Отчёт (main):** D3 Review отмечен после live-проверки
 
 ---
 
@@ -22,7 +22,12 @@
      - `.../components/bitrix/news/services/section.php`  
      - `.../components/bitrix/news/services/detail.php`  
    - Черновик: `snippets/d2-service.jsonld.php`  
-   - Проверено: P1 (dwh/bi/ai/it-consulting) + вложенные (big-data-platforms, implementation-dwh-systems); главная/контакты — только D1  
+   - Проверено: P1 + вложенные; главная/контакты — только D1  
+5. **D3** ✅ Review JSON-LD на `/company/reviews/`  
+   - Логика: `/include/reviews_jsonld.php`  
+   - Подключение: `.../news.list/review-list-inner/template.php` (перед `endif` ITEMS)  
+   - Черновик: `snippets/d3-reviews.jsonld.php`  
+   - Проверено 11.08: 16 Review + AggregateRating 5/5; не утекает на главную/услуги  
 
 **Важно при правках PHP в админке:** выключить автоперевод браузера; править «как PHP», не визуальным редактором.
 
@@ -69,16 +74,16 @@
 |-------|--------|------------|
 | **D1** Organization + WebSite | ✅ | `footer_1.php` |
 | **D2** Service | ✅ | `/include/service_jsonld.php` |
-| **D3** Review на `/company/reviews/` | ⏳ | **Старт завтра (по желанию).** Средняя сложность: ~30–90 мин; жёстче гайдлайны Google, чем у D1/D2. Сначала проверить, есть ли у отзывов оценка 1–5. Без звёзд — только `Review`, без сомнительного `AggregateRating`. На странице уже есть куски microdata `itemprop`. |
+| **D3** Review на `/company/reviews/` | ✅ | `/include/reviews_jsonld.php` + `review-list-inner/template.php`; 16 Review + AggregateRating, 11.08.2026 |
 
 ---
 
 ## Завтра — с чего продолжить
 
-1. **D3** (если силы есть) — шаблон отзывов Aspro (`news/reviews` или аналог) + JSON-LD; не в footer.  
-2. Иначе пауза по schema; ждать **B3** / хостера / разработчика по B4.  
-3. **C5** — только после B3.  
-4. Фаза **E** (контент P1) — после стабилизации скорости желательно, но не блокер для черновиков ТЗ.
+1. Фаза **E** (контент P1) — по желанию; или пауза.  
+2. **C5** — после B3.  
+3. Анна: **B3** (WebP), тикет хостинга **B5.3–B5.5**.  
+4. Разработчик: **B4.2–B4.3** (отложенные скрипты).
 
 **Правило:** живой a2c.by не менять без явного «можно» / подтверждения шага.
 
