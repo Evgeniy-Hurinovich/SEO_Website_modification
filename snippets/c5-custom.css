@@ -1,0 +1,27 @@
+/* C5 — CLS: размеры логотипа, брендов; aspect-ratio hero (desktop) */
+
+/* Логотип (401×80) */
+.logo img,
+.logo svg,
+a.banner-light-icon-fill img,
+.header-wrapper img[src*="/upload/iblock/87e/"] {
+  width: 401px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 401 / 80;
+}
+
+/* Бренды клиентов (resize 186×90) */
+.brands-list__image {
+  width: 186px;
+  height: 90px;
+  object-fit: contain;
+  aspect-ratio: 186 / 90;
+}
+
+/* Hero-баннеры: только desktop — не ломаем мобильную адаптацию Aspro */
+@media (min-width: 992px) {
+  .banners-big--adaptive-1 .main-slider__item.box {
+    aspect-ratio: 1920 / 822;
+  }
+}
