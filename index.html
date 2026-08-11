@@ -19,7 +19,7 @@
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:site_name" content="A2 Consulting" />
   <meta property="og:title" content="A2 Consulting — аудит a2c.by" />
-  <meta property="og:description" content="Производительность · SEO · Битрикс. Performance 47, LCP 6.4 с, АвтоКомпозит выкл. План действий для команды." />
+  <meta property="og:description" content="Производительность · SEO · Битрикс. Performance 58, LCP 4.7 с (контроль 11.08.2026). План действий для команды." />
   <meta property="og:image" content="/og-preview.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
@@ -29,7 +29,7 @@
   <!-- Twitter / X card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="A2 Consulting — аудит a2c.by" />
-  <meta name="twitter:description" content="Производительность · SEO · Битрикс. Performance 47, LCP 6.4 с, план работ." />
+  <meta name="twitter:description" content="Производительность · SEO · Битрикс. Performance 58, LCP 4.7 с (контроль 11.08.2026), план работ." />
   <meta name="twitter:image" content="/og-preview.png" />
 
   <script>
@@ -295,7 +295,7 @@
 
       <h2 class="section-title">Лабораторные метрики: факт vs цель</h2>
       <p class="section-sub">Lighthouse mobile · simulated Slow 4G · 27.07.2026</p>
-      <div class="card chart-wrap"><svg class="chart-svg" id="cwv-chart" viewBox="0 0 640 240" role="img" aria-label="Факт и цель по LCP FCP TTI TBT"></svg><p class="chart-note">TBT показан в секундах (0.9 = 900 мс). CLS в норме: 0.001 (цель ≤ 0.1) — на графике не дублируется.</p></div>
+      <div class="card chart-wrap"><svg class="chart-svg" id="cwv-chart" viewBox="0 0 640 240" role="img" aria-label="Факт и цель по LCP FCP TTI TBT"></svg><p class="chart-note">TBT показан в секундах (0.94 = 940 мс). CLS в норме: 0 (цель ≤ 0.1) — на графике не дублируется.</p></div>
 
       <h2 class="section-title">Распределение веса страницы</h2>
       <p class="section-sub">Transfer size по типу ресурса · 1 715 KB · 43 запроса</p>
@@ -403,7 +403,7 @@
       <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Фаза B — Скорость как SEO-сигнал</h2>
-      <p class="section-sub">Медленная мобильная главная (LCP 6.4 с) бьёт по отказам и косвенно по ранжированию.</p>
+      <p class="section-sub">Мобильная главная всё ещё медленная (LCP 4.7 с после B1–B3) — бьёт по отказам и косвенно по ранжированию.</p>
       <div class="card scroll-x"><table class="data-table" id="vis-phase-b"><thead><tr><th>Готово</th><th>#</th><th>Что менять</th><th>Зачем / что даст</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Фаза C — On-page и CTR сниппета</h2>
@@ -427,11 +427,11 @@
     <section class="panel" id="panel-exec-report" role="tabpanel" aria-labelledby="tab-exec-report" hidden>
       <div class="eyebrow">Для руководства · a2c.by</div>
       <h2 class="section-title" style="margin-top:0;font-size:clamp(1.35rem,2.5vw,1.85rem)">Отчёт для руководства: план видимости</h2>
-      <p class="section-sub">Период работ: конец июля — 10 августа 2026 · Битрикс + Aspro Allcorp3. Как было → что сделали → влияние.</p>
+      <p class="section-sub">Период работ: конец июля — 11 августа 2026 · Битрикс + Aspro Allcorp3. Контрольный lab-замер скорости 11.08.</p>
       <div class="hero-meta" style="margin:0 0 1.15rem">
         <span class="chip chip-ok">Фаза A закрыта</span>
         <span class="chip chip-warn">Фаза B частично</span>
-        <span class="chip chip-ok">Фаза C: C1–C4 закрыты</span>
+        <span class="chip chip-ok">Фаза C: C1–C5 закрыты</span>
       </div>
 
       <div class="callout">
@@ -439,7 +439,7 @@
         Закрыли технический барьер индексации и канонических URL, включили рычаги скорости в админке Битрикс,
         почистили аналитику и подготовили серверный тикет. На коммерческих страницах услуг и контактах сняли
         шаблонный SEO-шум: уникальные title/description и коммерческий H1 на главной. Рост позиций и заявок —
-        эффект с лагом 2–6 недель; повторный PageSpeed после B3 и ответа хостера.
+        эффект с лагом 2–6 недель. Контроль 11.08: Perf 58 / LCP 4.7 с (было 47 / 6.4 с); дальше — B4/B5 и field CWV.
       </div>
 
       <div class="metrics" style="margin-top:1.15rem">
@@ -450,18 +450,18 @@
         </article>
         <article class="metric tone-warn exec-stat" tabindex="0">
           <div class="metric-label"><span>Скорость (B)</span><span class="badge">Частично</span></div>
-          <div class="metric-value">5 / ~12</div>
-          <div class="metric-target">админка сделана; хостер и код — в работе</div>
+          <div class="metric-value">Perf 58</div>
+          <div class="metric-target">LCP 4.7 с · B4/B5 ещё открыты</div>
         </article>
         <article class="metric tone-ok exec-stat" tabindex="0">
           <div class="metric-label"><span>On-page</span><span class="badge">Готово</span></div>
-          <div class="metric-value">C1–C4</div>
-          <div class="metric-target">H1, title/desc P1, контакты</div>
+          <div class="metric-value">C1–C5</div>
+          <div class="metric-target">H1, title/desc P1, контакты, CLS CSS</div>
         </article>
         <article class="metric tone-info exec-stat" tabindex="0">
           <div class="metric-label"><span>Следующие фазы</span><span class="badge">План</span></div>
-          <div class="metric-value">D–F</div>
-          <div class="metric-target">schema, контент, замер</div>
+          <div class="metric-value">B4 / B5 / F2</div>
+          <div class="metric-target">скрипты, хостер, weekly дашборд</div>
         </article>
       </div>
 
@@ -482,7 +482,7 @@
       <h2 class="section-title">Фаза B — Скорость (SEO-сигнал CWV)</h2>
       <div class="callout callout-danger">
         <strong>Контекст аудита (старт).</strong>
-        Мобильный Performance ~47, LCP ~6,4 с. АвтоКомпозит был выключен; Perfmon конфигурации сейчас ~7,25 при эталоне ≥30.
+        Старт аудита: Perf ~47, LCP ~6,4 с. Контроль 11.08 (Lighthouse mobile lab): Perf 58, LCP 4,7 с, FCP 2,3 с, TBT 940 мс, CLS 0. АвтоКомпозит включён; Perfmon конфигурации ~7,25 при эталоне ≥30.
       </div>
       <div class="card scroll-x"><table class="data-table">
         <thead><tr><th>Пункт</th><th>Как было</th><th>Что сделали</th><th>Влияние / статус</th></tr></thead>
@@ -517,18 +517,18 @@
           <h3>Сделано командой</h3>
           <ul class="exec-card-list">
             <li>Техническая индексация (A) — полностью</li>
-            <li>Админ-рычаги скорости (B1, B2, B5.1–2, B4.1)</li>
-            <li>Коммерческий on-page P1 + контакты (C1–C4)</li>
-            <li>Декомпозиция B4/B5 с ответственными в отчёте</li>
+            <li>Скорость: B1–B3, B4.1, B5.1–2; контроль Perf 47→58, LCP 6.4→4.7 с</li>
+            <li>On-page C1–C5; schema D1–D3; контент E1–E5</li>
+            <li>ТЗ на B4 (разработчик) и B5 (хостер)</li>
           </ul>
         </article>
         <article class="card">
           <h3>В работе / блокеры</h3>
           <ul class="exec-card-list">
-            <li>B3 — сжатие hero (маркетинг)</li>
             <li>B5.3–5 — OPcache / MySQL / Redis (хостер)</li>
             <li>B4.2–4 — отложенные скрипты (разработка)</li>
-            <li>Далее: контент E, C5 после B3</li>
+            <li>F2 — еженедельный дашборд (понедельник)</li>
+            <li>Повторный PSI после B4/B5</li>
           </ul>
         </article>
       </div>
@@ -537,9 +537,9 @@
         <strong>Как читать «влияние».</strong>
         Прямой рост позиций и заявок измеряется в GSC / Вебмастере / Метрике с лагом.
         Сейчас созданы условия: сайт индексируем, сниппеты коммерческие, часть скорости включена.
-        Контрольная точка: повторный мобильный PageSpeed после B3 и ответа хостера; еженедельно — клики и покрытие в GSC.
+        Контроль 11.08 уже снят (lab): Perf 47→58, LCP 6.4→4.7 с. Следующая точка — после B4/B5; еженедельно — клики и покрытие в GSC.
       </div>
-      <p class="muted" style="margin-top:1rem">Детальный чеклист шагов — во вкладке <a href="#visibility-plan" data-tab-link="visibility-plan">План видимости</a> · обновлено 10.08.2026</p>
+      <p class="muted" style="margin-top:1rem">Детальный чеклист шагов — во вкладке <a href="#visibility-plan" data-tab-link="visibility-plan">План видимости</a> · обновлено 11.08.2026 (lab-замер)</p>
     </section>
 
   </main>
@@ -572,49 +572,49 @@
     meta: {
       company: "A2 Consulting",
       site: "https://a2c.by/",
-      auditDate: "27 июля 2026",
+      auditDate: "11 августа 2026 (контроль lab)",
       platform: "1С-Битрикс 25.750.0 · Aspro Allcorp3",
       searchPosition: "~9.4–9.6 (около 10 места)",
       bitrixVersion: "25.750.0",
     },
     links: [
-      { label: "PageSpeed Insights (mobile)", href: "https://pagespeed.web.dev/analysis/https-a2c-by/kxewswnodc?form_factor=mobile", note: "открытый отчёт" },
+      { label: "PageSpeed Insights (mobile)", href: "https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fa2c.by%2F&form_factor=mobile", note: "lab Lighthouse 12.2.1 · 11.08.2026" },
       { label: "Сайт a2c.by", href: "https://a2c.by/", note: "публичная главная" },
       { label: "Админка: инфоблок «Новости» (38)", href: "https://a2c.by/bitrix/admin/iblock_list_admin.php?IBLOCK_ID=38&type=aspro_allcorp3_content&lang=ru&find_section_section=0&SECTION_ID=0&apply_filter=Y", note: "нужна авторизация" },
     ],
-    performanceScore: 47,
+    performanceScore: 58,
     performanceTarget: 85,
-    mainBlocker: "Главный блокер: render-blocking ресурсы дают ~2,57 с экономии. Параллельно АвтоКомпозит выключен, Perfmon конфигурации 11.4 (эталон ≥ 30), FS 24 при эталоне 10 000. Без снятия блокировки CSS/JS и включения композита контентное SEO почти не сдвинет позиции с 9–10 места.",
-    verdict: "Сайт на типовом Aspro Allcorp3 выглядит современно, но мобильная главная «тяжёлая»: Performance 47, LCP 6,4 с при норме ≤ 2,5. Узкое место — фронтенд-бандл Aspro + сторонние скрипты; ответ сервера (TTFB) приемлемый. В админке не задействованы ключевые рычаги ускорения (АвтоКомпозит, JS в конец, gzip-копии).",
+    mainBlocker: "Главный блокер сейчас: TBT ~940 мс (Метрика + CRM B24 + бандл Aspro) и LCP 4,7 с на мобиле. B1–B3 уже дали рост Perf 47→58 и LCP 6,4→4,7 с. Дальше — отложить сторонние скрипты (B4) и сервер (Perfmon ~7,25 / FS, B5). Без этого field CWV и позиции с 9–10 места почти не сдвинутся.",
+    verdict: "Контрольный lab 11.08.2026 (Lighthouse 12.2.1, mobile): Performance 58 (было 47), LCP 4,7 с (было 6,4), FCP 2,3 с, TTI 10,2 с, TBT 940 мс, CLS 0, вес ~1,4 МБ. Hero уже WebP, АвтоКомпозит и JS-в-конец включены — узкое место сместилось на сторонние скрипты (Метрика/CRM) и сервер (Perfmon ~7,25). Цель по-прежнему Perf ≥85 и LCP ≤2,5 с.",
 
     metrics: [
-      { id: "perf", label: "Performance", value: "47", target: "цель ≥ 85", tone: "danger", status: "Плохо", tipTitle: "Lighthouse Performance", tip: "Итоговая оценка мобильной главной. Ниже 50 — критично для UX и сигналов ранжирования." },
-      { id: "lcp", label: "LCP", value: "6.4 с", target: "норма ≤ 2.5 с", tone: "danger", status: "Плохо", tipTitle: "Largest Contentful Paint", tip: "Когда появляется главный контент. Задержка обнаружения LCP ~5.2 с, загрузка ~5.5 с. Пользователь долго видит пустой/недогруженный экран." },
-      { id: "fcp", label: "FCP", value: "3.9 с", target: "норма ≤ 1.8 с", tone: "danger", status: "Плохо", tipTitle: "First Contentful Paint", tip: "Первый текст или картинка на экране. Долгое FCP = ощущение, что сайт не отвечает." },
-      { id: "tti", label: "TTI", value: "9.3 с", target: "ориентир ≤ 3.8 с", tone: "danger", status: "Плохо", tipTitle: "Time to Interactive", tip: "Когда страница становится стабильно интерактивной. 9+ секунд на мобиле — высокий риск отказа до заявки." },
-      { id: "tbt", label: "TBT ≈ INP", value: "900 мс", target: "норма ≤ 200 мс", tone: "danger", status: "Плохо", tipTitle: "Total Blocking Time", tip: "Прокси риска INP: страница «замирает» от JS (unused JS 264 KB, bootup 2.2 с, main-thread 4.7 с)." },
-      { id: "cls", label: "CLS", value: "0.001", target: "норма ≤ 0.1", tone: "ok", status: "Отлично", tipTitle: "Cumulative Layout Shift", tip: "Вёрстка почти не прыгает. Сильная сторона — сохранить при правках." },
-      { id: "ttfb", label: "TTFB", value: "~430 мс", target: "норма ≤ 600–800 мс", tone: "ok", status: "Норма", tipTitle: "Time to First Byte", tip: "Ответ корня приемлемый (~390–640 мс). Узкое место не стартовый PHP, а фронт после ответа." },
-      { id: "rb", label: "Render-block", value: "2.57 с", target: "цель ≤ 0.3 с", tone: "danger", status: "Критично", tipTitle: "Render-blocking savings", tip: "Оценка экономии PageSpeed/Lighthouse при снятии блокирующих CSS/JS. Приоритет №1." },
-      { id: "weight", label: "Вес страницы", value: "1.7 МБ", target: "цель ≤ 0.9 МБ", tone: "warn", status: "Много", tipTitle: "Transfer size", tip: "1 715 KB суммарно, 43 запроса. Image 766 + Script 596 KB — основные статьи веса." },
-      { id: "perfmon", label: "Perfmon", value: "11.4", target: "эталон ≥ 30", tone: "danger", status: "Плохо", tipTitle: "Монитор производительности Битрикс", tip: "Оценка конфигурации сервера. FS 24 при эталоне 10 000 — критично. Нужен хостинг/Redis/NVMe." },
-      { id: "autocomposite", label: "АвтоКомпозит", value: "Выкл.", target: "должно быть: Вкл.", tone: "danger", status: "Выкл.", tipTitle: "Композитный сайт", tip: "Гостевой HTML-кеш не активен, закэшированных composite-страниц нет. Быстрый рычаг без правки ядра шаблона." },
+      { id: "perf", label: "Performance", value: "58", target: "цель ≥ 85", tone: "warn", status: "Слабо", tipTitle: "Lighthouse Performance", tip: "Контроль 11.08: 58 (старт аудита 47). Рост после B1–B3, но до цели ≥85 ещё далеко — очередь B4/B5." },
+      { id: "lcp", label: "LCP", value: "4.7 с", target: "норма ≤ 2.5 с", tone: "danger", status: "Плохо", tipTitle: "Largest Contentful Paint", tip: "Контроль 11.08: 4.7 с (было 6.4 с). Hero WebP помог, но критический путь JS/CSS и сторонние скрипты ещё держат first screen." },
+      { id: "fcp", label: "FCP", value: "2.3 с", target: "норма ≤ 1.8 с", tone: "warn", status: "Слабо", tipTitle: "First Contentful Paint", tip: "Контроль 11.08: 2.3 с (было 3.9 с). Ближе к норме ≤1.8 с — композит и оптимизация JS/CSS дали эффект." },
+      { id: "tti", label: "TTI", value: "10.2 с", target: "ориентир ≤ 3.8 с", tone: "danger", status: "Плохо", tipTitle: "Time to Interactive", tip: "Контроль 11.08: 10.2 с. Интерактивность всё ещё упирается в JS bootup (Метрика, Aspro, B24) — приоритет B4." },
+      { id: "tbt", label: "TBT ≈ INP", value: "940 мс", target: "норма ≤ 200 мс", tone: "danger", status: "Плохо", tipTitle: "Total Blocking Time", tip: "Контроль 11.08: 940 мс (unused JS ~155 KiB, bootup 2.4 с, main-thread 5.3 с). Без defer Метрики/CRM TBT не уйдёт к ≤200 мс." },
+      { id: "cls", label: "CLS", value: "0", target: "норма ≤ 0.1", tone: "ok", status: "Отлично", tipTitle: "Cumulative Layout Shift", tip: "Контроль 11.08: 0. C5 aspect-ratio на месте — сохранить при правках баннеров." },
+      { id: "ttfb", label: "TTFB", value: "~80 мс", target: "норма ≤ 600–800 мс", tone: "ok", status: "Отлично", tipTitle: "Time to First Byte", tip: "Контроль 11.08: HTML корня ~30–140 мс (композит/кеш). Узкое место — фронт и сторонние скрипты после ответа, не стартовый PHP." },
+      { id: "rb", label: "Render-block", value: "снят (B2)", target: "цель ≤ 0.3 с", tone: "ok", status: "OK", tipTitle: "Render-blocking savings", tip: "После «JS в конец» + сжатых копий opportunity render-blocking в lab 11.08 не в топе. Остаётся unused CSS ~104 KiB и JS bootup." },
+      { id: "weight", label: "Вес страницы", value: "1.4 МБ", target: "цель ≤ 0.9 МБ", tone: "warn", status: "Много", tipTitle: "Transfer size", tip: "Контроль 11.08: ~1 432 KiB, ~45 запросов. Script ~795 KB + Image ~285 KB — основной вес; hero уже WebP." },
+      { id: "perfmon", label: "Perfmon", value: "7.25", target: "эталон ≥ 30", tone: "danger", status: "Плохо", tipTitle: "Монитор производительности Битрикс", tip: "Конфигурация ~7.25 после B5.1–2. FS низкий; нужен OPcache/Redis от хостера (B5.3–5)." },
+      { id: "autocomposite", label: "АвтоКомпозит", value: "Вкл.", target: "уже включено", tone: "ok", status: "OK", tipTitle: "Композитный сайт", tip: "B1 сделан: гостевой HTML-кеш включён. Поддерживать маски include/exclude и не ломать dynamic-блоки форм." },
       { id: "autocache", label: "Автокеш комп.", value: "Вкл.", target: "уже включено", tone: "ok", status: "OK", tipTitle: "Автокеширование компонентов", tip: "Включено вместе с управляемым кешем. Этого недостаточно без АвтоКомпозита и оптимизации фронта." },
       { id: "fs", label: "FS Perfmon", value: "24", target: "эталон 10 000", tone: "danger", status: "Критично", tipTitle: "Файловая система", tip: "Показатель файловых операций в Perfmon roughly в 400 раз ниже эталона — потолок для любой оптимизации фронта." },
-      { id: "lazy", label: "LazyLoad", value: "Вкл.", target: "Aspro", tone: "ok", status: "OK", tipTitle: "Ленивая подгрузка изображений", tip: "В настройках Aspro включено. Не отменяет проблему тяжёлого LCP-hero и render-blocking." },
+      { id: "lazy", label: "LazyLoad", value: "Вкл.", target: "Aspro", tone: "ok", status: "OK", tipTitle: "Ленивая подгрузка изображений", tip: "В настройках Aspro включено. Hero LCP — отдельный WebP; не lazy-грузить LCP-кадр." },
       { id: "services", label: "Услуги IBLOCK", value: "42", target: "контент услуг", tone: "info", status: "Инфо", tipTitle: "Инфоблок услуг", tip: "Контент услуг — IBLOCK 42. Ссылка из переписки на IBLOCK 38 — это «Новости», не панель ускорения." },
     ],
 
     cwvChart: {
       categories: ["LCP", "FCP", "TTI", "TBT"],
-      fact: [6.4, 3.9, 9.3, 0.9],
+      fact: [4.7, 2.3, 10.2, 0.94],
       target: [2.5, 1.8, 3.8, 0.2],
     },
     weightChart: {
       categories: ["Image", "Script", "CSS", "Font", "HTML", "Other"],
-      values: [766, 596, 157, 101, 81, 15],
-      totalKb: 1715,
-      requests: 43,
+      values: [285, 795, 149, 101, 82, 19],
+      totalKb: 1431,
+      requests: 45,
     },
     businessImpact: {
       note: "Отраслевые ориентиры (Google/Deloitte / практики CWV), не гарантия для a2c.by.",
@@ -630,7 +630,7 @@
       items: [
         { label: "Отказы (гипотеза)", value: "высокий риск", hint: "при LCP > 4 с отказы на мобиле часто растут сильно" },
         { label: "Глубина просмотра", value: "под угрозой", hint: "медленный first screen → меньше доходят до услуг и кейсов" },
-        { label: "Конверсия в заявку", value: "сдерживается", hint: "TBT 900 мс + CRM-формы на ранней загрузке" },
+        { label: "Конверсия в заявку", value: "сдерживается", hint: "TBT 940 мс + CRM-формы на ранней загрузке" },
       ],
     },
 
@@ -644,29 +644,28 @@
     ],
     enabled: {
       items: ["Автокеширование компонентов", "Управляемый кеш", "Optimize CSS + JS (main)", "Minified assets", "Aspro LazyLoad изображений"],
-      note: "Этого недостаточно: «Переместить JS в конец» — выкл.; gzip-копии объединённых CSS/JS — выкл.; АвтоКомпозит — выкл.",
+      note: "B1–B2 включены (АвтоКомпозит, JS в конец, сжатые копии). Недостаточно: отложенные Метрика/CRM (B4) и сервер OPcache/Redis (B5).",
     },
     broken: [
-      "Perfmon FS: 24 при эталоне 10 000",
-      "Нет закэшированных composite-страниц",
-      "robots.txt в админке пустой",
-      "sitemap.xml → 404",
+      "Perfmon конфигурация ~7.25 (эталон ≥30); FS низкий",
+      "TBT ~940 мс — Метрика и CRM B24 на early load",
+      "LCP 4.7 с на мобиле (цель ≤2.5 с)",
+      "Unused JS ~155 KiB + unused CSS ~104 KiB",
       "Сайт «wp» (неактивный) — хвост",
       "Ошибки «Сайт под защитой» в шапке админки",
-      "H1 главной = вебинар из Новостей/баннера",
-      "HTML Cache-Control: no-store + PHPSESSID на каждом ответе",
+      "На части URL HTML Cache-Control: no-store + PHPSESSID",
     ],
 
-    lcpNote: "LCP 6.4 с: задержка обнаружения LCP-ресурса ~5.2 с + загрузка ~5.5 с (перекрываются с критическим путём).",
+    lcpNote: "LCP 4.7 с (контроль 11.08; было 6.4 с): hero уже WebP ~100–108 KB; остаток — критический путь JS/CSS и конкуренция сторонних скриптов.",
     lcpResources: [
-      ["Hero JPG iblock/38c/…", "512 KB", "Кандидат LCP", "danger"],
-      ["template_*.js (Aspro)", "190 KB", "Блок отрисовки +1.05 с", "danger"],
-      ["template_*.css (Aspro)", "131 KB", "Render-blocking CSS", "danger"],
-      ["social.svg шаблона", "119 KB", "Лишний вес", "warn"],
-      ["Bitrix24 CRM form", "103 KB", "JS рядом с LCP", "warn"],
-      ["Яндекс.Метрика tag.js", "94 KB", "Main-thread + unused", "warn"],
+      ["Hero WebP (IB 23)", "~100–108 KB", "LCP-кандидат после B3", "warn"],
+      ["template_*.js (Aspro)", "~190 KB", "Bootup / unused JS", "danger"],
+      ["template_*.css (Aspro)", "~131 KB", "Unused CSS ~104 KiB", "warn"],
+      ["social.svg шаблона", "~119 KB", "Лишний вес", "warn"],
+      ["Bitrix24 CRM / loader_29", "~105 KB", "Early JS → TBT", "danger"],
+      ["Яндекс.Метрика tag.js", "~78 KB", "Bootup + unused", "danger"],
     ],
-    rbNote: "Оценка экономии: 2 570 мс. 9 синхронных JS без defer/async + тяжёлый CSS шаблона. TTFB корня ~390–640 мс — приемлемо.",
+    rbNote: "После B2 opportunity render-blocking в lab 11.08 не доминирует. Фокус: TBT 940 мс, unused JS/CSS, defer Метрики/CRM. TTFB корня ~30–140 мс — отлично.",
     rbFiles: [
       ["template_*.js Aspro", "~1050 мс"],
       ["core.min.js", "~300 мс"],
@@ -677,14 +676,14 @@
     ],
 
     problems: [
-      { id: "p1", priority: "now", priorityLabel: "Сегодня", title: "Render-blocking CSS/JS (~2.6 с)", impact: "Метрики: LCP, FCP, TTI · Отказы с мобилы, «пустой экран»", detail: "9 JS без defer/async + CSS Aspro ~131 KB и JS ~190 KB. Браузер не рисует страницу, пока не скачает и не разберёт эти файлы.", recId: "r1", metric: "LCP, FCP, TTI" },
-      { id: "p2", priority: "now", priorityLabel: "Сегодня", title: "Hero-изображение 512 KB JPG", impact: "Метрика: LCP · Медленный first view → уход", detail: "В «Больших баннерах» (IB 23) крупный JPG. Нужен WebP/AVIF ≤120 KB и приоритет LCP-изображения.", recId: "r2", metric: "LCP" },
-      { id: "p3", priority: "now", priorityLabel: "Сегодня", title: "АвтоКомпозит выключен", impact: "Гости каждый раз получают тяжёлую «живую» сборку", detail: "Кнопка «Включить АвтоКомпозит» в админке не активирована. Компонентный автокеш уже включён — этого мало.", recId: "r3", metric: "FCP / TTFB гостя" },
-      { id: "p4", priority: "now", priorityLabel: "Сегодня", title: "robots.txt пустой, sitemap 404", impact: "Crawl / индекс · хуже индексация → меньше трафика", detail: "В SEO-разделе robots пустой; публичный sitemap отдаёт 404. У Aspro есть генераторы.", recId: "r4", metric: "Crawl" },
-      { id: "p5", priority: "week", priorityLabel: "Неделя", title: "Unused JS 264 KB + bootup 2.2 с", impact: "TBT / INP · клики «не отвечают», бросок форм", detail: "Лишний JS Aspro template, Метрика, Bitrix24 CRM. Main-thread work 4.7 с.", recId: "r5", metric: "TBT / INP" },
+      { id: "p1", priority: "week", priorityLabel: "Неделя", title: "Остаточный CSS/JS шаблона Aspro", impact: "Метрики: LCP, TTI · unused CSS/JS", detail: "B2 снят главный render-blocking. Остаются template CSS/JS (~131/190 KB), unused CSS ~104 KiB и unused JS ~155 KiB — critical CSS / defer ядра на staging.", recId: "r1", metric: "LCP, TTI" },
+      { id: "p2", priority: "later", priorityLabel: "Долгосрок", title: "Hero WebP — поддержка ≤120 KB", impact: "Метрика: LCP · не допустить регресс", detail: "B3 сделан (4 слайда WebP). При замене баннеров держать ≤120 KB и не ставить JPG на LCP.", recId: "r2", metric: "LCP" },
+      { id: "p3", priority: "later", priorityLabel: "Долгосрок", title: "АвтоКомпозит — мониторинг кеша", impact: "Регресс TTFB/FCP если кеш сбросят", detail: "B1 включён. Следить, чтобы composite pages > 0 и dynamic-блоки форм не ломали кеш.", recId: "r3", metric: "FCP / TTFB гостя" },
+      { id: "p4", priority: "later", priorityLabel: "Долгосрок", title: "robots + sitemap — поддержка", impact: "Crawl / индекс", detail: "A1–A3 закрыты: robots заполнен, sitemap 200, GSC OK. Следить при деплое и после перегенерации карт.", recId: "r4", metric: "Crawl" },
+      { id: "p5", priority: "now", priorityLabel: "Сегодня", title: "TBT 940 мс: Метрика + CRM early", impact: "TBT / INP · клики «не отвечают», бросок форм", detail: "Контроль 11.08: unused JS ~155 KiB, bootup 2.4 с, main-thread 5.3 с. Приоритет — B4.2–B4.3 (defer tag.js и loader_29).", recId: "r5", metric: "TBT / INP" },
       { id: "p6", priority: "week", priorityLabel: "Неделя", title: "HTML Cache-Control: no-store + PHPSESSID", impact: "TTFB повторных · медленные возвраты, нагрузка PHP", detail: "Каждый визит проходит через динамический PHP без гостевого HTML-кеша композита.", recId: "r3", metric: "TTFB повторных" },
-      { id: "p7", priority: "week", priorityLabel: "Неделя", title: "Хостинг: Perfmon 11.4, FS 24 vs 10 000", impact: "Даже идеальный фронт упрётся в потолок сервера", detail: "Нужен диалог с хостингом: диск/Redis/NVMe, оптимизация таблиц БД в Perfmon.", recId: "r6", metric: "Perfmon" },
-      { id: "p8", priority: "week", priorityLabel: "Неделя", title: "H1 главной = вебинар, не услуги бренда", impact: "Relevance / CTR · слабый сниппет и посадочная", detail: "H1 должен говорить про IT-консалтинг / DWH / BI / AI. Вебинар — блок ниже первого экрана.", recId: "r7", metric: "Relevance" },
+      { id: "p7", priority: "now", priorityLabel: "Сегодня", title: "Хостинг: Perfmon ~7.25, без OPcache/Redis", impact: "Даже идеальный фронт упрётся в потолок сервера", detail: "Таблицы уже «оптимально» (B5.2). Нужен хостер: OPcache, READ-COMMITTED, Redis (B5.3–5).", recId: "r6", metric: "Perfmon" },
+      { id: "p8", priority: "later", priorityLabel: "Долгосрок", title: "H1/meta — не допустить регресс", impact: "Relevance / CTR", detail: "C1–C4 сделаны (коммерческий H1 и уникальные title/desc P1). Контролировать при смене баннеров.", recId: "r7", metric: "Relevance" },
       { id: "p9", priority: "later", priorityLabel: "Долгосрок", title: "Короткий cache TTL (экономия ~626 KB)", impact: "Повторные визиты · глубина ниже из-за лагов", detail: "Длинный cache immutable для статики + CDN в долгосрок.", recId: "r8", metric: "Повторные визиты" },
     ],
 
@@ -745,22 +744,22 @@
     ],
 
     kpis: [
-      { metric: "Performance (mobile)", now: "47", mid: "≥ 65–70", d30: "≥ 85" },
-      { metric: "LCP", now: "6.4 с", mid: "≤ 3.5–4.0 с", d30: "≤ 2.5 с" },
-      { metric: "FCP", now: "3.9 с", mid: "≤ 2.5 с", d30: "≤ 1.8 с" },
-      { metric: "TBT", now: "900 мс", mid: "≤ 400–500 мс", d30: "≤ 200 мс" },
-      { metric: "TTI", now: "9.3 с", mid: "≤ 6 с", d30: "≤ 3.8 с" },
-      { metric: "Transfer weight", now: "1.7 МБ", mid: "≤ 1.1 МБ", d30: "≤ 0.9 МБ" },
-      { metric: "Render-blocking savings", now: "2.57 с", mid: "≤ 1.0 с", d30: "≤ 0.3 с" },
-      { metric: "Perfmon конфигурация", now: "11.4", mid: "≥ 25", d30: "≥ 30" },
-      { metric: "АвтоКомпозит / кеш страниц", now: "Выкл / 0", mid: "Вкл / >10", d30: "Стабильно" },
-      { metric: "robots + sitemap", now: "пусто / 404", mid: "OK", d30: "в GSC / Вебмастер" },
+      { metric: "Performance (mobile)", now: "58", mid: "≥ 70–75", d30: "≥ 85" },
+      { metric: "LCP", now: "4.7 с", mid: "≤ 3.5 с", d30: "≤ 2.5 с" },
+      { metric: "FCP", now: "2.3 с", mid: "≤ 2.0 с", d30: "≤ 1.8 с" },
+      { metric: "TBT", now: "940 мс", mid: "≤ 400–500 мс", d30: "≤ 200 мс" },
+      { metric: "TTI", now: "10.2 с", mid: "≤ 6 с", d30: "≤ 3.8 с" },
+      { metric: "Transfer weight", now: "1.4 МБ", mid: "≤ 1.1 МБ", d30: "≤ 0.9 МБ" },
+      { metric: "Render-blocking savings", now: "снят (B2)", mid: "держать", d30: "≤ 0.3 с" },
+      { metric: "Perfmon конфигурация", now: "7.25", mid: "≥ 25", d30: "≥ 30" },
+      { metric: "АвтоКомпозит / кеш страниц", now: "Вкл", mid: "стабильно", d30: "Стабильно" },
+      { metric: "robots + sitemap", now: "OK", mid: "OK", d30: "в GSC / Вебмастер" },
       { metric: "Орг. трафик (к базе)", now: "фикс. база", mid: "+5–8%", d30: "+10–15%*" },
     ],
     kpiNote: "*Рост трафика к дню 30 — ориентир при индексации и правке сниппетов; эффект скорости на позиции проявляется после стабилизации field CWV (2–4 недели).",
     iblockNote: "Ссылка на IBLOCK 38 в переписке — это «Новости» (вебинары/события), не панель ускорения. Скорость правится в: Композит, main-оптимизация, Большие баннеры, шаблон aspro-allcorp3 и хостинг. Контент услуг — IBLOCK 42.",
 
-    methodology: "1) PageSpeed Insights / Lighthouse — lab CWV и opportunities. 2) CrUX / Search Console — field данные реальных пользователей. 3) HAR / DevTools Coverage — unused CSS/JS. 4) WebPageTest — filmstrip LCP. 5) Логи nginx/Битрикс и Perfmon — TTFB, FS, кэш. Интерпретация: lab показывает потолок проблем; field влияет на ранжирование; правка начинается с render-blocking и LCP-изображения, параллельно — АвтоКомпозит.",
+    methodology: "Контроль 11.08.2026: Lighthouse 12.2.1 mobile lab на https://a2c.by/ (и /services/dwh/). Старт аудита 27.07: Perf 47 / LCP 6.4 с. Google PSI API в момент замера — 429 quota; цифры в отчёте — локальный lab. Field: CrUX / GSC. Дальше: B4 defer скриптов, B5 хостер, затем повторный lab+PSI.",
     roles: [
       ["Аудит", "PSI/Lighthouse, разбор HTML, чек-листы, env", "Приоритеты бизнеса и доступы"],
       ["Quick wins", "Патчи шаблона, отложенная аналитика, сжатие медиа", "Публикация на staging/prod"],
@@ -990,7 +989,7 @@
   document.getElementById("main-blocker").textContent = REPORT_DATA.mainBlocker;
   document.getElementById("perf-score").textContent = REPORT_DATA.performanceScore;
   document.getElementById("verdict-text").textContent = REPORT_DATA.verdict;
-  document.getElementById("verdict-bullets").innerHTML = `Позиция: <strong>${REPORT_DATA.meta.searchPosition}</strong><br/>Perfmon: <strong>11.4</strong> · АвтоКомпозит: <strong>Выкл.</strong><br/>Render-blocking: <strong>~2.57 с</strong>`;
+  document.getElementById("verdict-bullets").innerHTML = `Позиция: <strong>${REPORT_DATA.meta.searchPosition}</strong><br/>Perfmon: <strong>7.25</strong> · АвтоКомпозит: <strong>Вкл.</strong><br/>Контроль 11.08: <strong>Perf 58 · LCP 4.7 с · TBT 940 мс</strong>`;
   document.getElementById("links-root").innerHTML = "";
   REPORT_DATA.links.forEach((l) => {
     document.getElementById("links-root").appendChild(el("li", {}, [el("a", { href: l.href, target: "_blank", rel: "noopener noreferrer" }, [el("span", { text: l.label }), el("small", { text: l.note })])]));
@@ -1029,67 +1028,62 @@
 
 
   const SEO_DATA = {
-    verdict: "Видимость сейчас ограничена не только скоростью: пустой robots.txt и отсутствие sitemap режут обход; на всех проверенных URL нет canonical и JSON-LD; у ряда услуг один и тот же meta description; H1 главной про вебинар, а не коммерческий оффер; title части услуг слишком короткие (без бренда и гео/интента). Позиция ~9–10 со встречи согласуется с этими барьерами. Без GSC/Вебмастера точные ключи не верифицированы — следующий шаг маркетинга: выгрузка запросов.",
+    verdict: "Технический SEO-барьер снят: robots/sitemap/GSC OK, canonical на ключевых типах, JSON-LD Org/Service/Review, уникальные title/desc P1 и коммерческий H1, посадочные E1–E3 и перелинковка E4, демо-каталог закрыт (E5). Контроль скорости 11.08: Perf 58 / LCP 4.7 с (было 47 / 6.4) — field CWV и рост позиций ещё впереди. Осталось: B4/B5, еженедельный F2-дашборд по GSC/Метрике.",
     metrics: [
-      { label: "robots.txt", value: "пустой", target: "правила + Sitemap", tone: "danger", status: "Критично", tipTitle: "robots.txt", tip: "Файл отдаёт 200, но тело пустое — нет Sitemap: и явных правил. Плохо для управления обходом." },
-      { label: "sitemap.xml", value: "404", target: "200 + в Вебмастерах", tone: "danger", status: "Критично", tipTitle: "Карта сайта", tip: "sitemap.xml / sitemap_index / sitemap.php — 404. Новые услуги и кейсы медленнее попадают в индекс." },
-      { label: "Canonical", value: "0/11", target: "на каждой URL", tone: "danger", status: "Нет", tipTitle: "rel=canonical", tip: "Ни на одной из 11 проверенных страниц нет canonical — риск дублей (www/параметры/слеш)." },
-      { label: "JSON-LD", value: "0/11", target: "Org + Service + FAQ", tone: "danger", status: "Нет", tipTitle: "Микроразметка", tip: "Нет schema.org — упущены расширенные сниппеты (организация, услуги, отзывы, FAQ)." },
-      { label: "Дубли meta desc", value: "есть", target: "уникальные", tone: "warn", status: "Риск", tipTitle: "Описания", tip: "Один description шаблона услуг повторяется на AI/BI-страницах — слабая уникальность сниппета." },
-      { label: "H1 главной", value: "вебинар", target: "услуга/бренд", tone: "warn", status: "Слабо", tipTitle: "Релевантность", tip: "H1 про вебинар AI не совпадает с коммерческим интентом IT-консалтинга / КХД / BI." },
-      { label: "Позиция (вход)", value: "~9–10", target: "топ-3–5", tone: "warn", status: "База", tipTitle: "Озвучено на встрече", tip: "Не свежий краул по ключам. Нужна выгрузка GSC/Вебмастер для факта." },
-      { label: "Контакты title/desc", value: "слабые", target: "бренд+город+CTA", tone: "warn", status: "Доработать", tipTitle: "Контакты", tip: "Title «Контакты» (8 символов), description «Корпоративный сайт» — почти нулевая ценность для поиска." },
+      { label: "robots.txt", value: "OK", target: "правила + Sitemap", tone: "ok", status: "Готово", tipTitle: "robots.txt", tip: "A1: заполнен, указан Sitemap: https://a2c.by/sitemap.xml." },
+      { label: "sitemap.xml", value: "200", target: "200 + в Вебмастерах", tone: "ok", status: "Готово", tipTitle: "Карта сайта", tip: "A2–A3: sitemapindex, 8 дочерних; GSC «Успешно», Яндекс OK." },
+      { label: "Canonical", value: "OK", target: "на каждой URL", tone: "ok", status: "Готово", tipTitle: "rel=canonical", tip: "A4: canonical на услугах/проектах/новостях; держать при деплое." },
+      { label: "JSON-LD", value: "D1–D3", target: "Org + Service + Review", tone: "ok", status: "Готово", tipTitle: "Микроразметка", tip: "Organization+WebSite, Service на услугах, Review+AggregateRating на отзывах." },
+      { label: "Meta P1", value: "уникальные", target: "уникальные", tone: "ok", status: "Готово", tipTitle: "Описания", tip: "C2–C3: уникальные title/description на P1-услугах." },
+      { label: "H1 главной", value: "коммерческий", target: "услуга/бренд", tone: "ok", status: "Готово", tipTitle: "Релевантность", tip: "C1: IT-консалтинг / КХД / BI на первом баннере." },
+      { label: "Скорость (lab)", value: "Perf 58", target: "≥85 / LCP≤2.5", tone: "warn", status: "В работе", tipTitle: "CWV lab 11.08", tip: "LCP 4.7 с, TBT 940 мс. Открыты B4 (скрипты) и B5 (хостер)." },
+      { label: "Позиция (вход)", value: "~9–10", target: "топ-3–5", tone: "warn", status: "База", tipTitle: "Озвучено на встрече", tip: "F1 доступы есть; F2 — первый weekly отчёт в понедельник." },
     ],
     problems: [
-      { id: "s1", priority: "now", priorityLabel: "Срочно", title: "Пустой robots.txt + sitemap 404", impact: "Обход и индексация новых/глубоких URL замедлены", detail: "robots отдаёт 200 с пустым телом; sitemap варианты — 404. Сгенерировать в Aspro/Битрикс и указать Sitemap: в robots." },
-      { id: "s2", priority: "now", priorityLabel: "Срочно", title: "Нет rel=canonical на ключевых URL", impact: "Риск склейки/размытия веса дублей", detail: "Проверено 11 URL — canonical отсутствует везде. Включить в шаблоне Aspro на все типы страниц." },
-      { id: "s3", priority: "now", priorityLabel: "Срочно", title: "H1 главной не про коммерческий спрос", impact: "Слабый сигнал релевантности и CTR", detail: "H1: «AI на практике — … вебинар». Title при этом нормальный про IT/КХД/BI. Выровнять H1 с title и услугами." },
-      { id: "s4", priority: "week", priorityLabel: "Неделя", title: "Шаблонные meta description на услугах", impact: "Одинаковые сниппеты → ниже CTR", detail: "Одинаковый текст description на /services/ai-rpa-ml/, AI-solutions, /services/bi/, implementation-bi и др." },
-      { id: "s5", priority: "week", priorityLabel: "Неделя", title: "Короткие title без бренда на услугах", impact: "Хуже CTR и узнаваемость в выдаче", detail: "Примеры: «AI, RPA & ML» (16), «Бизнес-аналитика» (16), «Внедрение BI-систем» (19), «Контакты» (8). Добавить бренд + уточнение интента/гео." },
-      { id: "s6", priority: "week", priorityLabel: "Неделя", title: "Нет JSON-LD (Organization / Service / Review)", impact: "Нет расширенных результатов", detail: "На всех проверенных страницах schema отсутствует. Минимум: Organization + WebSite на главной; Service на услугах; Review на отзывах." },
-      { id: "s7", priority: "week", priorityLabel: "Неделя", title: "Нет замера позиций/запросов из кабинетов", impact: "Нельзя управлять видимостью по факту", detail: "Нужны доступы/выгрузки Google Search Console и Яндекс.Вебмастер: топ-запросы, CTR, посадочные, покрытие индекса." },
-      { id: "s8", priority: "later", priorityLabel: "Потом", title: "Контентная глубина кластеров и перелинковка", impact: "Потолок спроса после тех. фикса", detail: "После CWV: посадочные DWH/BI/AI/Data Governance с ТЗ по ключам, FAQ, связка кейсы↔услуги." },
+      { id: "s1", priority: "now", priorityLabel: "Срочно", title: "TBT 940 мс — Метрика и CRM early", impact: "INP / отказы на мобиле", detail: "B4.2–B4.3: отложить tag.js и loader_29. ТЗ: snippets/b4-defer-scripts-brief.md." },
+      { id: "s2", priority: "now", priorityLabel: "Срочно", title: "Perfmon ~7.25 без OPcache/Redis", impact: "Потолок Perf / field CWV", detail: "B5.3–5 у хостера. ТЗ: snippets/b5-hoster-brief.md." },
+      { id: "s3", priority: "week", priorityLabel: "Неделя", title: "LCP 4.7 с (цель ≤2.5 с)", impact: "Мобильный UX и сигнал скорости", detail: "После B3 стало лучше (было 6.4 с). Дожать B4/B5 и повторный замер." },
+      { id: "s4", priority: "week", priorityLabel: "Неделя", title: "F2: нет первого weekly дашборда", impact: "Нет регулярного контроля кликов/покрытия", detail: "Шаблон snippets/f2-weekly-dashboard-template.md — заполнить в понедельник." },
+      { id: "s5", priority: "later", priorityLabel: "Потом", title: "Field CWV / CrUX ещё не «green»", impact: "Ранжирование по скорости с лагом", detail: "Lab ≠ field. Следить GSC CWV после стабилизации lab." },
+      { id: "s6", priority: "later", priorityLabel: "Потом", title: "Поддержка robots/sitemap/meta", impact: "Регресс индексации при деплое", detail: "A/C закрыты — чеклист при выкладке и смене баннеров." },
     ],
     pages: [
-      ["/", "66 симв. OK", "165 OK", "вебинар ✗", "нет", "нет", "H1 ≠ коммерческий оффер"],
-      ["/services/", "65 OK", "161 OK", "Услуги", "нет", "нет", "Хаб услуг — усилить intro под ключи"],
-      ["/services/ai-rpa-ml/", "16 ✗", "дубль ✗", "OK", "нет", "нет", "Title/desc доработать"],
-      ["/services/ai-rpa-ml/ai-solutions/", "33 слабо", "дубль ✗", "OK", "нет", "нет", "Уникальный desc + бренд в title"],
-      ["/services/bi/", "16 ✗", "дубль ✗", "OK", "нет", "нет", "Title слишком короткий"],
-      ["/services/bi/implementation-bi/", "19 ✗", "дубль ✗", "OK", "нет", "нет", "Добавить «под ключ» + бренд"],
-      ["/company/", "52 OK", "167 OK", "О компании", "нет", "нет", "Можно Organization schema"],
-      ["/company/reviews/", "59 OK", "146 OK", "OK", "нет", "нет", "Нужен Review/AggregateRating"],
-      ["/projects/", "52 OK", "146 OK", "OK", "нет", "нет", "Кейсы — сильный E-E-A-T актив"],
-      ["/news/", "57 OK", "167 OK", "OK", "нет", "нет", "Не забирать H1 у главной"],
-      ["/contacts/", "8 ✗", "18 ✗", "Контакты", "нет", "нет", "Title/desc почти пустые"],
+      ["/", "OK", "OK", "коммерческий ✓", "есть", "Org+WebSite", "C1 + D1; lab Perf 58"],
+      ["/services/", "OK", "OK", "Услуги", "есть", "—", "Хаб услуг"],
+      ["/services/dwh/", "OK", "OK", "OK", "есть", "Service", "E1 контент; lab LCP 7.5 с"],
+      ["/services/bi/", "OK", "OK", "OK", "есть", "Service", "E2 + C2/C3"],
+      ["/services/ai-rpa-ml/", "OK", "OK", "OK", "есть", "Service", "E3 + C2/C3"],
+      ["/company/reviews/", "OK", "OK", "OK", "есть", "Review×16", "D3 AggregateRating"],
+      ["/projects/", "OK", "OK", "OK", "есть", "—", "E4 перелинковка"],
+      ["/contacts/", "OK", "OK", "Контакты", "есть", "—", "C4"],
+      ["/product/", "—", "—", "—", "—", "—", "E5 noindex + Disallow"],
     ],
     clusters: [
-      ["Корпоративные хранилища данных / DWH / КХД", "/services/dwh/ (+ внедрение)", "P1", "Уникальные title/H1/FAQ, кейсы, сравнение Lakehouse"],
-      ["Внедрение BI / бизнес-аналитика", "/services/bi/ + implementation-bi", "P1", "Убрать дубль desc, добавить гео/отрасли, CTR-сниппет"],
-      ["AI / ML / RPA для бизнеса", "/services/ai-rpa-ml/ + ai-solutions", "P1", "Коммерческие title, кейсы банка/ритейла"],
-      ["Data Governance / НСИ", "/services/… (DG)", "P2", "Отдельная посадочная, не смешивать с DWH"],
-      ["Отраслевые кейсы", "/projects/{ отрасль }", "P2", "Перелинковка кейс → услуга → CTA"],
-      ["Бренд / эксперты", "/company/, отзывы", "P3", "Schema Org + Review, PR/новости не в H1 главной"],
+      ["Корпоративные хранилища данных / DWH / КХД", "/services/dwh/", "P1", "E1 посадочная обновлена; ждать field + B4/B5"],
+      ["Внедрение BI / бизнес-аналитика", "/services/bi/", "P1", "E2 + уникальные meta"],
+      ["AI / ML / RPA для бизнеса", "/services/ai-rpa-ml/", "P1", "E3 + уникальные meta"],
+      ["Отраслевые кейсы", "/projects/*", "P2", "E4 кейс ↔ услуга"],
+      ["Бренд / эксперты", "/company/, отзывы", "P3", "D1 + D3 schema"],
     ],
     recommendations: [
-      { id: "sr1", priority: "now", priorityLabel: "Срочно", title: "robots.txt + sitemap + Вебмастера", text: "Сгенерировать файлы, указать Sitemap в robots, отправить в Google Search Console и Яндекс.Вебмастер.", tech: "Аспро → генерация robots/sitemap или Маркетинг → SEO.\nПроверка: /robots.txt не пустой; /sitemap.xml = 200.\nGSC/Вебмастер → добавить ресурс → отправить sitemap." },
-      { id: "sr2", priority: "now", priorityLabel: "Срочно", title: "Canonical на все типы страниц", text: "В шаблоне Aspro включить вывод rel=canonical на абсолютный HTTPS URL без мусорных параметров.", tech: "header.php / seo-модуль Aspro.\nПроверка: view-source на /, /services/, услуга — есть <link rel=\"canonical\">." },
-      { id: "sr3", priority: "now", priorityLabel: "Срочно", title: "H1 и первый экран главной под спрос", text: "H1 = коммерческое УТП (данные/BI/IT-консалтинг). Вебинар — вторичный блок.", tech: "Большие баннеры / контент главной.\nСогласовать формулировку с маркетингом.\nTitle уже ближе к спросу — выровнять H1." },
-      { id: "sr4", priority: "week", priorityLabel: "Важно", title: "Уникальные title и description услуг", text: "Каждая услуга: уникальный title 50–65 симв. с брендом; unique desc 140–160; без шаблонного копипаста.", tech: "SEO-поля элементов IBLOCK 42 / разделов.\nЧек-лист: AI, BI, DWH, DG, RPA — разные desc.\nКонтакты: «Контакты A2 Consulting — Минск, консультация»." },
-      { id: "sr5", priority: "week", priorityLabel: "Важно", title: "JSON-LD: Organization, Service, Review", text: "Микроразметка для сниппетов и доверия.", tech: "Organization+WebSite на главной.\nService на карточках услуг.\nReview/AggregateRating на /company/reviews/.\nВалидация: Rich Results Test / Яндекс.Валидатор." },
-      { id: "sr6", priority: "week", priorityLabel: "Важно", title: "База видимости: GSC + Вебмастер + Метрика", text: "Еженедельный отчёт: топ-запросы, CTR, посадочные, страницы вне индекса, конверсии с органики.", tech: "Доступы маркетологу.\nДашборд: позиции P1-кластеров, клики, заявки из органики.\nСвязать с PSI/CWV." },
-      { id: "sr7", priority: "later", priorityLabel: "Потом", title: "Контент-кластеры и перелинковка", text: "После стабилизации скорости — ТЗ на посадочные P1 и связка кейсы↔услуги↔CTA.", tech: "IBLOCK 42 + проекты.\nFAQ-блоки под PAA.\nВнутренние анкоры с коммерческими ключами." },
+      { id: "sr1", priority: "now", priorityLabel: "Срочно", title: "B4: отложить Метрику и CRM", text: "Defer tag.js и loader_29 по ТЗ разработчику.", tech: "snippets/b4-defer-scripts-brief.md\nBaseline TBT 940 мс → цель ≤400–500 мс." },
+      { id: "sr2", priority: "now", priorityLabel: "Срочно", title: "B5: тикет хостеру", text: "OPcache + MySQL READ-COMMITTED + Redis.", tech: "snippets/b5-hoster-brief.md\nПовторный Perfmon после ответа." },
+      { id: "sr3", priority: "week", priorityLabel: "Важно", title: "F2 weekly дашборд", text: "Клики, покрытие, органические цели Метрики.", tech: "snippets/f2-weekly-dashboard-template.md\nСтарт — понедельник." },
+      { id: "sr4", priority: "week", priorityLabel: "Важно", title: "Повторный lab + PSI после B4/B5", text: "Зафиксировать Perf/LCP/TBT vs контроль 11.08.", tech: "Lighthouse mobile + pagespeed.web.dev\nСравнить с Perf 58 / LCP 4.7 / TBT 940." },
+      { id: "sr5", priority: "later", priorityLabel: "Потом", title: "Поддержка A/C/D/E", text: "Не допустить регресс robots, meta, schema, noindex демо.", tech: "Чеклист при деплое.\nHero WebP ≤120 KB." },
     ],
     kpis: [
-      ["robots + sitemap", "пусто / 404", "OK + отправлено", "без ошибок обхода"],
-      ["Canonical coverage (выборка)", "0/11", "11/11", "100% шаблон"],
-      ["Уникальные meta desc услуг", "дубли есть", "0 дублей P1", "0 дублей все"],
-      ["JSON-LD на ключевых URL", "0", "Org+Service", "Org+Service+Review"],
-      ["H1 главной", "вебинар", "коммерческий", "стабильно"],
+      ["robots + sitemap", "OK", "OK", "без ошибок обхода"],
+      ["Canonical coverage", "OK (A4)", "держать", "100% шаблон"],
+      ["Уникальные meta P1", "OK (C2–C3)", "держать", "0 дублей"],
+      ["JSON-LD", "Org+Service+Review", "держать", "валидно"],
+      ["H1 главной", "коммерческий", "стабильно", "стабильно"],
+      ["Performance mobile (lab)", "58", "≥70", "≥85"],
+      ["LCP mobile (lab)", "4.7 с", "≤3.5 с", "≤2.5 с"],
       ["Позиции P1-кластеров*", "~9–10 (вход)", "замер в GSC", "рост в топ-5 доля"],
       ["Орг. трафик / заявки из поиска*", "база", "+5–8%", "+10–15%"],
     ],
-    note: "*Позиции и трафик — после подключения Search Console / Вебмастера. Технический SEO и on-page можно закрывать параллельно со скоростью; контентные кластеры — после LCP в «зелёной» зоне на мобиле.",
+    note: "*Позиции и трафик — через F2 weekly (GSC + Метрика). Технический SEO / on-page / schema / контент P1 закрыты; рост ждут field CWV после B4/B5 и лаг индекса 2–6 недель.",
   };
 
   function renderSeo() {
@@ -1188,14 +1182,14 @@
           done: true,
         },
         {
-          id: "B2", title: "JS в конец + сжатые копии CSS/JS", brief: "Меньше блокировки отрисовки (~2.57 с)", where: "Настройки main → Оптимизация CSS/JS",
-          goal: "Снимает главный блокер отрисовки (~2.57 с экономии) — быстрее появляется контент, выше шанс дождаться услуги и заявки.",
+          id: "B2", title: "JS в конец + сжатые копии CSS/JS", brief: "B2 сделан; держать JS в конце", where: "Настройки main → Оптимизация CSS/JS",
+          goal: "B2 выполнен (JS в конец + сжатые копии). В lab 11.08 render-blocking не в топе; фокус сместился на TBT/LCP.",
           how: "Скрипты уходят в конец страницы, CSS/JS отдаются сжатыми копиями. Браузер раньше рисует HTML вместо ожидания тяжёлого бандла Aspro.",
           done: true,
         },
         {
           id: "B3", title: "Hero баннеров → WebP ≤120 KB", brief: "Сильное ускорение LCP первого экрана", where: "Реклама → Большие баннеры (IB 23)",
-          goal: "Сокращает LCP (сейчас 6.4 с) — главный визуальный блок грузится быстрее, улучшается мобильный UX и SEO-сигнал скорости.",
+          goal: "B3 выполнен: LCP 6.4→4.7 с. Дальше не допустить регресс hero >120 KB; цель LCP ≤2.5 с после B4/B5.",
           how: "LCP часто = hero-баннер. Замена тяжёлых JPG/PNG на WebP ≤120 KB ускоряет загрузку largest paint без смены вёрстки. ТЗ: snippets/b3-hero-webp-brief.md.",
           note: "Сделано 11.08.2026: 4 активных слайда → WebP (105 / 100 / 57 / 43 KB). H1 и кнопки на месте. Режим «Отдельная картинка» не использовали.",
           done: true,
@@ -1288,7 +1282,7 @@
         },
         {
           id: "C5", title: "width/height у изображений", brief: "Стабильный CLS", where: "Баннеры и карточки (после B3)",
-          goal: "Сохраняет отличный CLS (0.001) при правках баннеров — стабильная вёрстка не бьёт по CWV и восприятию качества.",
+          goal: "C5 выполнен: CLS 0 в lab 11.08. Держать aspect-ratio при смене баннеров.",
           how: "Hero/карточки в Aspro часто background — нужен aspect-ratio в CSS; у <img> — width/height. Готовый CSS: snippets/c5-custom.css → custom.css. ТЗ: snippets/c5-width-height-brief.md.",
           note: "Сделано 11.08.2026: CSS в aspro-allcorp3/css/custom.css (logo aspect-ratio, brands 186×90, hero 1920/822 desktop). Подключён на проде. Полный PHP width/height в компонентах — опционально разработчику.",
           done: true,
