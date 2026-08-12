@@ -130,7 +130,7 @@ TTFB корня (probe): ~40–140 мс. Узкое место сместило�
 
 ## Отчёт / репозиторий
 
-- Вкладки: `#visibility-plan`, `#exec-report`  
+- Вкладки: `#visibility-plan`, `#exec-report`, `#seo-eval` (SEO-оценка)  
 - `index.html` + `anna-audit-report/index.html`  
 - Snippets: `snippets/d1-org-website.jsonld.html`, `snippets/d2-service.jsonld.php`  
 - Локальные `_*.py` / dumps — не в git  

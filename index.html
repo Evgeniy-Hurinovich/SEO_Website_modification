@@ -241,6 +241,34 @@
     .footer strong { color: var(--ink-muted); }
     .callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: .85rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: .9rem; color: var(--ink-muted); margin: 1rem 0; }
     .callout-danger { border-left-color: var(--danger); background: var(--danger-soft); }
+    .callout-warn { border-left-color: var(--warn); background: var(--warn-soft); }
+    .callout-ok { border-left-color: var(--ok); background: var(--ok-soft); }
+    .callout-info { border-left-color: var(--info); background: var(--info-soft); }
+    .callout-icon { display: flex; gap: .85rem; align-items: flex-start; }
+    .callout-icon > div { flex: 1; min-width: 0; }
+    .callout-icon strong { display: block; color: var(--ink); margin-bottom: .25rem; font-family: var(--font); }
+    .icon-bang {
+      flex-shrink: 0; width: 1.85rem; height: 1.85rem; border-radius: 50%;
+      display: grid; place-items: center; font-family: var(--font); font-weight: 800;
+      font-size: 1rem; line-height: 1; color: #fff;
+    }
+    .icon-bang-danger { background: var(--danger); }
+    .icon-bang-warn { background: var(--warn); }
+    .icon-bang-ok { background: var(--ok); }
+    .icon-bang-info { background: var(--info); }
+    .tone-row-ok td:first-child::before {
+      content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: .45rem; vertical-align: middle; background: var(--ok);
+    }
+    .eval-pills { display: flex; flex-wrap: wrap; gap: .55rem; margin: .85rem 0 0; }
+    .eval-next { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .55rem; }
+    .eval-next li {
+      display: flex; gap: .75rem; align-items: flex-start; padding: .75rem .9rem;
+      background: var(--bg-elevated); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    }
+    .eval-next li span { color: var(--ink-muted); font-size: .92rem; }
+    .prio-p0 { background: var(--danger-soft); color: var(--danger); }
+    .prio-p1 { background: var(--warn-soft); color: var(--warn); }
+    .prio-p2 { background: #eef2f7; color: var(--ink-muted); }
     .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   </style>
 </head>
@@ -257,6 +285,7 @@
         <button class="tab" role="tab" id="tab-details" aria-controls="panel-details" aria-selected="false" data-tab="details">Детали</button>
         <button class="tab" role="tab" id="tab-plan" aria-controls="panel-plan" aria-selected="false" data-tab="plan">План действий</button>
         <button class="tab" role="tab" id="tab-seo" aria-controls="panel-seo" aria-selected="false" data-tab="seo">Видимость SEO</button>
+        <button class="tab" role="tab" id="tab-seo-eval" aria-controls="panel-seo-eval" aria-selected="false" data-tab="seo-eval">SEO-оценка</button>
         <button class="tab" role="tab" id="tab-visibility-plan" aria-controls="panel-visibility-plan" aria-selected="false" data-tab="visibility-plan">План видимости</button>
         <button class="tab" role="tab" id="tab-exec-report" aria-controls="panel-exec-report" aria-selected="false" data-tab="exec-report">Отчёт руководству</button>
       </nav>
@@ -542,6 +571,45 @@
       <p class="muted" style="margin-top:1rem">Детальный чеклист шагов — во вкладке <a href="#visibility-plan" data-tab-link="visibility-plan">План видимости</a> · обновлено 11.08.2026 (lab-замер)</p>
     </section>
 
+    <section class="panel" id="panel-seo-eval" role="tabpanel" aria-labelledby="tab-seo-eval" hidden>
+      <div class="eyebrow">Экспертная оценка · 11.08.2026</div>
+      <h2 class="section-title" style="margin-top:0">SEO-оценка a2c.by</h2>
+      <p class="section-sub">Взгляд по вкладкам Обзор / Детали / План · live-проверка canonical · lab CWV от 11.08.2026</p>
+      <div class="eval-pills" id="eval-pills"></div>
+
+      <div class="callout callout-warn callout-icon" id="eval-verdict" style="margin-top:1.15rem"></div>
+
+      <h2 class="section-title">Оценки по зонам</h2>
+      <div class="metrics" id="eval-scores"></div>
+
+      <h2 class="section-title">Что уже сделано хорошо</h2>
+      <div class="card scroll-x"><table class="data-table" id="eval-done-table"><thead><tr><th>Зона</th><th>Статус</th><th>Комментарий эксперта</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Критичные пробелы</h2>
+      <p class="section-sub">Не всё возможное закрыто — это P0/P1 до роста позиций.</p>
+      <div class="card scroll-x"><table class="data-table" id="eval-gaps-table"><thead><tr><th>Приоритет</th><th>Проблема</th><th>Почему важно</th><th>Где в плане</th></tr></thead><tbody></tbody></table></div>
+
+      <div class="grid-2" style="margin-top:1.25rem">
+        <article class="card">
+          <h3>Обзор — как читать сейчас</h3>
+          <div id="eval-overview-notes"></div>
+        </article>
+        <article class="card">
+          <h3>Детали — на что смотреть</h3>
+          <div id="eval-details-notes"></div>
+        </article>
+      </div>
+
+      <h2 class="section-title">Дожать в ближайшие 2–4 недели</h2>
+      <ul class="eval-next" id="eval-next"></ul>
+
+      <h2 class="section-title">Сверх текущего чеклиста</h2>
+      <p class="section-sub">Инициативы, которых нет как галочек в плане, но они дадут рост спроса.</p>
+      <div class="card scroll-x"><table class="data-table" id="eval-extra-table"><thead><tr><th>Инициатива</th><th>Эффект</th><th>Сложность</th></tr></thead><tbody></tbody></table></div>
+
+      <div class="callout callout-info callout-icon" id="eval-bottom" style="margin-top:1.25rem"></div>
+    </section>
+
   </main>
 
   <footer class="shell footer">
@@ -769,8 +837,17 @@
     ],
   };
 
-  const DONE_KEY = "a2c-audit-recs-done-v2";
-  const loadDone = () => { try { return JSON.parse(localStorage.getItem(DONE_KEY) || "{}"); } catch { return {}; } };
+  const DONE_KEY = "a2c-audit-recs-done-v3";
+  const DEFAULT_DONE = { r2: true, r3: true, r4: true };
+  const loadDone = () => {
+    try {
+      const raw = localStorage.getItem(DONE_KEY);
+      if (raw == null) return { ...DEFAULT_DONE };
+      return JSON.parse(raw);
+    } catch {
+      return { ...DEFAULT_DONE };
+    }
+  };
   const saveDone = (m) => localStorage.setItem(DONE_KEY, JSON.stringify(m));
 
   function el(tag, attrs = {}, children = []) {
@@ -1028,11 +1105,11 @@
 
 
   const SEO_DATA = {
-    verdict: "Технический SEO-барьер снят: robots/sitemap/GSC OK, canonical на ключевых типах, JSON-LD Org/Service/Review, уникальные title/desc P1 и коммерческий H1, посадочные E1–E3 и перелинковка E4, демо-каталог закрыт (E5). Контроль скорости 11.08: Perf 58 / LCP 4.7 с (было 47 / 6.4) — field CWV и рост позиций ещё впереди. Осталось: B4/B5, еженедельный F2-дашборд по GSC/Метрике.",
+    verdict: "Технический SEO-барьер почти снят (robots/sitemap/GSC, meta P1, schema, контент E). Но live: нет rel=canonical в HTML. Контроль скорости 11.08: Perf 58 / LCP 4.7 с — field CWV и рост позиций ещё впереди. Осталось: починить canonical, B4/B5, F2.",
     metrics: [
       { label: "robots.txt", value: "OK", target: "правила + Sitemap", tone: "ok", status: "Готово", tipTitle: "robots.txt", tip: "A1: заполнен, указан Sitemap: https://a2c.by/sitemap.xml." },
       { label: "sitemap.xml", value: "200", target: "200 + в Вебмастерах", tone: "ok", status: "Готово", tipTitle: "Карта сайта", tip: "A2–A3: sitemapindex, 8 дочерних; GSC «Успешно», Яндекс OK." },
-      { label: "Canonical", value: "OK", target: "на каждой URL", tone: "ok", status: "Готово", tipTitle: "rel=canonical", tip: "A4: canonical на услугах/проектах/новостях; держать при деплое." },
+      { label: "Canonical", value: "нет в HTML", target: "на каждой URL", tone: "danger", status: "P0", tipTitle: "rel=canonical", tip: "Live 11.08: на /, услугах, проектах, новостях, контактах нет link rel=canonical — только og:url. A4 перепроверить вывод в шаблоне." },
       { label: "JSON-LD", value: "D1–D3", target: "Org + Service + Review", tone: "ok", status: "Готово", tipTitle: "Микроразметка", tip: "Organization+WebSite, Service на услугах, Review+AggregateRating на отзывах." },
       { label: "Meta P1", value: "уникальные", target: "уникальные", tone: "ok", status: "Готово", tipTitle: "Описания", tip: "C2–C3: уникальные title/description на P1-услугах." },
       { label: "H1 главной", value: "коммерческий", target: "услуга/бренд", tone: "ok", status: "Готово", tipTitle: "Релевантность", tip: "C1: IT-консалтинг / КХД / BI на первом баннере." },
@@ -1048,14 +1125,14 @@
       { id: "s6", priority: "later", priorityLabel: "Потом", title: "Поддержка robots/sitemap/meta", impact: "Регресс индексации при деплое", detail: "A/C закрыты — чеклист при выкладке и смене баннеров." },
     ],
     pages: [
-      ["/", "OK", "OK", "коммерческий ✓", "есть", "Org+WebSite", "C1 + D1; lab Perf 58"],
-      ["/services/", "OK", "OK", "Услуги", "есть", "—", "Хаб услуг"],
-      ["/services/dwh/", "OK", "OK", "OK", "есть", "Service", "E1 контент; lab LCP 7.5 с"],
-      ["/services/bi/", "OK", "OK", "OK", "есть", "Service", "E2 + C2/C3"],
-      ["/services/ai-rpa-ml/", "OK", "OK", "OK", "есть", "Service", "E3 + C2/C3"],
-      ["/company/reviews/", "OK", "OK", "OK", "есть", "Review×16", "D3 AggregateRating"],
-      ["/projects/", "OK", "OK", "OK", "есть", "—", "E4 перелинковка"],
-      ["/contacts/", "OK", "OK", "Контакты", "есть", "—", "C4"],
+      ["/", "OK", "OK", "коммерческий ✓", "нет", "Org+WebSite", "C1 + D1; lab Perf 58; canonical live ✗"],
+      ["/services/", "OK", "OK", "Услуги", "нет", "—", "Хаб услуг"],
+      ["/services/dwh/", "OK", "OK", "OK", "нет", "Service", "E1; lab LCP 7.5 с; canonical live ✗"],
+      ["/services/bi/", "OK", "OK", "OK", "нет", "Service", "E2 + C2/C3"],
+      ["/services/ai-rpa-ml/", "OK", "OK", "OK", "нет", "Service", "E3 + C2/C3"],
+      ["/company/reviews/", "OK", "OK", "OK", "нет", "Review×16", "D3 AggregateRating"],
+      ["/projects/", "OK", "OK", "OK", "нет", "—", "E4 перелинковка"],
+      ["/contacts/", "OK", "OK", "Контакты", "нет", "—", "C4"],
       ["/product/", "—", "—", "—", "—", "—", "E5 noindex + Disallow"],
     ],
     clusters: [
@@ -1074,7 +1151,7 @@
     ],
     kpis: [
       ["robots + sitemap", "OK", "OK", "без ошибок обхода"],
-      ["Canonical coverage", "OK (A4)", "держать", "100% шаблон"],
+      ["Canonical coverage", "нет в HTML (live)", "починить A4", "100% шаблон"],
       ["Уникальные meta P1", "OK (C2–C3)", "держать", "0 дублей"],
       ["JSON-LD", "Org+Service+Review", "держать", "валидно"],
       ["H1 главной", "коммерческий", "стабильно", "стабильно"],
@@ -1137,7 +1214,153 @@
     document.getElementById("seo-note").textContent = SEO_DATA.note;
   }
 
+  const SEO_EVAL = {
+    pills: [
+      { text: "Технический фундамент ~85%", tone: "ok" },
+      { text: "Скорость ~55%", tone: "warn" },
+      { text: "Контент / спрос ~40%", tone: "warn" },
+      { text: "Canonical live: нет", tone: "danger" },
+    ],
+    verdictTitle: "Готов к росту — но SEO ещё не закончено",
+    verdictText: "Спринт админки почти закрыт. Главный разрыв: скорость (B4/B5), полевые данные (F2) и конкуренция по коммерческим запросам. Live-регресс: rel=canonical на проде не найден (есть только og:url).",
+    scores: [
+      { label: "Техническое SEO", value: "7.5 / 10", tone: "ok", status: "Сильно", tipTitle: "Индексация + on-page + schema", tip: "robots, sitemap, GSC, meta P1, JSON-LD — выше среднего для Aspro. Минус: canonical не в HTML." },
+      { label: "Скорость / CWV", value: "5.5 / 10", tone: "warn", status: "Слабо", tipTitle: "Lab 11.08", tip: "Perf 58, LCP 4.7 с, TBT 940 мс. B1–B3 помогли; B4/B5 открыты." },
+      { label: "On-page P1", value: "6.5 / 10", tone: "ok", status: "Хорошо", tipTitle: "Коммерческие страницы", tip: "H1/title/desc P1 и посадочные E1–E3 на месте; глубина mid-tail ещё впереди." },
+      { label: "Видимость / спрос", value: "4 / 10", tone: "warn", status: "База", tipTitle: "Позиции и трафик", tip: "~9–10 — входная гипотеза. Без F2 нет управления ростом." },
+    ],
+    done: [
+      { zone: "Индексация A1–A3", status: "Готово", note: "robots + sitemapindex + GSC/Яндекс — базовый барьер снят", tone: "ok" },
+      { zone: "On-page C1–C4", status: "Готово", note: "Коммерческий H1, уникальные title/desc P1, нормальные контакты", tone: "ok" },
+      { zone: "Schema D1–D3", status: "Готово", note: "Organization/WebSite, Service, Review — выше среднего для Aspro", tone: "ok" },
+      { zone: "Контент E1–E5", status: "Каркас", note: "Посадочные DWH/BI/AI, перелинковка, демо закрыт — хороший старт", tone: "ok" },
+      { zone: "Скорость B1–B3", status: "Частично", note: "Perf 47→58, LCP 6.4→4.7 с — прогресс есть, цель далеко", tone: "warn" },
+      { zone: "Аналитика F1/F3", status: "Готово", note: "Кабинеты и цели есть; без F2 нет управления ростом", tone: "ok" },
+    ],
+    gaps: [
+      { prio: "P0", prioClass: "prio-p0", problem: "Нет rel=canonical в HTML", why: "Live: /, услуги, проекты, новости, контакты — только og:url. Дубли параметров могут размывать вес. A4 нужно перепроверить вывод в шаблоне.", where: "A4 / Детали", tone: "danger" },
+      { prio: "P0", prioClass: "prio-p0", problem: "TBT ~940 мс — Метрика + CRM early", why: "Блокирует INP/конверсию и field CWV; lab Perf упрётся без B4.", where: "B4.2–B4.3", tone: "danger" },
+      { prio: "P0", prioClass: "prio-p0", problem: "Perfmon ~7.25 без OPcache/Redis", why: "Серверный потолок Bitrix; без хостера Perf ≥85 нереалистичен.", where: "B5.3–B5.5", tone: "danger" },
+      { prio: "P1", prioClass: "prio-p1", problem: "LCP главной 4.7 с, DWH 7.5 с", why: "Мобильный first screen ещё не Good (≤2.5 с); коммерческая страница медленнее хаба.", where: "Обзор + B4/B5", tone: "warn" },
+      { prio: "P1", prioClass: "prio-p1", problem: "Нет weekly F2 из GSC/Метрики", why: "Не видно, какие запросы/URL реально двигаются после правок.", where: "F2", tone: "warn" },
+      { prio: "P2", prioClass: "prio-p2", problem: "robots Disallow: /*?*", why: "Часто полезно против мусора, но может резать полезные параметры — аудит исключений.", where: "A1 поддержка", tone: "info" },
+    ],
+    overviewNotes: [
+      { icon: "warn", title: "Скорость", text: "Узкое место сместилось с render-blocking на TBT + сервер. CLS — сильная сторона." },
+      { icon: "info", title: "Позиция ~9–10", text: "Входная гипотеза, не свежий краул. Без F2 это якорь, а не KPI." },
+    ],
+    detailsNotes: [
+      { icon: "ok", title: "Broken-список", text: "Обновлён под контроль 11.08 (TBT, Perfmon, unused JS) — правильный фокус." },
+      { icon: "danger", title: "Canonical", text: "Пока view-source не показывает link rel=canonical — A4 нельзя считать закрытым." },
+    ],
+    next: [
+      { icon: "danger", text: "Починить вывод rel=canonical в шаблоне Aspro / SEO-модуле" },
+      { icon: "danger", text: "B4.2–B4.3: отложить Метрику и CRM (ТЗ snippets/b4-defer-scripts-brief.md)" },
+      { icon: "danger", text: "B5.3–B5.5: OPcache / MySQL / Redis у хостера (ТЗ snippets/b5-hoster-brief.md)" },
+      { icon: "warn", text: "F2: первый weekly дашборд — клики, покрытие, цели органики" },
+    ],
+    extra: [
+      ["Семантическое ядро + карта URL (GSC + Вебмастер)", "Понять реальный спрос, а не только P1-гипотезы", "Средняя"],
+      ["Углубить E: Data Governance, mid-tail лендинги", "Больше посадочных под интент", "Высокая"],
+      ["FAQPage JSON-LD на DWH/BI/AI", "Расширенные блоки / структура для поиска", "Низкая"],
+      ["BreadcrumbList + видимые крошки", "Навигация в выдаче, яснее иерархия", "Низкая"],
+      ["Ускорить /services/dwh/ отдельно", "Коммерческая страница медленнее хаба", "Средняя"],
+      ["Анкорная перелинковка по спросу", "Распределение веса по кластеру", "Средняя"],
+      ["Внешний E-E-A-T: кейсы / PR / статьи", "Ссылочный и экспертный профиль B2B", "Высокая"],
+    ],
+    bottomTitle: "Итог специалиста",
+    bottomText: "Закрыт этап устранения блокеров — сайт уже не «сломан для SEO». Не закрыт этап конкуренции за спрос: field CWV, семантика из кабинетов, глубина контента, внешний контур. Порядок на 2–4 недели: canonical → B4/B5 → F2 → усиление 3–5 посадочных по GSC → FAQPage/BreadcrumbList.",
+  };
 
+  function bang(tone) {
+    return el("span", { className: `icon-bang icon-bang-${tone}`, "aria-hidden": "true", text: "!" });
+  }
+
+  function renderSeoEval() {
+    if (!document.getElementById("panel-seo-eval")) return;
+    const pills = document.getElementById("eval-pills");
+    pills.innerHTML = "";
+    SEO_EVAL.pills.forEach((p) => {
+      const cls = p.tone === "ok" ? "chip-ok" : p.tone === "warn" ? "chip-warn" : p.tone === "danger" ? "prio prio-now" : "chip-muted";
+      if (p.tone === "danger") {
+        pills.appendChild(el("span", { className: "prio prio-now", text: p.text }));
+      } else {
+        pills.appendChild(el("span", { className: `chip ${cls}`, text: p.text }));
+      }
+    });
+
+    const v = document.getElementById("eval-verdict");
+    v.innerHTML = "";
+    v.append(bang("warn"), el("div", {}, [
+      el("strong", { text: SEO_EVAL.verdictTitle }),
+      document.createTextNode(SEO_EVAL.verdictText),
+    ]));
+
+    const scores = document.getElementById("eval-scores");
+    scores.innerHTML = "";
+    SEO_EVAL.scores.forEach((m) => {
+      scores.appendChild(el("article", { className: `metric tone-${m.tone}`, tabindex: "0" }, [
+        el("div", { className: "metric-label" }, [el("span", { text: m.label }), el("span", { className: "badge", text: m.status })]),
+        el("div", { className: "metric-value", text: m.value }),
+        el("div", { className: "tooltip" }, [el("strong", { text: m.tipTitle }), document.createTextNode(m.tip)]),
+      ]));
+    });
+
+    const dt = document.querySelector("#eval-done-table tbody");
+    dt.innerHTML = "";
+    SEO_EVAL.done.forEach((r) => {
+      dt.appendChild(el("tr", { className: `tone-row-${r.tone}` }, [
+        el("td", { text: r.zone }), el("td", { text: r.status }), el("td", { text: r.note }),
+      ]));
+    });
+
+    const gt = document.querySelector("#eval-gaps-table tbody");
+    gt.innerHTML = "";
+    SEO_EVAL.gaps.forEach((r) => {
+      gt.appendChild(el("tr", { className: `tone-row-${r.tone}` }, [
+        el("td", {}, [el("span", { className: `prio ${r.prioClass}`, text: r.prio })]),
+        el("td", { text: r.problem }),
+        el("td", { text: r.why }),
+        el("td", { text: r.where }),
+      ]));
+    });
+
+    const on = document.getElementById("eval-overview-notes");
+    on.innerHTML = "";
+    SEO_EVAL.overviewNotes.forEach((n) => {
+      on.appendChild(el("div", { className: `callout callout-${n.icon === "warn" ? "warn" : n.icon === "danger" ? "danger" : n.icon === "ok" ? "ok" : "info"} callout-icon`, style: "margin:.65rem 0 0" }, [
+        bang(n.icon === "warn" ? "warn" : n.icon === "danger" ? "danger" : n.icon === "ok" ? "ok" : "info"),
+        el("div", {}, [el("strong", { text: n.title }), document.createTextNode(n.text)]),
+      ]));
+    });
+
+    const dn = document.getElementById("eval-details-notes");
+    dn.innerHTML = "";
+    SEO_EVAL.detailsNotes.forEach((n) => {
+      const tone = n.icon === "warn" ? "warn" : n.icon === "danger" ? "danger" : n.icon === "ok" ? "ok" : "info";
+      dn.appendChild(el("div", { className: `callout callout-${tone} callout-icon`, style: "margin:.65rem 0 0" }, [
+        bang(tone),
+        el("div", {}, [el("strong", { text: n.title }), document.createTextNode(n.text)]),
+      ]));
+    });
+
+    const nx = document.getElementById("eval-next");
+    nx.innerHTML = "";
+    SEO_EVAL.next.forEach((n) => {
+      nx.appendChild(el("li", {}, [bang(n.icon), el("span", { text: n.text })]));
+    });
+
+    const et = document.querySelector("#eval-extra-table tbody");
+    et.innerHTML = "";
+    SEO_EVAL.extra.forEach((row) => et.appendChild(el("tr", {}, row.map((c) => el("td", { text: c })))));
+
+    const b = document.getElementById("eval-bottom");
+    b.innerHTML = "";
+    b.append(bang("info"), el("div", {}, [
+      el("strong", { text: SEO_EVAL.bottomTitle }),
+      document.createTextNode(SEO_EVAL.bottomText),
+    ]));
+  }
 
   const VISIBILITY_PLAN = {
     note: "Без GSC / Яндекс.Вебмастер нельзя точно назвать топ-запросы. План закрывает технические и on-page барьеры, уже доказанные аудитом; кластеры контента уточним после выгрузки кабинетов.",
@@ -1171,7 +1394,8 @@
           id: "A4", title: "Canonical на все типы страниц", brief: "Не размывается вес дублей", where: "Шаблон Aspro / SEO-модуль → rel=canonical HTTPS",
           goal: "Сигнал ранжирования не размазывается по дублям (http/https, параметры, копии) — вес и релевантность собираются на одном URL.",
           how: "Canonical указывает «главную» версию страницы. Иначе 2–3 дубля делят клики и позиции одной услуги.",
-          done: true,
+          note: "Переоткрыто 11.08.2026: live HTML на /, услугах, проектах, новостях, контактах — нет link rel=canonical (есть только og:url). Нужно починить вывод в шаблоне.",
+          done: false,
         },
       ],
       b: [
@@ -1519,10 +1743,11 @@
   window.addEventListener("resize", syncTopbarOffset);
 
   renderSeo();
+  renderSeoEval();
   renderVisibilityPlan();
 
   const hash = (location.hash || "#overview").replace("#", "");
-  switchTab(["overview", "details", "plan", "seo", "visibility-plan", "exec-report"].includes(hash) ? hash : "overview");
+  switchTab(["overview", "details", "plan", "seo", "seo-eval", "visibility-plan", "exec-report"].includes(hash) ? hash : "overview");
   </script>
 </body>
 </html>
