@@ -4,17 +4,20 @@
 **Шаблон:** `/bitrix/templates/aspro-allcorp3/`  
 **Дата:** 11.08.2026  
 
-## Baseline (lab, 11.08.2026)
+## Baseline (lab)
 
 Мобильная главная `https://a2c.by/` (Lighthouse 12.2.1):
 
-| Метрика | Сейчас | Цель после B4 (ориентир) |
-|---------|--------|---------------------------|
-| Performance | **58** | ≥65–70 |
-| LCP | **4.7 с** | ≤3.5–4.0 с (итог ≤2.5 с с B5) |
-| TBT | **940 мс** | ≤400–500 мс |
-| TTI | **10.2 с** | ≤6 с |
-| CLS | **0** | держать ≤0.1 |
+| Метрика | 11.08 | **20.08** | Цель после B4 |
+|---------|-------|-----------|----------------|
+| Performance | 58 | **62** | ≥65–70 |
+| LCP | 4.7 с | **5.7 с** (шум lab) | ≤3.5–4.0 с (итог ≤2.5 с с B5) |
+| TBT | **940 мс** | **550 мс** | ≤400–500 мс (итог ≤200) |
+| TTI | 10.2 с | **7.6 с** | ≤6 с |
+| CLS | 0 | **0** | держать ≤0.1 |
+| Desktop Perf | — | **97** | держать ≥90 |
+
+Ориентир для приёмки B4: сравнивать с **20.08** (TBT 550 / Perf 62). Исторический baseline defer-задачи — **11.08 TBT 940 мс**.
 
 ## Цель
 
@@ -27,9 +30,63 @@
 - АвтоКомпозит включён; JS в конец + сжатые копии (B1–B2)  
 - `custom.css` — aspect-ratio для CLS (C5)
 
+## Где искать на сервере (важно)
+
+### `invis-counter.php` — **не место правки B4.2**
+
+| | |
+|---|---|
+| **Путь** | `/include/invis-counter.php` (корень сайта) |
+| **Админка** | Контент → Структура сайта → Файлы и папки → `include` |
+| **Статус** | Файл **пустой** — через него Метрика **не подключена** |
+| **Для B4.2** | **Не править.** Не вписывать сюда счётчик (будет дубль с кодом в шаблоне) |
+
+Рабочий счётчик **108757686** — отдельный inline `<script>` перед `</body>` + stub `/bitrix/js/yandex.metrika/script.js`.
+
+**Как найти место правки B4.2** (SSH или файловый менеджер):
+
+```bash
+grep -r "108757686\|ym(" /home/bitrix/www/bitrix/templates/aspro-allcorp3/
+```
+
+Обычно: `footer.php`, `footer_1.php`, `page_blocks/footer_*.php` или include в шаблоне.
+
+Модуль «Яндекс.Метрика» в админке (`/bitrix/admin/settings.php?mid=yandex.metrika`) — поле счётчика **оставить пустым** (B4.1 уже сделано).
+
+---
+
+### `loader_29.js` — **не локальный файл на диске**
+
+| | |
+|---|---|
+| **URL** | `https://cdn-ru.bitrix24.by/b14332120/crm/form/loader_29.js` |
+| **На сервере** | Файла `loader_29.js` **нет** — только inline-код, который его подгружает |
+| **Маркеры в HTML** | `#bx24_form_inline_second`, `data-b24-form="inline/29/cjt1zt"`, кеш-блок `FrontPageForm` |
+
+**Как найти место правки B4.3:**
+
+```bash
+grep -r "bx24_form_inline_second\|loader_29\|cjt1zt\|FrontPageForm" /home/bitrix/www/
+```
+
+Типичные места: `/index.php` (главная), `/include/mainpage/`, шаблон `/bitrix/templates/aspro-allcorp3/` (компоненты, `page_blocks/`).
+
+Пример того, что сейчас в HTML главной (нужно отложить):
+
+```html
+<div id="bx24_form_inline_second"></div>
+<script data-b24-form="inline/29/cjt1zt" data-skip-moving="true">
+(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
+var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})
+(window,document,'https://cdn-ru.bitrix24.by/b14332120/crm/form/loader_29.js');
+</script>
+```
+
+---
+
 ## B4.2 — отложить Яндекс.Метрику
 
-**Где:** вставка `ym(108757686, 'init', …)` + `tag.js` в HTML (сейчас early load).
+**Где править:** inline-вставка `ym(108757686, 'init', …)` + `tag.js` в шаблоне (см. grep выше). **Не** `invis-counter.php`, **не** модуль Метрики в админке.
 
 **Требование:**
 
@@ -44,7 +101,9 @@
 
 ## B4.3 — отложить CRM-форму Bitrix24 на главной
 
-**Где:** главная, блок формы:
+**Где править:** PHP/HTML-файл на сервере, из которого выводится inline loader (см. grep выше). Сам `loader_29.js` лежит на CDN Bitrix24, не в репозитории сайта.
+
+Маркеры блока на главной:
 
 - `data-b24-form="inline/29/cjt1zt"`
 - `https://cdn-ru.bitrix24.by/b14332120/crm/form/loader_29.js`
@@ -80,4 +139,4 @@
 2. Скрин Network cold load (без tag.js / loader_29 early)  
 3. Подтверждение: цели Метрики + отправка формы B24 OK  
 
-Ориентир эффекта: **TBT** с **940 мс** (lab 11.08) вниз к ≤400–500 мс (цель ≤200 мс после всех фаз). Повторный Lighthouse mobile на `/` после деплоя.
+Ориентир эффекта: **TBT** с **550 мс** (lab 20.08; было 940 на 11.08) вниз к ≤400 мс, лучше ≤200 мс. Повторный Lighthouse mobile на `/` после деплоя.
