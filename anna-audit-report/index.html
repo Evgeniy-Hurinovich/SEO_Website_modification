@@ -522,7 +522,7 @@
           <tr><td><strong>B2</strong> JS + сжатие</td><td>JS не в конце; без сжатых копий</td><td>Включено в настройках main</td><td>Меньше блокировки отрисовки (~2,5 с в аудите)</td></tr>
           <tr><td><strong>B3</strong> Hero WebP</td><td>Тяжёлые JPG баннеров (LCP)</td><td>4 слайда → WebP ≤120 KB</td><td>Сделано 11.08.2026 (105/100/57/43 KB)</td></tr>
           <tr><td><strong>B4.1</strong> Метрика</td><td>Два счётчика (старый + новый)</td><td>Старый 107023549 убран из модуля</td><td>Остался рабочий 108757686; чище аналитика</td></tr>
-          <tr><td><strong>B4.2–B4.3</strong></td><td>Метрика и CRM B24 early</td><td>Отложенная загрузка (код)</td><td>✅ Сделано 21.08.2026 · B4.4 n8n опционально</td></tr>
+          <tr><td><strong>B4.2–B4.3</strong></td><td>Метрика и CRM B24 early</td><td>Отложенная загрузка (код)</td><td>✅ Сделано 21.08.2026 · B4.4 n8n ✅</td></tr>
           <tr><td><strong>B5.1–B5.2</strong></td><td>Таблицы БД «необходимо оптимизировать»</td><td>Замер Perfmon + оптимизация таблиц</td><td>Вкладка Битрикс → «оптимально»</td></tr>
           <tr><td><strong>B5.3</strong> OPcache</td><td>Был выкл.</td><td>Включён хостером 08.2026</td><td>Работает; поднять max_accelerated_files ≥100000</td></tr><tr><td><strong>B5.4–B5.5</strong></td><td>isolation; Redis</td><td>MySQL global нельзя; PHP Redis module есть</td><td>Код SET SESSION + host:port Redis</td></tr>
         </tbody>
@@ -557,7 +557,7 @@
           <h3>В работе / блокеры</h3>
           <ul class="exec-card-list">
             <li>B5.3–5 — OPcache / MySQL / Redis (хостер)</li>
-            <li>B4.2–B4.3 ✅ — Метрика и CRM отложены (21.08); B4.4 n8n опционально</li>
+            <li>B4.2–B4.4 ✅ — Метрика, CRM и n8n отложены (21.08)</li>
             <li>F2 — еженедельный дашборд (понедельник)</li>
             <li>Повторный PSI после B4/B5</li>
           </ul>
@@ -793,7 +793,7 @@
       { id: "r2", priority: "now", priorityLabel: "Срочно", title: "Сжать hero → WebP ≤120 KB", text: "Большие баннеры (IB 23). Плюс width/height и fetchpriority=high.", tech: "Реклама → Большие баннеры.\nSquoosh/ImageMagick → WebP 75–80.\nwidth/height; fetchpriority=high для LCP." },
       { id: "r3", priority: "now", priorityLabel: "Срочно", title: "Включить АвтоКомпозит", text: "Гостевой HTML-кеш. Маски: include /* ; exclude /bitrix/*; /404.php.", tech: "Настройки → Композитный сайт → АвтоКомпозит → Включить.\nПроверка в инкогнито: страница кешируется, список composite pages > 0." },
       { id: "r4", priority: "now", priorityLabel: "Срочно", title: "robots.txt + sitemap", text: "Закрыть дыру индексации. Отправить в GSC / Вебмастер.", tech: "Маркетинг → SEO или Аспро → генерация robots/sitemap.\nПроверить /robots.txt и /sitemap.xml = 200." },
-      { id: "r5", priority: "week", priorityLabel: "Важно", title: "B4.2–B4.3 сделаны — замер + A4", text: "Метрика и CRM отложены (21.08). Дальше: контрольный lab mobile; A4 canonical; опционально B4.4 n8n.", tech: "Повторный LH mobile.\nA4: rel=canonical.\nТЗ: snippets/dev-control-tz-mobile-seo.md" },
+      { id: "r5", priority: "week", priorityLabel: "Важно", title: "B4.2–B4.3 сделаны — замер + A4", text: "Метрика, CRM и n8n отложены (21.08). Дальше: контрольный lab mobile; A4 canonical.", tech: "Повторный LH mobile.\nA4: rel=canonical.\nТЗ: snippets/dev-control-tz-mobile-seo.md" },
       { id: "r6", priority: "week", priorityLabel: "Важно", title: "Хостинг + Redis + оптимизация БД", text: "Декомпозиция B5: таблицы (B5.2) сделаны; дальше OPcache, MySQL isolation, Redis, повторный Perfmon.", tech: "B5.1–B5.2 — админка, done.\nB5.3 Zend OPcache — хостер.\nB5.4 READ-COMMITTED + aborted — хостер.\nB5.5 Redis — хостер + Битрикс.\nB5.6 повторный замер." },
       { id: "r7", priority: "week", priorityLabel: "Важно", title: "H1/title + canonical", text: "Услуги бренда в H1; вебинар ниже; canonical и дубли.", tech: "Контент главной / баннеры / SEO-заголовок.\nСогласовать формулировку с маркетингом." },
       { id: "r8", priority: "later", priorityLabel: "Потом", title: "CDN, шрифты, посадочные, field CWV", text: "CDN + cache immutable; урезать Roboto; лёгкие лендинги DWH/BI/AI; мониторинг CrUX.", tech: "После LCP ≤2.5 в field.\nIBLOCK Услуги 42 + посадочные кластеры.\nЕженедельный PSI diff." },
@@ -1545,7 +1545,8 @@
           id: "B4.4", title: "Опционально: отложить чат n8n", brief: "Чат-ассистент не в first load", where: "Файлы /n8n_bot/ на сайте + вставка в шаблоне",
           goal: "Скрипт чата не конкурирует с LCP на первом экране; виджет появляется после взаимодействия или с задержкой.",
           how: "На главной подключены /n8n_bot/script.js и разметка кнопки чата. Отложенный load по тому же принципу, что B4.2/B4.3.",
-          note: "Не в приоритете спринта 2, но тот же класс проблемы. Что надо: отложить init n8n-бота. Кто: разработчик (кто ставил бота). Где: шаблон footer/include с блоком «ПОДКЛЮЧЕНИЕ N8N БОТА», файлы /n8n_bot/script.js и style.css.",
+          note: "Сделано 21.08.2026 (разработчик). Чат n8n отложен с first load.",
+          done: true,
         },
         {
           id: "B5.1", title: "Обновить замер Perfmon", brief: "Актуальный балл конфигурации и узкие места", where: "Настройки → Производительность → Панель производительности",
