@@ -286,6 +286,7 @@
         <button class="tab" role="tab" id="tab-plan" aria-controls="panel-plan" aria-selected="false" data-tab="plan">План действий</button>
         <button class="tab" role="tab" id="tab-seo" aria-controls="panel-seo" aria-selected="false" data-tab="seo">Видимость SEO</button>
         <button class="tab" role="tab" id="tab-seo-eval" aria-controls="panel-seo-eval" aria-selected="false" data-tab="seo-eval">SEO-оценка</button>
+        <button class="tab" role="tab" id="tab-seo-dynamics" aria-controls="panel-seo-dynamics" aria-selected="false" data-tab="seo-dynamics">Динамика SEO</button>
         <button class="tab" role="tab" id="tab-visibility-plan" aria-controls="panel-visibility-plan" aria-selected="false" data-tab="visibility-plan">План видимости</button>
         <button class="tab" role="tab" id="tab-exec-report" aria-controls="panel-exec-report" aria-selected="false" data-tab="exec-report">Отчёт руководству</button>
       </nav>
@@ -450,7 +451,7 @@
 
       <h2 class="section-title">Порядок реализации (спринты)</h2>
       <div class="grid-3" id="vis-sprints"></div>
-      <div class="callout" style="margin-top:1rem">Фазы <strong>A–E ✅</strong>, <strong>B3/C5 ✅</strong>, <strong>F1/F3 ✅</strong>. Осталось: <strong>A4</strong> canonical; <strong>B4.2–B4.3</strong>; дожим B5; <strong>F2</strong>.</div>
+      <div class="callout" style="margin-top:1rem">Фазы <strong>A–E ✅</strong>, <strong>B3/C5 ✅</strong>, <strong>F1/F3 ✅</strong>. Осталось: <strong>A4</strong> canonical; дожим B5; <strong>F2</strong>. <strong>B4.2–B4.3 ✅</strong> (21.08).</div>
       <div class="card scroll-x" style="margin-top:1rem"><table class="data-table"><thead><tr><th>Замер</th><th>Perf</th><th>LCP</th><th>TBT</th><th>TTI</th><th>SEO LH</th></tr></thead><tbody><tr><td>27.07 старт</td><td>47</td><td>6.4 с</td><td>~900 мс</td><td>9.3 с</td><td>—</td></tr><tr><td>11.08 после B1–B3</td><td>58</td><td>4.7 с</td><td>940 мс</td><td>10.2 с</td><td>—</td></tr><tr><td><strong>20.08 повтор</strong></td><td><strong>62</strong></td><td>5.7 с</td><td><strong>550 мс</strong></td><td>7.6 с</td><td><strong>100</strong></td></tr><tr><td>20.08 desktop</td><td>97</td><td>1.1 с</td><td>70 мс</td><td>1.5 с</td><td>100</td></tr></tbody></table></div>
     </section>
 
@@ -521,7 +522,7 @@
           <tr><td><strong>B2</strong> JS + сжатие</td><td>JS не в конце; без сжатых копий</td><td>Включено в настройках main</td><td>Меньше блокировки отрисовки (~2,5 с в аудите)</td></tr>
           <tr><td><strong>B3</strong> Hero WebP</td><td>Тяжёлые JPG баннеров (LCP)</td><td>4 слайда → WebP ≤120 KB</td><td>Сделано 11.08.2026 (105/100/57/43 KB)</td></tr>
           <tr><td><strong>B4.1</strong> Метрика</td><td>Два счётчика (старый + новый)</td><td>Старый 107023549 убран из модуля</td><td>Остался рабочий 108757686; чище аналитика</td></tr>
-          <tr><td><strong>B4.2–B4.4</strong></td><td>Метрика, CRM B24, n8n грузятся сразу</td><td>Декомпозировано; нужен код</td><td>Открыто — разработчик</td></tr>
+          <tr><td><strong>B4.2–B4.3</strong></td><td>Метрика и CRM B24 early</td><td>Отложенная загрузка (код)</td><td>✅ Сделано 21.08.2026 · B4.4 n8n опционально</td></tr>
           <tr><td><strong>B5.1–B5.2</strong></td><td>Таблицы БД «необходимо оптимизировать»</td><td>Замер Perfmon + оптимизация таблиц</td><td>Вкладка Битрикс → «оптимально»</td></tr>
           <tr><td><strong>B5.3</strong> OPcache</td><td>Был выкл.</td><td>Включён хостером 08.2026</td><td>Работает; поднять max_accelerated_files ≥100000</td></tr><tr><td><strong>B5.4–B5.5</strong></td><td>isolation; Redis</td><td>MySQL global нельзя; PHP Redis module есть</td><td>Код SET SESSION + host:port Redis</td></tr>
         </tbody>
@@ -556,7 +557,7 @@
           <h3>В работе / блокеры</h3>
           <ul class="exec-card-list">
             <li>B5.3–5 — OPcache / MySQL / Redis (хостер)</li>
-            <li>B4.2–4 — отложенные скрипты (разработка)</li>
+            <li>B4.2–B4.3 ✅ — Метрика и CRM отложены (21.08); B4.4 n8n опционально</li>
             <li>F2 — еженедельный дашборд (понедельник)</li>
             <li>Повторный PSI после B4/B5</li>
           </ul>
@@ -611,6 +612,37 @@
       <div class="callout callout-info callout-icon" id="eval-bottom" style="margin-top:1.25rem"></div>
     </section>
 
+    <section class="panel" id="panel-seo-dynamics" role="tabpanel" aria-labelledby="tab-seo-dynamics" hidden>
+      <div class="eyebrow">Lab Lighthouse 12.2.1 · тренд замеров</div>
+      <h2 class="section-title" style="margin-top:0">Динамика показателей SEO / CWV</h2>
+      <p class="section-sub">Одна картина по всем замерам. Раздельно: <strong>мобильная</strong>, <strong>ПК</strong>, <strong>иное</strong> (live HTML + DWH). Источник — lab, не field CrUX.</p>
+
+      <div class="callout callout-warn callout-icon" style="margin-top:1rem">
+        <span class="icon-bang icon-bang-warn" aria-hidden="true">!</span>
+        <div><strong>Как читать</strong><br />Mobile за месяц: Perf 47→62, TBT ~900→550 мс. Desktop снят только 20.08 — уже эталон по скорости. Узкое место поиска — mobile. «—» = замер не снимали.</div>
+      </div>
+
+      <h2 class="section-title">Мобильная версия</h2>
+      <p class="section-sub">Lighthouse mobile · Slow 4G · URL <code>/</code></p>
+      <div class="card scroll-x"><table class="data-table" id="dyn-mobile-table"><thead><tr>
+        <th>Показатель</th><th>27.07 старт</th><th>11.08 после B1–B3</th><th>20.08 повтор</th><th>Динамика 27.07→20.08</th><th>Цель</th>
+      </tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">ПК (Desktop)</h2>
+      <p class="section-sub">Lighthouse desktop · полный замер с 20.08.2026</p>
+      <div class="card scroll-x"><table class="data-table" id="dyn-desktop-table"><thead><tr>
+        <th>Показатель</th><th>27.07</th><th>11.08</th><th>20.08</th><th>Динамика</th><th>Цель</th>
+      </tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">Иное: live SEO + доп. URL</h2>
+      <p class="section-sub">Сигналы HTML одинаковы для mobile/desktop · плюс lab по <code>/services/dwh/</code></p>
+      <div class="card scroll-x"><table class="data-table" id="dyn-other-table"><thead><tr>
+        <th>Показатель</th><th>27.07</th><th>11.08</th><th>20.08</th><th>Статус / тренд</th><th>Примечание</th>
+      </tr></thead><tbody></tbody></table></div>
+
+      <div class="callout callout-info" style="margin-top:1.25rem" id="dyn-footnote"></div>
+    </section>
+
   </main>
 
   <footer class="shell footer">
@@ -653,7 +685,7 @@
     ],
     performanceScore: 62,
     performanceTarget: 85,
-    mainBlocker: "Главный блокер: LCP 5,7 с и TBT 550 мс на мобиле (Метрика + CRM B24). Тренд Perf 47→58→62 — рост есть, цели ≥85 нет. Дальше — B4 (defer скриптов), A4 canonical, дожать B5 (max_accelerated_files / Redis). Без этого field CWV и позиции с 9–10 места почти не сдвинутся.",
+    mainBlocker: "B4.2–B4.3 сделаны (21.08). Главный открытый блокер SEO: нет rel=canonical (A4). По скорости mobile: контрольный lab после defer + дожим B5 (max_accelerated_files / Redis). Цель: Perf ≥85, LCP ≤2,5 с.",
     verdict: "Повторный lab 20.08.2026 (Lighthouse 12.2.1): mobile Perf 62 / LCP 5,7 с / TBT 550 мс / TTI 7,6 с / SEO 100; desktop Perf 97 / LCP 1,1 с. Тренд mobile: Perf 47→58→62, TBT 900→940→550 мс; LCP 6,4→4,7→5,7 с (lab-шум). OPcache включён. Узкое место — сторонние скрипты (B4) и canonical. Цель: Perf ≥85, LCP ≤2,5 с.",
 
     metrics: [
@@ -749,7 +781,7 @@
       { id: "p2", priority: "later", priorityLabel: "Долгосрок", title: "Hero WebP — поддержка ≤120 KB", impact: "Метрика: LCP · не допустить регресс", detail: "B3 сделан (4 слайда WebP). При замене баннеров держать ≤120 KB и не ставить JPG на LCP.", recId: "r2", metric: "LCP" },
       { id: "p3", priority: "later", priorityLabel: "Долгосрок", title: "АвтоКомпозит — мониторинг кеша", impact: "Регресс TTFB/FCP если кеш сбросят", detail: "B1 включён. Следить, чтобы composite pages > 0 и dynamic-блоки форм не ломали кеш.", recId: "r3", metric: "FCP / TTFB гостя" },
       { id: "p4", priority: "later", priorityLabel: "Долгосрок", title: "robots + sitemap — поддержка", impact: "Crawl / индекс", detail: "A1–A3 закрыты: robots заполнен, sitemap 200, GSC OK. Следить при деплое и после перегенерации карт.", recId: "r4", metric: "Crawl" },
-      { id: "p5", priority: "now", priorityLabel: "Сегодня", title: "TBT 550 мс: Метрика + CRM early", impact: "TBT / INP · клики «не отвечают», бросок форм", detail: "Тренд TBT 940→550 мс, но цель ≤200. Приоритет — B4.2–B4.3 (defer tag.js и loader_29).", recId: "r5", metric: "TBT / INP" },
+      { id: "p5", priority: "week", priorityLabel: "Неделя", title: "Повторный lab после B4.2–B4.3", impact: "Зафиксировать TBT/LCP vs 20.08 (550 мс / 5.7 с)", detail: "B4.2–B4.3 сделаны 21.08. Нужен контрольный Lighthouse mobile на / и /services/dwh/.", recId: "r5", metric: "TBT / LCP" },
       { id: "p6", priority: "week", priorityLabel: "Неделя", title: "HTML Cache-Control: no-store + PHPSESSID", impact: "TTFB повторных · медленные возвраты, нагрузка PHP", detail: "Каждый визит проходит через динамический PHP без гостевого HTML-кеша композита.", recId: "r3", metric: "TTFB повторных" },
       { id: "p7", priority: "now", priorityLabel: "Сегодня", title: "Хостинг: Perfmon ~7.25, без OPcache/Redis", impact: "Даже идеальный фронт упрётся в потолок сервера", detail: "Таблицы уже «оптимально» (B5.2). Нужен хостер: OPcache, READ-COMMITTED, Redis (B5.3–5).", recId: "r6", metric: "Perfmon" },
       { id: "p8", priority: "later", priorityLabel: "Долгосрок", title: "H1/meta — не допустить регресс", impact: "Relevance / CTR", detail: "C1–C4 сделаны (коммерческий H1 и уникальные title/desc P1). Контролировать при смене баннеров.", recId: "r7", metric: "Relevance" },
@@ -761,7 +793,7 @@
       { id: "r2", priority: "now", priorityLabel: "Срочно", title: "Сжать hero → WebP ≤120 KB", text: "Большие баннеры (IB 23). Плюс width/height и fetchpriority=high.", tech: "Реклама → Большие баннеры.\nSquoosh/ImageMagick → WebP 75–80.\nwidth/height; fetchpriority=high для LCP." },
       { id: "r3", priority: "now", priorityLabel: "Срочно", title: "Включить АвтоКомпозит", text: "Гостевой HTML-кеш. Маски: include /* ; exclude /bitrix/*; /404.php.", tech: "Настройки → Композитный сайт → АвтоКомпозит → Включить.\nПроверка в инкогнито: страница кешируется, список composite pages > 0." },
       { id: "r4", priority: "now", priorityLabel: "Срочно", title: "robots.txt + sitemap", text: "Закрыть дыру индексации. Отправить в GSC / Вебмастер.", tech: "Маркетинг → SEO или Аспро → генерация robots/sitemap.\nПроверить /robots.txt и /sitemap.xml = 200." },
-      { id: "r5", priority: "week", priorityLabel: "Важно", title: "Отложить Метрику и CRM-формы", text: "Декомпозиция: B4.2 (Метрика), B4.3 (форма B24), опционально B4.4 (n8n). Не удалять аналитику.", tech: "B4.2: отложенный ym(108757686).\nB4.3: loader_29.js по клику/viewport.\nB4.1 (старый счётчик модуля) — уже сделано." },
+      { id: "r5", priority: "week", priorityLabel: "Важно", title: "B4.2–B4.3 сделаны — замер + A4", text: "Метрика и CRM отложены (21.08). Дальше: контрольный lab mobile; A4 canonical; опционально B4.4 n8n.", tech: "Повторный LH mobile.\nA4: rel=canonical.\nТЗ: snippets/dev-control-tz-mobile-seo.md" },
       { id: "r6", priority: "week", priorityLabel: "Важно", title: "Хостинг + Redis + оптимизация БД", text: "Декомпозиция B5: таблицы (B5.2) сделаны; дальше OPcache, MySQL isolation, Redis, повторный Perfmon.", tech: "B5.1–B5.2 — админка, done.\nB5.3 Zend OPcache — хостер.\nB5.4 READ-COMMITTED + aborted — хостер.\nB5.5 Redis — хостер + Битрикс.\nB5.6 повторный замер." },
       { id: "r7", priority: "week", priorityLabel: "Важно", title: "H1/title + canonical", text: "Услуги бренда в H1; вебинар ниже; canonical и дубли.", tech: "Контент главной / баннеры / SEO-заголовок.\nСогласовать формулировку с маркетингом." },
       { id: "r8", priority: "later", priorityLabel: "Потом", title: "CDN, шрифты, посадочные, field CWV", text: "CDN + cache immutable; урезать Roboto; лёгкие лендинги DWH/BI/AI; мониторинг CrUX.", tech: "После LCP ≤2.5 в field.\nIBLOCK Услуги 42 + посадочные кластеры.\nЕженедельный PSI diff." },
@@ -783,7 +815,7 @@
           ["0.2", "JS в конец + сжатые копии CSS/JS", "Настройки main → Оптимизация", "Меньше блокировки отрисовки"],
           ["0.3", "robots.txt и sitemap", "Аспро / Маркетинг → SEO", "Индексация"],
           ["0.4", "Hero баннеров → WebP ≤120 KB", "Реклама → Большие баннеры (IB 23)", "LCP −1–2 с"],
-          ["0.5", "Отложить Метрику и CRM (B4.2–B4.3)", "Код шаблона + форма B24 на главной", "TBT/INP"],
+          ["0.5", "A4: rel=canonical в шаблоне", "Шаблон Aspro / SEO-модуль", "Индексация"],
           ["0.6", "Оптимизировать таблицы БД", "Монитор производительности", "Стабильность PHP"],
         ],
       },
@@ -838,8 +870,8 @@
     ],
   };
 
-  const DONE_KEY = "a2c-audit-recs-done-v3";
-  const DEFAULT_DONE = { r2: true, r3: true, r4: true };
+  const DONE_KEY = "a2c-audit-recs-done-v4";
+  const DEFAULT_DONE = { r2: true, r3: true, r4: true, r5: true };
   const loadDone = () => {
     try {
       const raw = localStorage.getItem(DONE_KEY);
@@ -1118,7 +1150,7 @@
       { label: "Позиция (вход)", value: "~9–10", target: "топ-3–5", tone: "warn", status: "База", tipTitle: "Озвучено на встрече", tip: "F1 доступы есть; F2 — первый weekly отчёт в понедельник." },
     ],
     problems: [
-      { id: "s1", priority: "now", priorityLabel: "Срочно", title: "TBT 550 мс — Метрика и CRM early", impact: "INP / отказы на мобиле", detail: "B4.2–B4.3: отложить tag.js и loader_29. ТЗ: snippets/b4-defer-scripts-brief.md." },
+      { id: "s1", priority: "now", priorityLabel: "Срочно", title: "A4: нет rel=canonical в HTML", impact: "Дубли ?params размывают вес URL", detail: "B4.2–B4.3 ✅ 21.08. Дальше A4. ТЗ: snippets/dev-control-tz-mobile-seo.md" },
       { id: "s2", priority: "now", priorityLabel: "Срочно", title: "Perfmon ~7.25 без OPcache/Redis", impact: "Потолок Perf / field CWV", detail: "B5.3–5 у хостера. ТЗ: snippets/b5-hoster-brief.md." },
       { id: "s3", priority: "week", priorityLabel: "Неделя", title: "LCP 5.7 с (цель ≤2.5 с)", impact: "Мобильный UX и сигнал скорости", detail: "Тренд 6.4→4.7→5.7 с (шум lab). Дожать B4 и повторный замер." },
       { id: "s4", priority: "week", priorityLabel: "Неделя", title: "F2: нет первого weekly дашборда", impact: "Нет регулярного контроля кликов/покрытия", detail: "Шаблон snippets/f2-weekly-dashboard-template.md — заполнить в понедельник." },
@@ -1144,7 +1176,7 @@
       ["Бренд / эксперты", "/company/, отзывы", "P3", "D1 + D3 schema"],
     ],
     recommendations: [
-      { id: "sr1", priority: "now", priorityLabel: "Срочно", title: "B4: отложить Метрику и CRM", text: "Defer tag.js и loader_29 по ТЗ разработчику.", tech: "snippets/b4-defer-scripts-brief.md\nBaseline 11.08: 940 мс; lab 20.08: 550 мс → цель ≤200." },
+      { id: "sr1", priority: "now", priorityLabel: "Срочно", title: "A4: вывести rel=canonical", text: "HTTPS canonical на все типы страниц (шаблон).", tech: "snippets/dev-control-tz-mobile-seo.md\nLive: только og:url." },
       { id: "sr2", priority: "now", priorityLabel: "Срочно", title: "B5: тикет хостеру", text: "OPcache + MySQL READ-COMMITTED + Redis.", tech: "snippets/b5-hoster-brief.md\nПовторный Perfmon после ответа." },
       { id: "sr3", priority: "week", priorityLabel: "Важно", title: "F2 weekly дашборд", text: "Клики, покрытие, органические цели Метрики.", tech: "snippets/f2-weekly-dashboard-template.md\nСтарт — понедельник." },
       { id: "sr4", priority: "week", priorityLabel: "Важно", title: "Повторный lab + PSI после B4/B5", text: "Зафиксировать Perf/LCP/TBT vs контроль 11.08.", tech: "Lighthouse mobile + pagespeed.web.dev\nСравнить с трендом 47→62 / TBT→550 / LCP 5.7." },
@@ -1215,7 +1247,77 @@
     document.getElementById("seo-note").textContent = SEO_DATA.note;
   }
 
-  const SEO_EVAL = {
+
+  const SEO_DYNAMICS = {
+    footnote: "Файл Excel: a2c_seo_cwv_dynamics.xlsx. B4.2–B4.3 ✅ 21.08 — следующий lab mobile для фиксации эффекта. LCP 5.7 с на 20.08 — шум lab vs 4.7 на 11.08.",
+    mobile: [
+      { metric: "Performance", d1: "47", d2: "58", d3: "62", dyn: "47→62 (+15) ▲", goal: "≥ 85", tone: "warn" },
+      { metric: "SEO LH", d1: "—", d2: "—", d3: "100", dyn: "первый замер", goal: "100", tone: "ok" },
+      { metric: "Accessibility", d1: "—", d2: "—", d3: "82", dyn: "—", goal: "≥ 90", tone: "warn" },
+      { metric: "Best practices", d1: "—", d2: "—", d3: "100", dyn: "—", goal: "100", tone: "ok" },
+      { metric: "LCP", d1: "6.4 с", d2: "4.7 с", d3: "5.7 с", dyn: "лучше старта; 11→20 шум ▼", goal: "≤ 2.5 с", tone: "danger" },
+      { metric: "FCP", d1: "3.9 с", d2: "2.3 с", d3: "2.3 с", dyn: "3.9→2.3 ▲", goal: "≤ 1.8 с", tone: "warn" },
+      { metric: "TTI", d1: "9.3 с", d2: "10.2 с", d3: "7.6 с", dyn: "9.3→7.6 ▲", goal: "≤ 3.8 с", tone: "danger" },
+      { metric: "TBT", d1: "~900 мс", d2: "940 мс", d3: "550 мс", dyn: "~900→550 ▲ (−350)", goal: "≤ 200 мс", tone: "danger" },
+      { metric: "CLS", d1: "0.001", d2: "0", d3: "0", dyn: "стабильно OK", goal: "≤ 0.1", tone: "ok" },
+      { metric: "Speed Index", d1: "—", d2: "3.5 с", d3: "3.2 с", dyn: "чуть лучше", goal: "↓", tone: "info" },
+      { metric: "Вес страницы", d1: "~1.7 МБ", d2: "~1.4 МБ", d3: "—", dyn: "легче (WebP)", goal: "≤ 0.9 МБ", tone: "warn" },
+    ],
+    desktop: [
+      { metric: "Performance", d1: "—", d2: "—", d3: "97", dyn: "база 20.08 · Good", goal: "≥ 90", tone: "ok" },
+      { metric: "SEO LH", d1: "—", d2: "—", d3: "100", dyn: "база 20.08", goal: "100", tone: "ok" },
+      { metric: "Accessibility", d1: "—", d2: "—", d3: "82", dyn: "база 20.08", goal: "≥ 90", tone: "warn" },
+      { metric: "Best practices", d1: "—", d2: "—", d3: "59", dyn: "база 20.08", goal: "≥ 80", tone: "danger" },
+      { metric: "LCP", d1: "—", d2: "—", d3: "1.1 с", dyn: "база · Good", goal: "≤ 2.5 с", tone: "ok" },
+      { metric: "FCP", d1: "—", d2: "—", d3: "0.5 с", dyn: "база · Good", goal: "≤ 1.8 с", tone: "ok" },
+      { metric: "TTI", d1: "—", d2: "—", d3: "1.5 с", dyn: "база · Good", goal: "≤ 3.8 с", tone: "ok" },
+      { metric: "TBT", d1: "—", d2: "—", d3: "70 мс", dyn: "база · Good", goal: "≤ 200 мс", tone: "ok" },
+      { metric: "CLS", d1: "—", d2: "—", d3: "0.015", dyn: "база · Good", goal: "≤ 0.1", tone: "ok" },
+      { metric: "Speed Index", d1: "—", d2: "—", d3: "1.4 с", dyn: "база", goal: "↓", tone: "ok" },
+    ],
+    other: [
+      { metric: "robots.txt", d1: "пустой/чинили", d2: "OK", d3: "OK", dyn: "▲ A1 закрыт", note: "общий HTML", tone: "ok" },
+      { metric: "sitemap.xml", d1: "—", d2: "200 · 8 карт", d3: "OK", dyn: "▲ A2 закрыт", note: "sitemapindex", tone: "ok" },
+      { metric: "title / H1 / meta", d1: "частично", d2: "OK P1", d3: "OK", dyn: "▲", note: "C1–C4", tone: "ok" },
+      { metric: "Schema JSON-LD", d1: "нет", d2: "D1–D3 ✅", d3: "Org/WebSite/Service", dyn: "▲", note: "D1–D3", tone: "ok" },
+      { metric: "rel=canonical", d1: "риск", d2: "нет в HTML", d3: "нет в HTML", dyn: "✗ A4 открыт", note: "только og:url", tone: "danger" },
+      { metric: "DWH Performance", d1: "—", d2: "58", d3: "—", dyn: "mobile lab 11.08", note: "/services/dwh/", tone: "warn" },
+      { metric: "DWH LCP", d1: "—", d2: "7.5 с", d3: "—", dyn: "медленнее хаба", note: "mobile lab", tone: "danger" },
+      { metric: "DWH TBT", d1: "—", d2: "660 мс", d3: "—", dyn: "—", note: "mobile lab", tone: "warn" },
+      { metric: "Mobile vs Desktop Perf (20.08)", d1: "—", d2: "—", d3: "62 vs 97", dyn: "разрыв −35", note: "поиск = mobile", tone: "warn" },
+      { metric: "Mobile vs Desktop LCP (20.08)", d1: "—", d2: "—", d3: "5.7 с vs 1.1 с", dyn: "мобила ×5", note: "приоритет B4", tone: "danger" },
+    ],
+  };
+
+  function renderSeoDynamics() {
+    const mBody = document.querySelector("#dyn-mobile-table tbody");
+    const dBody = document.querySelector("#dyn-desktop-table tbody");
+    const oBody = document.querySelector("#dyn-other-table tbody");
+    if (!mBody || !dBody || !oBody) return;
+    SEO_DYNAMICS.mobile.forEach((r) => {
+      mBody.appendChild(el("tr", { className: "tone-row-" + r.tone }, [
+        el("td", { text: r.metric }), el("td", { text: r.d1 }), el("td", { text: r.d2 }),
+        el("td", { text: r.d3 }), el("td", { text: r.dyn }), el("td", { text: r.goal }),
+      ]));
+    });
+    SEO_DYNAMICS.desktop.forEach((r) => {
+      dBody.appendChild(el("tr", { className: "tone-row-" + r.tone }, [
+        el("td", { text: r.metric }), el("td", { text: r.d1 }), el("td", { text: r.d2 }),
+        el("td", { text: r.d3 }), el("td", { text: r.dyn }), el("td", { text: r.goal }),
+      ]));
+    });
+    SEO_DYNAMICS.other.forEach((r) => {
+      oBody.appendChild(el("tr", { className: "tone-row-" + r.tone }, [
+        el("td", { text: r.metric }), el("td", { text: r.d1 }), el("td", { text: r.d2 }),
+        el("td", { text: r.d3 }), el("td", { text: r.dyn }), el("td", { text: r.note }),
+      ]));
+    });
+    const fn = document.getElementById("dyn-footnote");
+    if (fn) fn.textContent = SEO_DYNAMICS.footnote;
+  }
+
+
+    const SEO_EVAL = {
     pills: [
       { text: "Технический фундамент ~85%", tone: "ok" },
       { text: "Скорость ~55%", tone: "warn" },
@@ -1240,7 +1342,7 @@
     ],
     gaps: [
       { prio: "P0", prioClass: "prio-p0", problem: "Нет rel=canonical в HTML", why: "Live: /, услуги, проекты, новости, контакты — только og:url. Дубли параметров могут размывать вес. A4 нужно перепроверить вывод в шаблоне.", where: "A4 / Детали", tone: "danger" },
-      { prio: "P0", prioClass: "prio-p0", problem: "TBT 550 мс — Метрика + CRM early", why: "Лучше 940, но всё ещё ≫200 мс; lab Perf упрётся без B4.", where: "B4.2–B4.3", tone: "danger" },
+      { prio: "P0", prioClass: "prio-p0", problem: "Нет rel=canonical в HTML", why: "Live: только og:url — дубли ?params размывают вес. B4.2–B4.3 уже ✅.", where: "A4", tone: "danger" },
       { prio: "P0", prioClass: "prio-p0", problem: "Perfmon ~7.25 без OPcache/Redis", why: "Серверный потолок Bitrix; без хостера Perf ≥85 нереалистичен.", where: "B5.3–B5.5", tone: "danger" },
       { prio: "P1", prioClass: "prio-p1", problem: "LCP главной 5.7 с (было 4.7), DWH 7.5 с", why: "Мобильный first screen не Good (≤2.5 с); lab шумит, цель далеко.", where: "Обзор + B4/B5", tone: "warn" },
       { prio: "P1", prioClass: "prio-p1", problem: "Нет weekly F2 из GSC/Метрики", why: "Не видно, какие запросы/URL реально двигаются после правок.", where: "F2", tone: "warn" },
@@ -1256,7 +1358,7 @@
     ],
     next: [
       { icon: "danger", text: "Починить вывод rel=canonical в шаблоне Aspro / SEO-модуле" },
-      { icon: "danger", text: "B4.2–B4.3: отложить Метрику и CRM (ТЗ snippets/b4-defer-scripts-brief.md)" },
+      { icon: "ok", text: "B4.2–B4.3 ✅ (21.08) — Метрика и CRM отложены; нужен контрольный lab" },
       { icon: "danger", text: "B5.3–B5.5: OPcache / MySQL / Redis у хостера (ТЗ snippets/b5-hoster-brief.md)" },
       { icon: "warn", text: "F2: первый weekly дашборд — клики, покрытие, цели органики" },
     ],
@@ -1428,14 +1530,16 @@
         {
           id: "B4.2", title: "Отложить загрузку Яндекс.Метрики", brief: "Метрика не в критическом пути first load", where: "Код счётчика 108757686 в шаблоне сайта",
           goal: "Счётчик не конкурирует с LCP/TBT на первом экране — страница раньше становится отзывчивой, Метрика стартует после взаимодействия или таймера.",
-          how: "Сейчас ym(108757686) и tag.js подключаются сразу в HTML. Нужна обёртка: load по scroll/click/timeout (и для бота Метрики — сразу). Модуль Битрикс опции «отложить» не даёт.",
-          note: "Не сделано через админку: в модуле yandex.metrika нет галочки отложенной загрузки; invis-counter.php пустой. Что надо: разработчик правит код init 108757686 (отложенный load) и не включает снова счётчик в модуле (иначе снова дубль). Кто: разработчик Битрикс/фронт; маркетинг проверяет, что визиты идут в 108757686. Где: место вставки счётчика в шаблоне (сейчас в HTML главной); модуль оставить без номера.",
+          how: "Обёртка: load tag.js / ym(108757686) по scroll/click/timeout (бот Метрики — сразу). Модуль Битрикс опции «отложить» не даёт.",
+          note: "Сделано 21.08.2026 (разработчик). invis-counter.php не трогали; модуль без номера. Приёмка: cold load без раннего tag.js; визиты в 108757686; цели F3 OK.",
+          done: true,
         },
         {
           id: "B4.3", title: "Отложить CRM-форму Bitrix24 на главной", brief: "loader_29.js не блокирует first load", where: "Главная: блок формы B24 (FrontPageForm / loader_29.js)",
           goal: "Тяжёлый CRM-loader не грузится до отрисовки первого экрана — ниже TBT/INP, форма доступна по клику или после load.",
-          how: "На главной сразу вставляется script с cdn-ru.bitrix24.by/.../crm/form/loader_29.js (data-b24-form). Нужно грузить по событию (скролл к блоку / клик «оставить заявку») или после window.load.",
-          note: "Не сделано: это не модуль в settings.php, а встроенный скрипт на странице; фильтр Network «bitrix24» пустой — искать «bitrix24.by» или «loader_29». Что надо: правкой вставки отложить загрузку loader_29.js. Кто: разработчик. Где: главная /index.php или include блока с bx24_form_inline_second / data-b24-form=\"inline/29/…\".",
+          how: "Загрузка loader_29.js по viewport / клику / timeout; не в initial critical path. Dynamic block FrontPageForm сохранить.",
+          note: "Сделано 21.08.2026 (разработчик). Приёмка: cold load без раннего loader_29.js; форма на главной работает; композит не сломан.",
+          done: true,
         },
         {
           id: "B4.4", title: "Опционально: отложить чат n8n", brief: "Чат-ассистент не в first load", where: "Файлы /n8n_bot/ на сайте + вставка в шаблоне",
@@ -1598,7 +1702,7 @@
     },
     sprints: [
       { title: "Спринт 1", badge: "Сейчас", tone: "now", items: "A1–A3, B1–B3, C1", desc: "Индексация + быстрые рычаги админки + H1 главной" },
-      { title: "Спринт 2", badge: "Далее", tone: "week", items: "A4, B4.2–B4.3, B5.3–B5.6, C2–C4, D1–D2", desc: "Canonical, отложенные скрипты (код), meta услуг, schema, тикет хостеру" },
+      { title: "Спринт 2", badge: "Далее", tone: "week", items: "A4, B5 дожим, lab после B4, F2", desc: "Canonical (код); OPcache files/Redis; контрольный mobile lab; weekly дайджест" },
       { title: "Спринт 3", badge: "Потом", tone: "later", items: "E1–E5, F1–F3", desc: "Кластеры, перелинковка, регулярный замер" },
     ],
   };
@@ -1745,10 +1849,11 @@
 
   renderSeo();
   renderSeoEval();
+  renderSeoDynamics();
   renderVisibilityPlan();
 
   const hash = (location.hash || "#overview").replace("#", "");
-  switchTab(["overview", "details", "plan", "seo", "seo-eval", "visibility-plan", "exec-report"].includes(hash) ? hash : "overview");
+  switchTab(["overview", "details", "plan", "seo", "seo-eval", "seo-dynamics", "visibility-plan", "exec-report"].includes(hash) ? hash : "overview");
   </script>
 </body>
 </html>
