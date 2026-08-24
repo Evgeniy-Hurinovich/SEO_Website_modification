@@ -1,7 +1,8 @@
 # Еженедельный мониторинг a2c.by — для Евгения / Анны
 
 **Цель:** 3–5 метрик с явной динамикой, без «каши» из 40 показателей.  
-**Канал:** webhook в чат (Telegram / Bitrix24) + CSV/JSON история в репо или папке `metrics/`.
+**Канал для Ткачёнка (решение встречи):** корпоративный **Qlik Sense**, не бот в чат.  
+Сборщик в git остаётся: `metrics/history.jsonl` → CSV → папка Qlik. Чат Bitrix — запасной, не основной. План витрины: `snippets/f2-qlik-seo-dashboard-plan.md`.
 
 ## Что хочет руководитель (из разговора)
 
@@ -44,27 +45,62 @@ Desktop LCP/Perf — в той же таблице второй колонкой
         ↓
   metrics/history.jsonl
         ↓
-  webhook → Telegram / Bitrix24 чат
+  Bitrix24 REST  im.message.add
+  DIALOG_ID=chatXXX  MESSAGE=дайджест
   (краткий дайджест + ▲▼ к прошлой неделе)
 ```
+
+Контракт Bitrix24 (не `{"text":…}`):
+
+```
+POST {BITRIX24_WEBHOOK_URL}/im.message.add.json
+Content-Type: application/json
+
+{"DIALOG_ID":"chat123","MESSAGE":"...","URL_PREVIEW":"N"}
+```
+
+`DIALOG_ID`: `chat123` — групповой чат; `sg123` — чат проекта; число — личка.  
+В URL чата: `/online/?IM_DIALOG=chat123`. Права входящего вебхука: **im**.
 
 ### Webhook-сообщение (пример текста)
 
 ```
 a2c.by · weekly · 20.08.2026
-Speed mobile: Perf 62 (↑+4) · LCP 5.7s (↓) · TBT 550ms (↑)
-Speed desktop: Perf 97 · LCP 1.1s
-SEO live: canonical ✗ · robots/sitemap ✓
-Visibility: GSC clicks … (если API)
-Next: B4 defer · A4 canonical
+
+[lab] Speed mobile: Perf 62 (▲+4) · LCP 5.7 с (▲+1.0 с) · TBT 550 мс (▼−393 мс) · SEO LH 100
+[lab] Speed desktop: Perf 97 · LCP 1.1 с · TBT 70 мс
+[live] canonical ✗ (/, /services/dwh/, /services/bi/, /contacts/) · robots ✓ · sitemap ✓
+
+[GSC] клики за неделю: — (нет данных)
+[field] CrUX/PSI: — (лаг 2–4 нед., не в этом замере)
+[biz] Метрика, цели organic: — (слот F3)
+
+▲▼ к прошлой неделе. lab — часы после деплоя; GSC — лаг 2–8 нед.; field — 2–4 нед.
 ```
 
-### Переменные окружения
+### Переменные окружения (`.env`, не коммитить)
 
-- `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` **или** `BITRIX24_WEBHOOK_URL`
-- опционально `PSI_API_KEY` / `GSC_CREDENTIALS_JSON`
+- `BITRIX24_WEBHOOK_URL` + `BITRIX24_DIALOG_ID` — основной канал
+- `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` — запасной
+- опционально `GSC_CLICKS` / позже GSC API
 
-Скрипт-заготовка: `scripts/seo_weekly_monitor.py` (когда подключим ключи).
+Скрипт: `scripts/seo_weekly_monitor.py`
+
+```
+python scripts/seo_weekly_monitor.py --seed --post-only --dry-run
+python scripts/seo_weekly_monitor.py --post-only
+python scripts/seo_weekly_monitor.py --bitrix-recent
+python scripts/seo_weekly_monitor.py --dry-run --reuse-lh
+```
+
+### Task Scheduler (Windows, понедельник)
+
+- Программа: `python` (полный путь, например `C:\Users\...\python.exe`)
+- Аргументы: `D:\SEO_Website_modification\scripts\seo_weekly_monitor.py`
+- Рабочая папка: `D:\SEO_Website_modification`
+- Триггер: еженедельно, понедельник, 09:00
+- Скрипт сам читает `.env`, ставит `TEMP` в `_lh_tmp` (обход EPERM Lighthouse на Windows) и печатает UTF-8 (▲▼)
+- При сбое консоли: в свойствах задачи добавить `PYTHONIOENCODING=utf-8`
 
 ## Расписание для Анны
 

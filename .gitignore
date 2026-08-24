@@ -23,3 +23,7 @@ anna-audit-report/_patch_seo.py
 Thumbs.db
 .vscode/
 .idea/
+
+# Lighthouse temp (Windows EPERM workaround) + raw weekly dumps
+_lh_tmp/
+metrics/_lh_*.json
