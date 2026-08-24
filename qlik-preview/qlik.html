@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Макет Qlik · 2 листа · a2c.by SEO</title>
+  <meta name="description" content="Прототип Qlik Sense: лист KPI и тренд, лист сырой таблицы." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#1a2332" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/app.css" />
+</head>
+<body class="qs">
+  <a class="skip" href="#app">К макету</a>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="./">
+        <img src="./favicon.svg" alt="" width="36" height="36" />
+        <div>
+          <strong>A2 Consulting</strong>
+          <span>SEO weekly · макет для руководства</span>
+        </div>
+      </a>
+      <nav class="nav-links" aria-label="Разделы">
+        <a href="/">Отчёт SEO</a>
+        <a href="./">Схема</a>
+        <a class="is-active" href="./qlik" aria-current="page">Макет Qlik</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="qs-app" id="app">
+    <div class="qs-top">
+      <div>
+        <h1>a2c.by · SEO weekly</h1>
+        <div class="meta">Qlik Sense · прототип · не боевое приложение · срез lab 24.08.2026</div>
+      </div>
+      <span class="badge">макет</span>
+    </div>
+    <div class="qs-sheets" role="tablist" aria-label="Листы приложения">
+      <button type="button" role="tab" data-sheet="0" aria-selected="true" aria-controls="sheet-kpi">Лист 1 · KPI и тренд</button>
+      <button type="button" role="tab" data-sheet="1" aria-selected="false" aria-controls="sheet-raw">Лист 2 · сырая таблица</button>
+    </div>
+    <div class="qs-sel">
+      <span>Выбор:</span>
+      <span class="chip">URL = a2c.by/</span>
+      <span class="chip">device = mobile (поиск)</span>
+      <span class="chip" id="sheet-live">Лист 1 · KPI и тренд</span>
+      <span>Стрелки ← → или свайп</span>
+    </div>
+
+    <div class="slider">
+      <div class="track" data-i="0">
+        <section class="sheet" id="sheet-kpi" role="tabpanel">
+          <div class="kpi-row">
+            <article class="kpi ok">
+              <span class="contour">lab</span>
+              <h3>Mobile Performance</h3>
+              <div class="val">79</div>
+              <div class="delta good">▲ +17 к 20.08</div>
+              <div class="tgt">цель ≥85 · этап ≥70 закрыт</div>
+            </article>
+            <article class="kpi warn">
+              <span class="contour">lab</span>
+              <h3>Mobile LCP</h3>
+              <div class="val">3.7 <small>с</small></div>
+              <div class="delta good">▼ −2.0 с к 20.08</div>
+              <div class="tgt">цель ≤2.5 с · этап ≤4.0 закрыт</div>
+            </article>
+            <article class="kpi warn">
+              <span class="contour">lab</span>
+              <h3>Mobile TBT</h3>
+              <div class="val">330 <small>мс</small></div>
+              <div class="delta good">▼ −220 мс к 20.08</div>
+              <div class="tgt">цель ≤200 мс · этап ≤400 закрыт</div>
+            </article>
+            <article class="kpi muted">
+              <span class="contour">GSC</span>
+              <h3>Клики organic / нед.</h3>
+              <div class="val">—</div>
+              <div class="delta">слот · лаг 2–8 нед.</div>
+              <div class="tgt">подключим кабинет / ручной ввод</div>
+            </article>
+            <article class="kpi muted">
+              <span class="contour">biz</span>
+              <h3>Цели Метрики, organic</h3>
+              <div class="val">—</div>
+              <div class="delta">F3 заведены</div>
+              <div class="tgt">тренд с понедельника · Аня</div>
+            </article>
+          </div>
+
+          <div class="charts">
+            <div class="chart-box">
+              <h3>Mobile Performance (lab)</h3>
+              <p class="cap">Lighthouse 12.2.1 · главная · выше = лучше · источник: 27.07–24.08.2026</p>
+              <svg id="chart-perf" role="img" aria-label="Тренд Performance 47, 58, 62, 79"></svg>
+            </div>
+            <div class="chart-box">
+              <h3>Mobile LCP (lab), секунды</h3>
+              <p class="cap">Отдельная ось. Ниже = лучше. 11.08→20.08 был шум lab, не регресс контента</p>
+              <svg id="chart-lcp" role="img" aria-label="Тренд LCP 6.4, 4.7, 5.7, 3.7 секунды"></svg>
+            </div>
+          </div>
+
+          <div class="side">
+            <div class="mini">
+              <div class="lbl">lab · Desktop Perf / LCP</div>
+              <div class="v">97 / 1.1 с</div>
+              <p class="note" style="margin:0.25rem 0 0">База 20.08, не переснимали. Держать ≥90. Не путать с mobile.</p>
+            </div>
+            <div class="mini">
+              <div class="lbl">live · rel=canonical</div>
+              <div class="v" style="color:#c43c3c">нет</div>
+              <p class="note" style="margin:0.25rem 0 0">P1 URL без каноникала. A4 — текущая задача разработчика.</p>
+            </div>
+            <div class="mini">
+              <div class="lbl">field · CrUX LCP</div>
+              <div class="v">—</div>
+              <p class="note" style="margin:0.25rem 0 0">Лаг 2–4 недели. Не смешивать с lab на одном графике.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="sheet" id="sheet-raw" role="tabpanel">
+          <div class="chart-box" style="margin-bottom:0.55rem">
+            <h3>Снимок недели · длинный формат</h3>
+            <p class="cap">Контракт CSV для Qlik: date · contour · device · metric · value · unit · url. Пустое значение = слот ещё не заполнен.</p>
+          </div>
+          <div class="raw-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>date</th>
+                  <th>contour</th>
+                  <th>device</th>
+                  <th>metric</th>
+                  <th>value</th>
+                  <th>unit</th>
+                  <th>url</th>
+                </tr>
+              </thead>
+              <tbody data-raw-body></tbody>
+            </table>
+          </div>
+          <p class="note">
+            ТBT 27.07 округлён (~900). Desktop только 20.08. GSC / biz / field — пустые ячейки, чтобы макет показал будущие колонки без фейковых цифр.
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <div class="pager">
+      <button type="button" data-prev>← Лист 1</button>
+      <span class="dots" aria-hidden="true"><i class="on"></i><i></i></span>
+      <button type="button" data-next>Лист 2 →</button>
+    </div>
+  </div>
+
+  <script src="./assets/data.js"></script>
+  <script src="./assets/qlik.js"></script>
+</body>
+</html>

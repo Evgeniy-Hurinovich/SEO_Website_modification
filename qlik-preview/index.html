@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Схема SEO → Qlik · a2c.by</title>
+  <meta name="description" content="Блочная архитектура: среды, процессы, снимок данных и чтение в Qlik Sense." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0c6e6b" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/app.css" />
+</head>
+<body>
+  <a class="skip" href="#main">К содержанию</a>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="./">
+        <img src="./favicon.svg" alt="" width="36" height="36" />
+        <div>
+          <strong>A2 Consulting</strong>
+          <span>SEO weekly · макет для руководства</span>
+        </div>
+      </a>
+      <nav class="nav-links" aria-label="Разделы">
+        <a href="/">Отчёт SEO</a>
+        <a class="is-active" href="./" aria-current="page">Схема</a>
+        <a href="./qlik">Макет Qlik</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap">
+      <div class="hero">
+        <p class="k">BPMN · среды · потоки данных</p>
+        <h1>Архитектура: от замера a2c.by до двух листов Qlik</h1>
+        <p class="lede">
+          Пять пулов — пять сред. Сплошная стрелка: что за чем запускается.
+          Пунктир: откуда цифра приходит. Qlik ничего не мерит — он читает снимок,
+          который положил Python-процесс.
+        </p>
+        <div class="pills">
+          <span class="pill ok">Прод a2c.by = источник lab</span>
+          <span class="pill info">CSV = контракт с Qlik</span>
+          <span class="pill warn">Git хранит код, не витрину</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap-wide">
+      <section>
+        <h2>Блочная схема</h2>
+        <p class="lede" style="margin-bottom:0.8rem">На узком экране схему можно прокрутить вправо.</p>
+        <figure class="bpmn-board">
+          <img src="./assets/architecture.svg" width="1320" height="980" alt="Пять пулов: планировщик, среда сбора, источники, хранилище снимка, Qlik Sense. Таймер понедельника запускает Python, тот мерит прод Lighthouse, пишет CSV в папку, Qlik в 10:00 читает папку и обновляет два листа." />
+        </figure>
+        <div class="legend-pills">
+          <span>Пул = среда исполнения</span>
+          <span>Задача со сплошной рамкой = обязательный шаг</span>
+          <span>Пунктирная рамка = позже / слот</span>
+          <span>Жёлтый документ = файл данных</span>
+        </div>
+      </section>
+    </div>
+
+    <div class="wrap">
+      <section>
+        <h2>Трассировка одной цифры</h2>
+        <p class="lede" style="margin-bottom:0.9rem">Пример: Mobile LCP 3.7 с за 24.08. Так цифра проходит все пулы.</p>
+        <div class="trace">
+          <article class="card">
+            <h3>Пн 09:00</h3>
+            <p>Планировщик в Windows (или CI) стартует процесс. Человек не открывает Lighthouse руками.</p>
+          </article>
+          <article class="card">
+            <h3>Среда сбора</h3>
+            <p><code>seo_weekly_monitor.py</code> вызывает Lighthouse 12.2.1 против <strong>https://a2c.by/</strong>, mobile. Стенд не используется.</p>
+          </article>
+          <article class="card">
+            <h3>Снимок</h3>
+            <p>Строка CSV: date=2026-08-24, contour=lab, device=mobile, metric=lcp_s, value=3.7. Файл кладётся в папку, которую видит Qlik.</p>
+          </article>
+          <article class="card">
+            <h3>Qlik 10:00</h3>
+            <p>Reload + Folder Connection читают CSV. Лист 1 рисует KPI «Mobile LCP» и тренд. Лист 2 показывает ту же строку в таблице.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Кто что пишет и кто только читает</h2>
+        <div class="card scroll-x" style="padding:0">
+          <table class="data">
+            <thead>
+              <tr>
+                <th>Среда</th>
+                <th>Процесс</th>
+                <th>Пишет</th>
+                <th>Читает</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Windows / CI</td>
+                <td>планировщик Пн 09:00</td>
+                <td>—</td>
+                <td>расписание</td>
+              </tr>
+              <tr>
+                <td>та же машина</td>
+                <td>Python + Lighthouse</td>
+                <td>history.jsonl, weekly_snapshot.csv</td>
+                <td>прод a2c.by (HTTP)</td>
+              </tr>
+              <tr>
+                <td>шара / Bitrix.Disk</td>
+                <td>нет процесса, только файл</td>
+                <td>—</td>
+                <td>ждёт Qlik</td>
+              </tr>
+              <tr>
+                <td>Qlik report-сервер</td>
+                <td>Reload Пн 10:00</td>
+                <td>кеш приложения</td>
+                <td>CSV через Folder Connection</td>
+              </tr>
+              <tr>
+                <td>браузер руководства</td>
+                <td>—</td>
+                <td>—</td>
+                <td>два листа приложения</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <strong>Не путать git и витрину.</strong>
+          Репозиторий хранит скрипт и этот макет. Боевой Qlik не ходит в GitHub за цифрами — он ходит в корпоративную папку. Личный git как источник для Qlik на встрече как раз и был слабым местом.
+        </div>
+        <div class="callout info">
+          <strong>Каркас сбора уже есть:</strong> <code>scripts/seo_weekly_monitor.py</code>.
+          Не хватает экспорта CSV и папки (ОК Миши / Ругарина). Макет листов — раздел «Макет Qlik».
+        </div>
+      </section>
+
+      <section>
+        <h2>Что увидит руководство в Qlik</h2>
+        <div class="grid-2">
+          <article class="card">
+            <p class="k">лист 1</p>
+            <h3>5 KPI + тренд</h3>
+            <p>Mobile Perf, LCP, TBT (lab). Слоты: клики GSC и цели Метрики. Desktop — вторая колонка. Подпись контура на каждом объекте.</p>
+          </article>
+          <article class="card">
+            <p class="k">лист 2</p>
+            <h3>Сырая таблица</h3>
+            <p>Длинный формат: одна строка — одна метрика за дату. Это тот самый CSV, только глазами.</p>
+          </article>
+        </div>
+        <p style="margin:1rem 0 0"><a href="./qlik">Открыть кликабельный макет двух листов →</a></p>
+      </section>
+
+      <section>
+        <h2>Четыре недели до MVP</h2>
+        <div class="weeks">
+          <div class="week">
+            <div class="when">24–29.08</div>
+            <p>Эта схема + макет листов, письмо Мише про папку, A4 в работе.</p>
+          </div>
+          <div class="week">
+            <div class="when">01–05.09</div>
+            <p>Скрипт пишет CSV. Пробный reload на трёх датах lab.</p>
+          </div>
+          <div class="week">
+            <div class="when">08–12.09</div>
+            <p>Листы KPI + таблица в боевом Qlik.</p>
+          </div>
+          <div class="week">
+            <div class="when">15–19.09</div>
+            <p>Слоты GSC и Метрики. Field — когда накопится CrUX.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      Внутренний макет архитектуры · не боевой Qlik · lab 24.08 после B4.
+      Сплошная стрелка — процесс, пунктир — данные.
+    </div>
+  </footer>
+</body>
+</html>

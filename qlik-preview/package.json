@@ -1,0 +1,8 @@
+{
+  "name": "a2c-seo-qlik-preview",
+  "private": true,
+  "description": "Макет схемы SEO→Qlik и прототип двух листов для руководства A2",
+  "scripts": {
+    "start": "npx --yes serve -l 4173 ."
+  }
+}

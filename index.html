@@ -86,6 +86,8 @@
     .tab:hover { color: var(--ink); }
     .tab[aria-selected="true"] { background: var(--bg-elevated); color: var(--ink); box-shadow: 0 1px 3px rgba(26,35,50,.08); }
     .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    a.tab-link { text-decoration: none; display: inline-flex; align-items: center; color: var(--accent-dark); }
+    a.tab-link:hover { color: var(--accent); background: var(--accent-soft); }
     .hero { padding: 2.25rem 0 1.5rem; animation: rise .7s var(--ease) both; }
     @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
     .eyebrow { display: inline-flex; font-family: var(--font); font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent-dark); background: var(--accent-soft); padding: .35rem .7rem; border-radius: 999px; margin-bottom: .9rem; }
@@ -290,6 +292,8 @@
         <button class="tab" role="tab" id="tab-seo-dynamics" aria-controls="panel-seo-dynamics" aria-selected="false" data-tab="seo-dynamics">Динамика SEO</button>
         <button class="tab" role="tab" id="tab-visibility-plan" aria-controls="panel-visibility-plan" aria-selected="false" data-tab="visibility-plan">План видимости</button>
         <button class="tab" role="tab" id="tab-exec-report" aria-controls="panel-exec-report" aria-selected="false" data-tab="exec-report">Отчёт руководству</button>
+        <a class="tab tab-link" href="/qlik-preview/">Схема</a>
+        <a class="tab tab-link" href="/qlik-preview/qlik">Макет Qlik</a>
       </nav>
     </div>
   </header>
@@ -1125,12 +1129,12 @@
   }
 
   function switchTab(name) {
-    document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false"));
+    document.querySelectorAll("button.tab").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false"));
     document.querySelectorAll(".panel").forEach((p) => { const on = p.id === `panel-${name}`; p.classList.toggle("active", on); p.hidden = !on; });
     if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
   }
 
-  document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => switchTab(t.dataset.tab)));
+  document.querySelectorAll("button.tab").forEach((t) => t.addEventListener("click", () => switchTab(t.dataset.tab)));
   document.querySelectorAll("[data-tab-link]").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); switchTab(a.getAttribute("data-tab-link")); }));
 
   // boot
