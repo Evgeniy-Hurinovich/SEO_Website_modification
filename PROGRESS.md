@@ -188,7 +188,7 @@ Lab ≠ field ≠ GSC.
 
 ## Отчёт / репозиторий
 
-- Вкладки: `#visibility-plan`, `#exec-report`, `#seo-eval` (SEO-оценка)  
+- Вкладки: `#mobile-seo` (сводка 24.08), `#visibility-plan`, `#exec-report`, `#seo-eval`  
 - `index.html` + `anna-audit-report/index.html`  
 - Snippets: `snippets/d1-org-website.jsonld.html`, `snippets/d2-service.jsonld.php`  
 - Локальные `_*.py` / dumps — не в git  

@@ -86,6 +86,8 @@
     .tab:hover { color: var(--ink); }
     .tab[aria-selected="true"] { background: var(--bg-elevated); color: var(--ink); box-shadow: 0 1px 3px rgba(26,35,50,.08); }
     .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    a.tab-link { text-decoration: none; display: inline-flex; align-items: center; color: var(--accent-dark); }
+    a.tab-link:hover { color: var(--accent); background: var(--accent-soft); }
     .hero { padding: 2.25rem 0 1.5rem; animation: rise .7s var(--ease) both; }
     @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
     .eyebrow { display: inline-flex; font-family: var(--font); font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent-dark); background: var(--accent-soft); padding: .35rem .7rem; border-radius: 999px; margin-bottom: .9rem; }
@@ -260,6 +262,9 @@
     .tone-row-ok td:first-child::before {
       content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: .45rem; vertical-align: middle; background: var(--ok);
     }
+    .trend-up { color: var(--ok); font-weight: 700; }
+    .trend-down { color: var(--danger); font-weight: 700; }
+    .trend-flat { color: var(--ink-faint); }
     .eval-pills { display: flex; flex-wrap: wrap; gap: .55rem; margin: .85rem 0 0; }
     .eval-next { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .55rem; }
     .eval-next li {
@@ -285,11 +290,14 @@
         <button class="tab" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true" data-tab="overview">Обзор</button>
         <button class="tab" role="tab" id="tab-details" aria-controls="panel-details" aria-selected="false" data-tab="details">Детали</button>
         <button class="tab" role="tab" id="tab-plan" aria-controls="panel-plan" aria-selected="false" data-tab="plan">План действий</button>
+        <button class="tab" role="tab" id="tab-mobile-seo" aria-controls="panel-mobile-seo" aria-selected="false" data-tab="mobile-seo">Mobile SEO</button>
         <button class="tab" role="tab" id="tab-seo" aria-controls="panel-seo" aria-selected="false" data-tab="seo">Видимость SEO</button>
         <button class="tab" role="tab" id="tab-seo-eval" aria-controls="panel-seo-eval" aria-selected="false" data-tab="seo-eval">SEO-оценка</button>
         <button class="tab" role="tab" id="tab-seo-dynamics" aria-controls="panel-seo-dynamics" aria-selected="false" data-tab="seo-dynamics">Динамика SEO</button>
         <button class="tab" role="tab" id="tab-visibility-plan" aria-controls="panel-visibility-plan" aria-selected="false" data-tab="visibility-plan">План видимости</button>
         <button class="tab" role="tab" id="tab-exec-report" aria-controls="panel-exec-report" aria-selected="false" data-tab="exec-report">Отчёт руководству</button>
+        <a class="tab tab-link" href="/qlik-preview/">Схема</a>
+        <a class="tab tab-link" href="/qlik-preview/qlik">Макет Qlik</a>
       </nav>
     </div>
   </header>
@@ -387,7 +395,7 @@
 
       <h2 class="section-title">Целевые KPI (lab vs норма)</h2>
       <p class="section-sub">Сейчас = Lighthouse 12.2.1 от 24.08 (главная после B4). Цель этапа на главной закрыта (кроме TTI). Норма «верх» — порог Good. Lab ≠ field / GSC.</p>
-      <div class="scroll-x"><table class="kpi-table" id="kpi-table"><thead><tr><th>Метрика</th><th>Сейчас (lab 24.08)</th><th>Цель этапа</th><th>Норма «верх»</th></tr></thead><tbody></tbody></table></div>
+      <div class="scroll-x"><table class="kpi-table" id="kpi-table"><thead><tr><th>Метрика</th><th>Сейчас (lab 24.08)</th><th>Прогресс</th><th>Цель этапа</th><th>Норма «верх»</th><th>Умозаключение</th></tr></thead><tbody></tbody></table></div>
       <p class="chart-note" id="kpi-note"></p>
 
       <h2 class="section-title">Ближайший спринт — кто / что / зачем</h2>
@@ -396,6 +404,23 @@
 
       <div class="callout" id="iblock-note"></div>
       <div class="callout"><strong>Важно:</strong> этот документ не вносит изменений на боевой сайт a2c.by. Публикация правок — только после согласования с РП и разработчиком.</div>
+    </section>
+
+    <section class="panel" id="panel-mobile-seo" role="tabpanel" aria-labelledby="tab-mobile-seo" hidden>
+      <div class="eyebrow">Сводка · 24.08.2026 · LH 12.2.1</div>
+      <h2 class="section-title" style="margin-top:0;font-size:clamp(1.35rem,2.5vw,1.85rem)">Mobile SEO — статус и план</h2>
+      <p class="section-sub">a2c.by · lab mobile <code>/</code> и <code>/services/dwh/</code>. Lab ≠ field (CrUX) ≠ позиции GSC. Цель этапа на главной закрыта; норма «верх» и TTI — нет.</p>
+      <div class="metrics" id="mobile-seo-stats"></div>
+      <div class="callout callout-warn" id="mobile-seo-sprint"></div>
+
+      <h2 class="section-title">1. Статус mobile-показателей на сегодня</h2>
+      <p class="section-sub">Прогресс vs lab 20.08: <span class="trend-up">▲</span> зелёный — улучшили; <span class="trend-down">▼</span> красный — ухудшилось; «—» — без сдвига. Точка в первой колонке — тон метрики (зелёный / жёлтый / красный / синий). Умозаключение ссылается на пункты таблицы 2.</p>
+      <div class="card scroll-x"><table class="kpi-table" id="mobile-seo-status-table"><thead><tr><th>Показатель</th><th>Сейчас</th><th>Прогресс</th><th>Цель этапа</th><th>Норма «верх»</th><th>Умозаключение</th></tr></thead><tbody></tbody></table></div>
+
+      <h2 class="section-title">2. Что сделать, кто, сроки</h2>
+      <p class="section-sub">Сроки от 24.08. Маркер важности: <span class="prio prio-now">P0</span> критично · <span class="prio prio-week">P1</span> сильно влияет на KPI · <span class="prio prio-p2">P2</span> среднее · <span class="prio prio-later">потом</span>. Прод без явного OK не трогаем. Files-лимит OPcache не оспариваем.</p>
+      <div class="card scroll-x"><table class="data-table" id="mobile-seo-plan-table"><thead><tr><th>#</th><th>Важность</th><th>Что можно / нужно</th><th>KPI</th><th>Кто</th><th>Срок</th></tr></thead><tbody></tbody></table></div>
+      <div class="callout callout-info" style="margin-top:1.15rem"><strong>Как читать сроки и KPI.</strong> Lab меняется за часы после деплоя. Field CWV — 2–4 недели. Позиции и заявки из органики — 2–8 недель. Не смешивать три шкалы в одном слайде для руководства.</div>
     </section>
 
     <section class="panel" id="panel-seo" role="tabpanel" aria-labelledby="tab-seo" hidden>
@@ -418,7 +443,7 @@
       <div class="rec-grid" id="seo-recs-root"></div>
 
       <h2 class="section-title">KPI видимости (индексация + поиск)</h2>
-      <div class="scroll-x"><table class="kpi-table" id="seo-kpi-table"><thead><tr><th>Метрика</th><th>Сейчас</th><th>Цель этапа</th><th>Норма «верх»</th></tr></thead><tbody></tbody></table></div>
+      <div class="scroll-x"><table class="kpi-table" id="seo-kpi-table"><thead><tr><th>Метрика</th><th>Сейчас</th><th>Прогресс</th><th>Цель этапа</th><th>Норма «верх»</th><th>Умозаключение</th></tr></thead><tbody></tbody></table></div>
       <div class="callout" id="seo-note"></div>
     </section>
 
@@ -436,7 +461,7 @@
 
       <h2 class="section-title">Целевые KPI этапа</h2>
       <p class="section-sub">Mobile — цель этапа на главной закрыта (TTI и DWH — нет). Desktop — держать. Lab 24.08 LH 12.2.1.</p>
-      <div class="card scroll-x"><table class="kpi-table" id="vis-kpi-table"><thead><tr><th>Метрика</th><th>Сейчас (lab 24.08)</th><th>Цель этапа</th><th>Норма «верх»</th></tr></thead><tbody></tbody></table></div>
+      <div class="card scroll-x"><table class="kpi-table" id="vis-kpi-table"><thead><tr><th>Метрика</th><th>Сейчас (lab 24.08)</th><th>Прогресс</th><th>Цель этапа</th><th>Норма «верх»</th><th>Умозаключение</th></tr></thead><tbody></tbody></table></div>
 
       <h2 class="section-title">Фаза A — Индексация и обход</h2>
       <div class="card scroll-x"><table class="data-table" id="vis-phase-a"><thead><tr><th>Готово</th><th>#</th><th>Что / кто</th><th>Зачем</th><th>Как / где</th><th>Примечание</th></tr></thead><tbody></tbody></table></div>
@@ -578,7 +603,7 @@
         Сейчас созданы условия: сайт индексируем, сниппеты коммерческие, часть скорости включена.
         Тренд lab: Perf 47→58→62→79, TBT 900→550→330 мс; LCP 6.4→4.7→5.7→3.7 с. Следующая точка — A4 + Redis; еженедельно — клики в GSC.
       </div>
-      <p class="muted" style="margin-top:1rem">Детальный чеклист — <a href="#visibility-plan" data-tab-link="visibility-plan">План видимости</a> · KPI — вкладка «План действий» · обновлено 24.08.2026</p>
+      <p class="muted" style="margin-top:1rem">Сводка mobile — <a href="#mobile-seo" data-tab-link="mobile-seo">Mobile SEO</a> · чеклист — <a href="#visibility-plan" data-tab-link="visibility-plan">План видимости</a> · KPI — «План действий» · обновлено 24.08.2026</p>
     </section>
 
     <section class="panel" id="panel-seo-eval" role="tabpanel" aria-labelledby="tab-seo-eval" hidden>
@@ -857,23 +882,25 @@
     ],
 
     kpis: [
-      { section: true, metric: "Mobile lab  ·  Slow 4G  ·  URL /" },
-      { metric: "Mobile Perf", now: "79 (было 62)", mid: "≥ 70–75 ✅ закрыта", d30: "≥ 85", tone: "ok" },
-      { metric: "Mobile LCP", now: "3.7 с (было 5.7)", mid: "≤ 3.5–4.0 с ✅", d30: "≤ 2.5 с", tone: "warn" },
-      { metric: "Mobile TBT", now: "330 мс (было 550)", mid: "≤ 350–400 мс ✅", d30: "≤ 200 мс", tone: "warn" },
-      { metric: "Mobile TTI", now: "7.1 с (было 7.6)", mid: "≤ 6 с — не закрыта", d30: "≤ 3.8 с", tone: "danger" },
-      { metric: "Mobile CLS", now: "0.004", mid: "держать", d30: "≤ 0.1", tone: "ok" },
-      { metric: "Mobile SEO LH", now: "100", mid: "держать", d30: "100", tone: "ok" },
-      { section: true, metric: "Desktop lab  ·  20.08 (первый полный замер)" },
-      { metric: "Desktop Perf", now: "97", mid: "держать ≥ 90", d30: "≥ 90", tone: "ok" },
-      { metric: "Desktop LCP", now: "1.1 с", mid: "держать", d30: "≤ 2.5 с", tone: "ok" },
-      { metric: "Desktop TBT", now: "70 мс", mid: "держать", d30: "≤ 200 мс", tone: "ok" },
+      { section: true, metric: "Mobile lab  ·  Slow 4G  ·  URL /  ·  прогресс vs 20.08: ▲ улучшили, ▼ ухудшилось" },
+      { metric: "Mobile Perf", now: "79", progress: "up", progressLabel: "62→79", mid: "≥ 70–75 ✅ закрыта", d30: "≥ 85", verdict: "Можно улучшить п.2, 4, 9", tone: "ok" },
+      { metric: "Mobile LCP", now: "3.7 с", progress: "up", progressLabel: "5.7→3.7 с", mid: "≤ 3.5–4.0 с ✅", d30: "≤ 2.5 с", verdict: "Можно улучшить п.2, 9", tone: "warn" },
+      { metric: "Mobile TBT", now: "330 мс", progress: "up", progressLabel: "550→330 мс", mid: "≤ 350–400 мс ✅", d30: "≤ 200 мс", verdict: "Можно улучшить п.2, 9", tone: "warn" },
+      { metric: "Mobile TTI", now: "7.1 с", progress: "up", progressLabel: "7.6→7.1 с", mid: "≤ 6 с — не закрыта", d30: "≤ 3.8 с", verdict: "Можно улучшить п.2, 9", tone: "danger" },
+      { metric: "Mobile FCP", now: "2.4 с", progress: "down", progressLabel: "2.3→2.4 с", mid: "не KPI этапа", d30: "≤ 1.8 с", verdict: "Можно улучшить п.9", tone: "warn" },
+      { metric: "Mobile CLS", now: "0.004", progress: "down", progressLabel: "0→0.004", mid: "держать", d30: "≤ 0.1", verdict: "Потолок (уже Good; не трогать)", tone: "ok" },
+      { metric: "Mobile SEO LH", now: "100", progress: "flat", progressLabel: "держать", mid: "держать", d30: "100", verdict: "Потолок", tone: "ok" },
+      { metric: "DWH Perf / LCP", now: "63 / 7.2 с", progress: "up", progressLabel: "58→63 · 7.5→7.2 с", mid: "дожим", d30: "LCP ≤ 2.5 с", verdict: "Можно улучшить п.5", tone: "danger" },
+      { section: true, metric: "Desktop lab  ·  20.08 (первый полный замер, 24.08 не переснимали)" },
+      { metric: "Desktop Perf", now: "97", progress: "flat", progressLabel: "нет замера 24.08", mid: "держать ≥ 90", d30: "≥ 90", verdict: "Потолок этапа (держать)", tone: "ok" },
+      { metric: "Desktop LCP", now: "1.1 с", progress: "flat", progressLabel: "нет замера 24.08", mid: "держать", d30: "≤ 2.5 с", verdict: "Потолок (уже Good)", tone: "ok" },
+      { metric: "Desktop TBT", now: "70 мс", progress: "flat", progressLabel: "нет замера 24.08", mid: "держать", d30: "≤ 200 мс", verdict: "Потолок (уже Good)", tone: "ok" },
       { section: true, metric: "Индексация / сервер / поиск  ·  не смешивать с lab" },
-      { metric: "rel=canonical", now: "нет в HTML (есть og:url)", mid: "на всех публичных URL", d30: "100%", tone: "danger" },
-      { metric: "Perfmon", now: "~7.25", mid: "рост после Redis", d30: "эталон ≥30 (вирт. хостинг может не достичь)", tone: "warn" },
-      { metric: "Позиции / GSC", now: "~9–10 (старт аудита)", mid: "weekly тренд кликов", d30: "лаг 2–8 нед., не обещать «на следующей неделе»", tone: "warn" },
+      { metric: "rel=canonical", now: "нет в HTML (есть og:url)", progress: "flat", progressLabel: "без сдвига", mid: "на всех публичных URL", d30: "100%", verdict: "Можно улучшить п.1 спринта", tone: "danger" },
+      { metric: "Perfmon", now: "~7.25", progress: "flat", progressLabel: "без Redis", mid: "рост после Redis", d30: "эталон ≥30 (вирт. хостинг может не достичь)", verdict: "Можно улучшить п.3–4; эталон ≥30 — потолок тарифа", tone: "warn" },
+      { metric: "Позиции / GSC", now: "~9–10 (старт аудита)", progress: "flat", progressLabel: "нет свежего краула", mid: "weekly тренд кликов", d30: "лаг 2–8 нед., не обещать «на следующей неделе»", verdict: "Можно улучшить п.7 (лаг, не lab)", tone: "warn" },
     ],
-    kpiNote: "Контрольный lab 24.08 LH 12.2.1. Цель этапа на главной закрыта (кроме TTI). DWH: Perf 63 / LCP 7.2 с / TBT 410 мс. Desktop 20.08 не переснимали. Lab ≠ field ≠ GSC.",
+    kpiNote: "Прогресс vs lab 20.08: ▲ зелёный — улучшили, ▼ красный — ухудшилось. Умозаключение: пункт спринта в таблице ниже (или «потолок»). DWH 24.08: Perf 63 / LCP 7.2 с — можно улучшить отдельно. Lab ≠ field ≠ GSC.",
     sprintNow: [
       ["1", "Приёмка B4 на проде", "Анна / маркетинг", "Network: нет раннего tag.js и loader_29; форма B24; цели F3; композит", "✅ 24.08 (кроме кабинета F3)"],
       ["2", "Контрольный lab mobile / + /services/dwh/", "SEO-агент + Анна", "Зафиксировать Perf/LCP/TBT vs 20.08; цель этапа ≥70–75 / ≤3.5–4.0 / ≤350–400", "✅ / закрыта; DWH ещё нет"],
@@ -921,6 +948,96 @@
     return n;
   }
   const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+  function kpiProgressTd(k) {
+    const label = esc(k.progressLabel || "—");
+    if (k.progress === "up") return el("td", { html: `<span class="trend-up" title="улучшили">▲</span> ${label}` });
+    if (k.progress === "down") return el("td", { html: `<span class="trend-down" title="ухудшилось">▼</span> ${label}` });
+    return el("td", { className: "trend-flat", text: k.progressLabel || "—" });
+  }
+  function fillKpiBody(tbody, rows) {
+    if (!tbody) return;
+    tbody.innerHTML = "";
+    rows.forEach((k) => {
+      if (k.section) {
+        tbody.appendChild(el("tr", { className: "tone-row-info" }, [
+          el("td", { colspan: "6", text: k.metric, style: "font-weight:700;background:#f7f9fb;letter-spacing:.02em" }),
+        ]));
+        return;
+      }
+      tbody.appendChild(el("tr", { className: k.tone ? "tone-row-" + k.tone : "" }, [
+        el("td", { text: k.metric }),
+        el("td", { text: k.now }),
+        kpiProgressTd(k),
+        el("td", { text: k.mid }),
+        el("td", { text: k.d30 }),
+        el("td", { text: k.verdict || "—" }),
+      ]));
+    });
+  }
+
+  const MOBILE_SEO_PLAN = {
+    sprint: "P0 — A4 rel=canonical в шаблоне. Параллельно: отложить gtag G-SC3E8P9T2E (TTI/TBT), SET SESSION, ждать Redis host:port. DWH LCP 7.2 с — отдельный контур. Позиции не обещать «на следующей неделе» (лаг 2–8 нед.).",
+    stats: [
+      { value: "79", label: "Perf / цель ≥70–75", tone: "ok", status: "Этап ✅" },
+      { value: "3.7 с", label: "LCP / цель ≤3.5–4.0 с", tone: "warn", status: "Этап ✅" },
+      { value: "330 мс", label: "TBT / цель ≤350–400 мс", tone: "warn", status: "Этап ✅" },
+      { value: "7.1 с", label: "TTI / цель ≤6 с", tone: "danger", status: "Не закрыт" },
+    ],
+    status: [
+      { metric: "Mobile Perf /", now: "79", progress: "up", progressLabel: "62→79", mid: "≥70–75", d30: "≥85", verdict: "Можно улучшить п.2, 4, 9", tone: "ok" },
+      { metric: "Mobile LCP /", now: "3.7 с", progress: "up", progressLabel: "5.7→3.7 с", mid: "≤3.5–4.0 с", d30: "≤2.5 с", verdict: "Можно улучшить п.2, 9", tone: "warn" },
+      { metric: "Mobile TBT /", now: "330 мс", progress: "up", progressLabel: "550→330 мс", mid: "≤350–400 мс", d30: "≤200 мс", verdict: "Можно улучшить п.2, 9", tone: "warn" },
+      { metric: "Mobile TTI /", now: "7.1 с", progress: "up", progressLabel: "7.6→7.1 с", mid: "≤6 с", d30: "≤3.8 с", verdict: "Можно улучшить п.2, 9", tone: "danger" },
+      { metric: "Mobile FCP /", now: "2.4 с", progress: "down", progressLabel: "2.3→2.4 с", mid: "—", d30: "≤1.8 с", verdict: "Можно улучшить п.9", tone: "warn" },
+      { metric: "Mobile CLS /", now: "0.004", progress: "down", progressLabel: "0→0.004", mid: "держать", d30: "≤0.1", verdict: "Потолок (уже Good; не трогать)", tone: "ok" },
+      { metric: "SEO LH /", now: "100", progress: "flat", progressLabel: "держать", mid: "держать", d30: "100", verdict: "Потолок", tone: "ok" },
+      { metric: "DWH Perf / LCP", now: "63 / 7.2 с", progress: "up", progressLabel: "58→63 · 7.5→7.2 с", mid: "дожим", d30: "LCP ≤2.5 с", verdict: "Можно улучшить п.5", tone: "danger" },
+      { metric: "rel=canonical", now: "нет в HTML", progress: "flat", progressLabel: "без сдвига", mid: "все публичные URL", d30: "100%", verdict: "Можно улучшить п.1", tone: "danger" },
+      { metric: "Позиции / GSC", now: "~9–10 (вход)", progress: "flat", progressLabel: "нет свежего краула", mid: "weekly тренд кликов", d30: "лаг 2–8 нед.", verdict: "Можно улучшить п.7 (лаг, не lab)", tone: "warn" },
+      { metric: "robots / sitemap", now: "OK", progress: "flat", progressLabel: "закрыто", mid: "держать", d30: "без ошибок обхода", verdict: "Потолок (A1–A3)", tone: "warn" },
+    ],
+    steps: [
+      { n: "1", prio: "P0", prioClass: "prio-now", tone: "danger", what: "A4: вывести HTTPS rel=canonical в шаблоне Aspro / SEO-модуле на все публичные URL", kpi: "Покрытие canonical 100%; не размывать вес по ?params", who: "Разработчик", when: "25–27.08 (1–3 дня) · P0" },
+      { n: "2", prio: "P1", prioClass: "prio-week", tone: "warn", what: "Отложить Google gtag G-SC3E8P9T2E с first load (сейчас ~4.5 с, не из B4)", kpi: "TTI ≤6 с; TBT ближе к ≤200 мс", who: "Разработчик + ОК маркетинга (чей счётчик)", when: "26–28.08 (0.5–1 день после OK)" },
+      { n: "3", prio: "P2", prioClass: "prio-p2", tone: "info", what: "B5.4: SET SESSION transaction_isolation='READ-COMMITTED' в PHP Битрикс", kpi: "Стабильность сервера; база для Perfmon", who: "Разработчик", when: "27–29.08 (1–2 дня кода)" },
+      { n: "4", prio: "P2", prioClass: "prio-p2", tone: "info", what: "B5.5: выдать Redis host:port → включить кеш Битрикс. Затем B5.6 Perfmon", kpi: "Perfmon >7.25; косвенно TTFB/TTI под нагрузкой", who: "Хостер Олег → админ сайта", when: "Порт: ждать 1–7 дней; включение 1 день после порта" },
+      { n: "5", prio: "P1", prioClass: "prio-week", tone: "warn", what: "Отдельно ускорить /services/dwh/: LCP-кадр, вес first screen, не трогая форму B24", kpi: "DWH LCP с 7.2 с к ≤4 с, затем к ≤2.5 с", who: "Разработчик + контент/баннеры", when: "01–12.09 (1–2 недели)" },
+      { n: "6", prio: "P2", prioClass: "prio-p2", tone: "info", what: "Контрольный lab после A4+gtag: mobile / и DWH, LH 12.2.1. Desktop — по желанию", kpi: "Зафиксировать TTI/TBT vs 24.08", who: "SEO-агент / Анна", when: "Сразу после выкладки п.1–2 (1 замер)" },
+      { n: "7", prio: "потом", prioClass: "prio-later", tone: "info", what: "F2: витрина Qlik 3–5 KPI (клики GSC, не простыня lab). Сборщик уже есть", kpi: "Weekly тренд для Ткачёнка", who: "Маркетинг / Миша (папка данных + ОК)", when: "Старт витрины: 1–3 нед. после папки" },
+      { n: "8", prio: "потом", prioClass: "prio-later", tone: "info", what: "Анна: подтвердить цели F3 в кабинете Метрики (форму 24.08 открывали, лид не слали)", kpi: "Organic-заявки видны", who: "Анна", when: "24–26.08 (полдня)" },
+      { n: "9", prio: "P2", prioClass: "prio-p2", tone: "info", what: "Норма «верх» главной: Perf ≥85 / LCP ≤2.5 с / TBT ≤200 мс — после Redis, gtag, остаточного JS Aspro", kpi: "CWV Good на mobile /", who: "Разработчик + хостер", when: "Середина–конец сентября, не пятница 28.08" },
+    ],
+  };
+
+  function renderMobileSeoPlan() {
+    if (!document.getElementById("panel-mobile-seo")) return;
+    const stats = document.getElementById("mobile-seo-stats");
+    stats.innerHTML = "";
+    MOBILE_SEO_PLAN.stats.forEach((m) => {
+      stats.appendChild(el("article", { className: "metric tone-" + m.tone, tabindex: "0" }, [
+        el("div", { className: "metric-label" }, [el("span", { text: "Mobile" }), el("span", { className: "badge", text: m.status })]),
+        el("div", { className: "metric-value", text: m.value }),
+        el("div", { className: "metric-target", text: m.label }),
+      ]));
+    });
+    const spr = document.getElementById("mobile-seo-sprint");
+    spr.innerHTML = "";
+    spr.append(el("strong", { text: "Спринт сейчас. " }), document.createTextNode(MOBILE_SEO_PLAN.sprint));
+    fillKpiBody(document.querySelector("#mobile-seo-status-table tbody"), MOBILE_SEO_PLAN.status);
+    const pt = document.querySelector("#mobile-seo-plan-table tbody");
+    pt.innerHTML = "";
+    MOBILE_SEO_PLAN.steps.forEach((s) => {
+      pt.appendChild(el("tr", { className: "tone-row-" + s.tone }, [
+        el("td", { text: s.n }),
+        el("td", {}, [el("span", { className: "prio " + s.prioClass, text: s.prio })]),
+        el("td", { text: s.what }),
+        el("td", { text: s.kpi }),
+        el("td", { text: s.who }),
+        el("td", { text: s.when }),
+      ]));
+    });
+  }
 
   function renderMetrics() {
     const root = document.getElementById("metrics-root");
@@ -1102,18 +1219,7 @@
     });
 
     const tb = document.querySelector("#kpi-table tbody");
-    tb.innerHTML = "";
-    REPORT_DATA.kpis.forEach((k) => {
-      if (k.section) {
-        tb.appendChild(el("tr", { className: "tone-row-info" }, [
-          el("td", { colspan: "4", text: k.metric, style: "font-weight:700;background:#f7f9fb;letter-spacing:.02em" }),
-        ]));
-        return;
-      }
-      tb.appendChild(el("tr", { className: k.tone ? "tone-row-" + k.tone : "" }, [
-        el("td", { text: k.metric }), el("td", { text: k.now }), el("td", { text: k.mid }), el("td", { text: k.d30 }),
-      ]));
-    });
+    fillKpiBody(tb, REPORT_DATA.kpis);
     const st = document.querySelector("#sprint-who-table tbody");
     if (st && REPORT_DATA.sprintNow) {
       st.innerHTML = "";
@@ -1125,12 +1231,12 @@
   }
 
   function switchTab(name) {
-    document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false"));
+    document.querySelectorAll("button.tab").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false"));
     document.querySelectorAll(".panel").forEach((p) => { const on = p.id === `panel-${name}`; p.classList.toggle("active", on); p.hidden = !on; });
     if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
   }
 
-  document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => switchTab(t.dataset.tab)));
+  document.querySelectorAll("button.tab").forEach((t) => t.addEventListener("click", () => switchTab(t.dataset.tab)));
   document.querySelectorAll("[data-tab-link]").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); switchTab(a.getAttribute("data-tab-link")); }));
 
   // boot
@@ -1223,16 +1329,16 @@
       { id: "sr5", priority: "later", priorityLabel: "Потом", title: "Поддержка A/C/D/E", text: "Не допустить регресс robots, meta, schema, noindex демо.", tech: "Чеклист при деплое.\nHero WebP ≤120 KB." },
     ],
     kpis: [
-      ["robots + sitemap", "OK", "OK", "без ошибок обхода"],
-      ["Canonical coverage", "нет в HTML (live)", "починить A4", "100% шаблон"],
-      ["Уникальные meta P1", "OK (C2–C3)", "держать", "0 дублей"],
-      ["JSON-LD", "Org+Service+Review", "держать", "валидно"],
-      ["H1 главной", "коммерческий", "стабильно", "стабильно"],
-      ["Performance mobile (lab)", "79", "≥70–75 ✅", "≥85"],
-      ["LCP mobile (lab)", "3.7 с", "≤3.5–4.0 с ✅", "≤2.5 с"],
-      ["TBT mobile (lab)", "330 мс", "≤350–400 мс ✅", "≤200 мс"],
-      ["Performance desktop (lab)", "97", "держать ≥90", "≥90"],
-      ["Позиции P1-кластеров*", "~9–10 (вход)", "weekly тренд GSC", "лаг 2–8 нед."],
+      ["robots + sitemap", "OK", "▲ закрыто", "держать", "без ошибок обхода", "Потолок (A1–A3)"],
+      ["Canonical coverage", "нет в HTML (live)", "— без сдвига", "починить A4", "100% шаблон", "Можно улучшить п.1"],
+      ["Уникальные meta P1", "OK (C2–C3)", "▲ C2–C3", "держать", "0 дублей", "Потолок (держать)"],
+      ["JSON-LD", "Org+Service+Review", "▲ D1–D3", "держать", "валидно", "Потолок (держать)"],
+      ["H1 главной", "коммерческий", "▲ C1", "стабильно", "стабильно", "Потолок (держать)"],
+      ["Performance mobile (lab)", "79", "▲ 62→79", "≥70–75 ✅", "≥85", "Можно улучшить п.2, 4, 9"],
+      ["LCP mobile (lab)", "3.7 с", "▲ 5.7→3.7 с", "≤3.5–4.0 с ✅", "≤2.5 с", "Можно улучшить п.2, 9"],
+      ["TBT mobile (lab)", "330 мс", "▲ 550→330 мс", "≤350–400 мс ✅", "≤200 мс", "Можно улучшить п.2, 9"],
+      ["Performance desktop (lab)", "97", "— нет замера 24.08", "держать ≥90", "≥90", "Потолок этапа (держать)"],
+      ["Позиции P1-кластеров*", "~9–10 (вход)", "— нет свежего краула", "weekly тренд GSC", "лаг 2–8 нед.", "Можно улучшить п.7 (лаг)"],
     ],
     note: "*Позиции и трафик — F2 weekly (GSC + Метрика), лаг 2–8 недель. Не обещать рост «на следующей неделе». Lab ≠ field. Технический SEO / on-page / schema / контент P1 закрыты; A4 открыт; цель этапа mobile CWV на главной закрыта 24.08.",
   };
@@ -1284,7 +1390,14 @@
     });
     const kt = document.querySelector("#seo-kpi-table tbody");
     kt.innerHTML = "";
-    SEO_DATA.kpis.forEach((row) => kt.appendChild(el("tr", {}, row.map((c) => el("td", { text: c })))));
+    SEO_DATA.kpis.forEach((row) => {
+      kt.appendChild(el("tr", {}, row.map((c, i) => {
+        if (i !== 2 || typeof c !== "string") return el("td", { text: c });
+        if (c.startsWith("▲")) return el("td", { html: `<span class="trend-up" title="улучшили">▲</span> ${esc(c.slice(1).trim())}` });
+        if (c.startsWith("▼")) return el("td", { html: `<span class="trend-down" title="ухудшилось">▼</span> ${esc(c.slice(1).trim())}` });
+        return el("td", { className: "trend-flat", text: c });
+      })));
+    });
     document.getElementById("seo-note").textContent = SEO_DATA.note;
   }
 
@@ -1913,20 +2026,7 @@
     fillPhaseTable("vis-phase-f", VISIBILITY_PLAN.phases.f, doneMap);
     updateVisProgress(doneMap);
     const vk = document.querySelector("#vis-kpi-table tbody");
-    if (vk && REPORT_DATA.kpis) {
-      vk.innerHTML = "";
-      REPORT_DATA.kpis.forEach((k) => {
-        if (k.section) {
-          vk.appendChild(el("tr", { className: "tone-row-info" }, [
-            el("td", { colspan: "4", text: k.metric, style: "font-weight:700;background:#f7f9fb" }),
-          ]));
-          return;
-        }
-        vk.appendChild(el("tr", { className: k.tone ? "tone-row-" + k.tone : "" }, [
-          el("td", { text: k.metric }), el("td", { text: k.now }), el("td", { text: k.mid }), el("td", { text: k.d30 }),
-        ]));
-      });
-    }
+    fillKpiBody(vk, REPORT_DATA.kpis);
     const sp = document.getElementById("vis-sprints");
     sp.innerHTML = "";
     VISIBILITY_PLAN.sprints.forEach((s) => {
@@ -1951,9 +2051,10 @@
   renderSeoEval();
   renderSeoDynamics();
   renderVisibilityPlan();
+  renderMobileSeoPlan();
 
   const hash = (location.hash || "#overview").replace("#", "");
-  switchTab(["overview", "details", "plan", "seo", "seo-eval", "seo-dynamics", "visibility-plan", "exec-report"].includes(hash) ? hash : "overview");
+  switchTab(["overview", "details", "plan", "mobile-seo", "seo", "seo-eval", "seo-dynamics", "visibility-plan", "exec-report"].includes(hash) ? hash : "overview");
   </script>
 </body>
 </html>
