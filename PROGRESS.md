@@ -55,10 +55,10 @@
 | **B4.2–B4.3** Отложить Метрику + CRM | ✅ | Сделано 21.08.2026 (разработчик) |
 | **B4.4** n8n чат | ✅ | Сделано 21.08.2026 (разработчик) |
 | **B5.1–B5.2** Perfmon + таблицы БД | ✅ | Конфиг ≈ 7.25; таблицы «оптимально» |
-| **B5.3** OPcache | 🟡 | Включён хостером; красный `max_accelerated_files=10000` (нужно ≥100000) |
+| **B5.3** OPcache | ✅ | Включён (`enable=1`, 128 MB). Лимит `max_accelerated_files=10000` хостер **не меняет** (вирт. хостинг, 24.08) — закрыто как ограничение тарифа |
 | **B5.4** MySQL READ-COMMITTED | ⏳ | Глобально нельзя → разработчик (`SET SESSION`) |
 | **B5.5** Redis | ⏳ | PHP-модули есть; нужен host:port + переключение кеша Битрикс |
-| **B5.6** Повторный Perfmon | ⏳ | После max_accelerated_files / Redis |
+| **B5.6** Повторный Perfmon | ⏳ | После Redis / SESSION isolation (лимит OPcache-файлов не поднимем) |
 
 ---
 
@@ -98,7 +98,7 @@
 | Пункт | Статус | Примечание |
 |-------|--------|------------|
 | **F1** Доступы GSC + Вебмастер | ✅ | 11.08.2026: GSC владелец + sitemap «Успешно»; Яндекс sitemap OK (все дочерние) |
-| **F2** Еженедельный дашборд | ⏳ | Скрипт `scripts/seo_weekly_monitor.py` → Bitrix24 `im.message.add`; сид `metrics/history.jsonl` (11.08+20.08). Ждём webhook URL + DIALOG_ID. Task Scheduler — после теста в чат |
+| **F2** Еженедельный дашборд | ⏳ | Встреча: витрина = **Qlik**, не чат. Сборщик `seo_weekly_monitor.py` + `metrics/history.jsonl` остаётся. План: `snippets/f2-qlik-seo-dashboard-plan.md`. Блокер: папка данных + ОК Миши на report-сервер |
 | **F3** Цели Метрики (organic) | ✅ | 11.08.2026: цели «Заказать звонок», «Клик по телефону», «Контакты»; сегмент «Поисковый трафик»; тест callback — 1 целевой визит |
 
 ---
@@ -144,7 +144,7 @@
 
 1. Разработчик: **A4 canonical** — контрольное ТЗ `snippets/dev-control-tz-mobile-seo.md` (**B4.2–B4.3 ✅** 21.08).  
 2. Приёмка B4: скрины Network + цели Метрики + форма B24.  
-3. Хостер: `opcache.max_accelerated_files` ≥100000; Redis host:port.  
+3. Хостер: Redis host:port (лимит `max_accelerated_files` на вирт. хостинге **не поднимают** — 24.08).  
 4. Разработчик: MySQL `SET SESSION` + Redis в кеше Битрикс (когда дадут порт).  
 5. **Контрольный lab mobile** после приёмки B4 / A4 vs 20.08.  
 6. **F2** — Bitrix24 webhook + DIALOG_ID → тестовый пост → Task Scheduler (Пн).

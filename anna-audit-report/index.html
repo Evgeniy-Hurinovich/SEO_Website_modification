@@ -513,7 +513,7 @@
       <h2 class="section-title">Фаза B — Скорость (SEO-сигнал CWV)</h2>
       <div class="callout callout-danger">
         <strong>Контекст аудита (старт).</strong>
-        Старт 27.07: Perf 47 / LCP 6,4 с. Контроль 11.08: Perf 58 / LCP 4,7 с / TBT 940 мс. Повтор 20.08: Perf 62 / LCP 5,7 с / TBT 550 мс / SEO LH 100; desktop Perf 97. АвтоКомпозит вкл.; OPcache вкл. (лимит файлов ещё низкий); Perfmon ~7,25.
+        Старт 27.07: Perf 47 / LCP 6,4 с. Контроль 11.08: Perf 58 / LCP 4,7 с / TBT 940 мс. Повтор 20.08: Perf 62 / LCP 5,7 с / TBT 550 мс / SEO LH 100; desktop Perf 97. АвтоКомпозит вкл.; OPcache вкл. (лимит files=10000 на вирт. хостинге не поднимают, 24.08); Perfmon ~7,25.
       </div>
       <div class="card scroll-x"><table class="data-table">
         <thead><tr><th>Пункт</th><th>Как было</th><th>Что сделали</th><th>Влияние / статус</th></tr></thead>
@@ -524,7 +524,7 @@
           <tr><td><strong>B4.1</strong> Метрика</td><td>Два счётчика (старый + новый)</td><td>Старый 107023549 убран из модуля</td><td>Остался рабочий 108757686; чище аналитика</td></tr>
           <tr><td><strong>B4.2–B4.3</strong></td><td>Метрика и CRM B24 early</td><td>Отложенная загрузка (код)</td><td>✅ Сделано 21.08.2026 · B4.4 n8n ✅</td></tr>
           <tr><td><strong>B5.1–B5.2</strong></td><td>Таблицы БД «необходимо оптимизировать»</td><td>Замер Perfmon + оптимизация таблиц</td><td>Вкладка Битрикс → «оптимально»</td></tr>
-          <tr><td><strong>B5.3</strong> OPcache</td><td>Был выкл.</td><td>Включён хостером 08.2026</td><td>Работает; поднять max_accelerated_files ≥100000</td></tr><tr><td><strong>B5.4–B5.5</strong></td><td>isolation; Redis</td><td>MySQL global нельзя; PHP Redis module есть</td><td>Код SET SESSION + host:port Redis</td></tr>
+          <tr><td><strong>B5.3</strong> OPcache</td><td>Был выкл.</td><td>Включён хостером 08.2026</td><td>✅ enable=1. Лимит files=10000 хостер не меняет (вирт. хостинг, 24.08)</td></tr><tr><td><strong>B5.4–B5.5</strong></td><td>isolation; Redis</td><td>MySQL global нельзя; PHP Redis module есть</td><td>Код SET SESSION + host:port Redis</td></tr>
         </tbody>
       </table></div>
 
@@ -685,7 +685,7 @@
     ],
     performanceScore: 62,
     performanceTarget: 85,
-    mainBlocker: "B4.2–B4.3 сделаны (21.08). Главный открытый блокер SEO: нет rel=canonical (A4). По скорости mobile: контрольный lab после defer + дожим B5 (max_accelerated_files / Redis). Цель: Perf ≥85, LCP ≤2,5 с.",
+    mainBlocker: "B4.2–B4.3 сделаны (21.08). Главный открытый блокер SEO: нет rel=canonical (A4). По скорости mobile: контрольный lab после defer + дожим B5 (Redis / SESSION isolation; лимит OPcache-файлов закрыт тарифом). Цель: Perf ≥85, LCP ≤2,5 с.",
     verdict: "Повторный lab 20.08.2026 (Lighthouse 12.2.1): mobile Perf 62 / LCP 5,7 с / TBT 550 мс / TTI 7,6 с / SEO 100; desktop Perf 97 / LCP 1,1 с. Тренд mobile: Perf 47→58→62, TBT 900→940→550 мс; LCP 6,4→4,7→5,7 с (lab-шум). OPcache включён. Узкое место — сторонние скрипты (B4) и canonical. Цель: Perf ≥85, LCP ≤2,5 с.",
 
     metrics: [
@@ -1563,8 +1563,9 @@
         {
           id: "B5.3", title: "Включить Zend OPcache (прекомпилятор PHP)", brief: "PHP 8.3 без ускорителя — главный красный пункт", where: "Хостинг / php.ini; проверка: Perfmon → рекомендации PHP",
           goal: "Сильно ускоряет выполнение PHP-кода Битрикс — часто главный вклад в рост балла Perfmon и TTFB.",
-          how: "Сейчас PHP 8.3.31, прекомпилятор «не установлен». Битрикс требует Zend OPcache. Включается на сервере, не галкой в админке сайта.",
-          note: "Не сделано: нет OPcache в окружении (Perfmon → Настройки PHP). Почему нельзя в админке: параметр сервера/хостинга. Что надо: включить Zend OPcache и проверить, что в рекомендациях PHP пункт исчез. Кто: хостер / серверный админ; тикет в саппорт хостинга отправляет Анна Стасевич. Где: панель хостинга или php.ini; контроль — perfmon_php.php / ссылка «рекомендации» у «Конфигурация PHP».",
+          how: "Zend OPcache включается на сервере, не галкой в админке. Битрикс рекомендует max_accelerated_files ≥100000.",
+          note: "OPcache включён хостером (enable=1, 128 MB, PHP 8.3). 24.08.2026: лимит max_accelerated_files=10000 на виртуальном хостинге не поднимают — пункт закрыт как ограничение тарифа. Красная строка в Perfmon может остаться; на скорость гостя влияние вторично (главный выигрыш — сам OPcache). Дальше по серверу: Redis host:port, не спорить про files.",
+          done: true,
         },
         {
           id: "B5.4", title: "MySQL: READ-COMMITTED + обрывы подключений", brief: "Изоляция транзакций и Aborted connections", where: "Хостер / my.cnf; монитор: perfmon_db_server.php",
