@@ -167,6 +167,6 @@ Qlik тогда сам строит «широкую» витрину. Ручн�
 
 1. Эту таблицу плана — в чат Руслану / на пятницу.  
 2. Федя: короткий запрос Мише — папка данных + можно ли приложение на report-сервере.  
-3. Аня: макет двух листов под 5 KPI (без выбора цвета «на глаз» — правила в таблице KPI выше).
+3. Макет двух листов: https://seo-website-modification-3m77.vercel.app/qlik-preview/ (схема) и https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik (слайдер Qlik). Отчёт: https://seo-website-modification-3m77.vercel.app/#overview.
 
-Сбор lab уже есть. Следующий код-шаг в этом репо — экспорт `metrics/weekly_snapshot.csv` из `seo_weekly_monitor.py`, когда будет ясно, **куда** Qlik читает файл.
+Сбор lab есть. Экспорт CSV есть: `python scripts/seo_weekly_monitor.py --export-csv` → `metrics/weekly_snapshot.csv`. Копия в папку Qlik — когда Федя/Миша дадут путь в `QLIK_DROP_DIR`.

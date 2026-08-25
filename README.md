@@ -23,6 +23,12 @@ http://127.0.0.1:8765/
 
 После пуша в `main` Vercel обновит сайт автоматически.
 
+Боевой URL этого проекта:
+
+- отчёт: [https://seo-website-modification-3m77.vercel.app/#overview](https://seo-website-modification-3m77.vercel.app/#overview)
+- схема: [https://seo-website-modification-3m77.vercel.app/qlik-preview/](https://seo-website-modification-3m77.vercel.app/qlik-preview/)
+- макет Qlik: [https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik](https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik)
+
 ## Структура
 
 - `index.html` — отчёт (данные в `REPORT_DATA` и `SEO_DATA`)

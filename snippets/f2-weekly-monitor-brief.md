@@ -36,18 +36,28 @@ Desktop LCP/Perf — в той же таблице второй колонкой
 ## Автоматизация (схема)
 
 ```
-[ cron / Task Scheduler раз в неделю ]
+[ Task Scheduler Пн 09:00 ]
         ↓
   seo_weekly_monitor.py
         ↓
-  ┌─────┴──────┐
-  lab LH m/d   GSC API / ручной CSV   live HTML probe
+  lab LH m/d  +  live HTML probe  +  слоты GSC/Метрика
         ↓
-  metrics/history.jsonl
+  metrics/history.jsonl          ← полный снимок недели (наш архив)
+  metrics/weekly_snapshot.csv    ← длинная таблица, контракт с Qlik
         ↓
-  Bitrix24 REST  im.message.add
-  DIALOG_ID=chatXXX  MESSAGE=дайджест
-  (краткий дайджест + ▲▼ к прошлой неделе)
+  копия CSV в QLIK_DROP_DIR      ← папка Folder Connection (когда дадут путь)
+        ↓
+  Qlik Sense reload Пн 10:00
+  лист 1: 5 KPI + тренд
+  лист 2: сырая таблица
+
+Запасной канал (не основной): Bitrix24 im.message.add
+```
+
+Пересобрать CSV без нового замера:
+
+```
+python scripts/seo_weekly_monitor.py --export-csv
 ```
 
 Контракт Bitrix24 (не `{"text":…}`):
@@ -80,16 +90,17 @@ a2c.by · weekly · 20.08.2026
 
 ### Переменные окружения (`.env`, не коммитить)
 
-- `BITRIX24_WEBHOOK_URL` + `BITRIX24_DIALOG_ID` — основной канал
+- `QLIK_DROP_DIR` — опционально: папка, которую читает Qlik (копия CSV)
+- `BITRIX24_WEBHOOK_URL` + `BITRIX24_DIALOG_ID` — запасной канал
 - `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` — запасной
 - опционально `GSC_CLICKS` / позже GSC API
 
 Скрипт: `scripts/seo_weekly_monitor.py`
 
 ```
-python scripts/seo_weekly_monitor.py --seed --post-only --dry-run
-python scripts/seo_weekly_monitor.py --post-only
-python scripts/seo_weekly_monitor.py --bitrix-recent
+python scripts/seo_weekly_monitor.py --export-csv
+python scripts/seo_weekly_monitor.py --seed --export-csv
+python scripts/seo_weekly_monitor.py --no-post --reuse-lh
 python scripts/seo_weekly_monitor.py --dry-run --reuse-lh
 ```
 

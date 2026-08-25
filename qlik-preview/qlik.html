@@ -36,7 +36,7 @@
     <div class="qs-top">
       <div>
         <h1>a2c.by · SEO weekly</h1>
-        <div class="meta">Qlik Sense · прототип · не боевое приложение · срез lab 24.08.2026</div>
+        <div class="meta">Qlik Sense · внутренний дашборд · lab 24.08 · видимость 10–16.08</div>
       </div>
       <span class="badge">макет</span>
     </div>
@@ -82,27 +82,76 @@
               <h3>Клики organic / нед.</h3>
               <div class="val">—</div>
               <div class="delta">слот · лаг 2–8 нед.</div>
-              <div class="tgt">подключим кабинет / ручной ввод</div>
+              <div class="tgt">лаг 2–8 нед. · данные GSC</div>
             </article>
-            <article class="kpi muted">
+            <article class="kpi warn">
               <span class="contour">biz</span>
-              <h3>Цели Метрики, organic</h3>
-              <div class="val">—</div>
-              <div class="delta">F3 заведены</div>
-              <div class="tgt">тренд с понедельника · Аня</div>
+              <h3>Конверсии с органики</h3>
+              <div class="val">~2 <small>/мес</small></div>
+              <div class="delta">неделя 10–16.08</div>
+              <div class="tgt">Q1 = 4 · год 10–12</div>
             </article>
           </div>
 
+          <h2 class="sheet-h">Видимость и поведение <span>неделя 10–16.08 · GSC / Метрика / Вебмастер</span></h2>
+          <p class="sheet-note" data-vis-note></p>
+          <div class="kpi-row" data-visibility-row></div>
+          <div class="kpi-row" data-extra-body></div>
+
           <div class="charts">
             <div class="chart-box">
-              <h3>Mobile Performance (lab)</h3>
-              <p class="cap">Lighthouse 12.2.1 · главная · выше = лучше · источник: 27.07–24.08.2026</p>
-              <svg id="chart-perf" role="img" aria-label="Тренд Performance 47, 58, 62, 79"></svg>
+              <h3>Performance (lab) · mobile и ПК</h3>
+              <p class="cap">Lighthouse 12.2.1 · главная · выше = лучше. Desktop — пунктир, точка 20.08 (24.08 не снимали)</p>
+              <p class="chart-legend">
+                <span><i class="lg-m"></i> lab mobile</span>
+                <span><i class="lg-d"></i> lab desktop</span>
+              </p>
+              <svg id="chart-perf" role="img" aria-label="Тренд Performance: mobile 47, 58, 62, 79; desktop 97 на 20.08"></svg>
             </div>
             <div class="chart-box">
-              <h3>Mobile LCP (lab), секунды</h3>
-              <p class="cap">Отдельная ось. Ниже = лучше. 11.08→20.08 был шум lab, не регресс контента</p>
-              <svg id="chart-lcp" role="img" aria-label="Тренд LCP 6.4, 4.7, 5.7, 3.7 секунды"></svg>
+              <h3>LCP (lab), секунды · mobile и ПК</h3>
+              <p class="cap">Ниже = лучше. Не путать: ПК уже в норме, поиск идёт с мобилки</p>
+              <p class="chart-legend">
+                <span><i class="lg-m lg-lcp"></i> lab mobile</span>
+                <span><i class="lg-d"></i> lab desktop</span>
+              </p>
+              <svg id="chart-lcp" role="img" aria-label="Тренд LCP: mobile 6.4, 4.7, 5.7, 3.7 с; desktop 1.1 с на 20.08"></svg>
+            </div>
+            <div class="chart-box">
+              <h3>TBT (lab), мс · mobile и ПК</h3>
+              <p class="cap">С плитки Mobile TBT. Ниже = лучше. Цель ≤200 мс</p>
+              <p class="chart-legend">
+                <span><i class="lg-m lg-tbt"></i> lab mobile</span>
+                <span><i class="lg-d"></i> lab desktop</span>
+              </p>
+              <svg id="chart-tbt" role="img" aria-label="Тренд TBT: mobile 900, 940, 550, 330 мс; desktop 70 на 20.08"></svg>
+            </div>
+            <div class="chart-box">
+              <h3>FCP (lab), секунды · mobile и ПК</h3>
+              <p class="cap">Есть в lab-истории, на верхней плитке не выносили. Цель ≤1.8 с</p>
+              <p class="chart-legend">
+                <span><i class="lg-m lg-fcp"></i> lab mobile</span>
+                <span><i class="lg-d"></i> lab desktop</span>
+              </p>
+              <svg id="chart-fcp" role="img" aria-label="Тренд FCP: mobile 3.9, 2.3, 2.3, 2.4 с; desktop 0.5 на 20.08"></svg>
+            </div>
+          </div>
+
+          <h2 class="sheet-h">Показатели с целью или двумя замерами <span>клики GSC, CrUX и canonical не выводим: нет ряда или это да/нет</span></h2>
+          <div class="charts">
+            <div class="chart-box">
+              <h3>Speed Index (PageSpeed), секунды</h3>
+              <p class="cap">Два замера 10.08 и 20.08. Источник PageSpeed, не Lighthouse 12.2.1. Норма ≤3,4 с</p>
+              <svg id="chart-si" role="img" aria-label="Speed Index 6.5 затем 5.2 секунды"></svg>
+            </div>
+            <div class="chart-box">
+              <h3>Факт vs цель года</h3>
+              <p class="cap">Позиции — ниже лучше. Конверсии — выше лучше. Цель года: середина планового диапазона</p>
+              <p class="chart-legend">
+                <span><i class="lg-now"></i> факт</span>
+                <span><i class="lg-goal"></i> цель года</span>
+              </p>
+              <svg id="chart-goals" role="img" aria-label="Позиции Google и Яндекс, отказы и конверсии против цели года"></svg>
             </div>
           </div>
 
@@ -110,7 +159,7 @@
             <div class="mini">
               <div class="lbl">lab · Desktop Perf / LCP</div>
               <div class="v">97 / 1.1 с</div>
-              <p class="note" style="margin:0.25rem 0 0">База 20.08, не переснимали. Держать ≥90. Не путать с mobile.</p>
+              <p class="note" style="margin:0.25rem 0 0">Та же точка на графиках (пунктир). 24.08 desktop не переснимали. Держать ≥90 / ≤2.5 с.</p>
             </div>
             <div class="mini">
               <div class="lbl">live · rel=canonical</div>
@@ -147,7 +196,7 @@
             </table>
           </div>
           <p class="note">
-            ТBT 27.07 округлён (~900). Desktop только 20.08. GSC / biz / field — пустые ячейки, чтобы макет показал будущие колонки без фейковых цифр.
+            TBT 27.07 округлён (~900). Desktop только 20.08. Клики GSC — слот. Строки 16.08 — видимость (позиции, Метрика/GA, индекс). Speed Index 20.08 — PageSpeed, не Lighthouse 12.2.1. Perf/LCP/TBT из стороннего замера 10.08 и 20.08 в таблицу не входят.
           </p>
         </section>
       </div>

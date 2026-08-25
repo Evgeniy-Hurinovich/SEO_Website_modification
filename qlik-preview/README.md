@@ -29,6 +29,12 @@ npx --yes serve -l 4173 .
 
 После push в `main` Vercel сам подхватит папку. В шапке отчёта есть ссылки «Схема» и «Макет Qlik».
 
+Боевой URL:
+
+- отчёт: https://seo-website-modification-3m77.vercel.app/#overview
+- схема: https://seo-website-modification-3m77.vercel.app/qlik-preview/
+- макет Qlik: https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik
+
 **Отдельный Vercel-проект** (другой URL): Root Directory = `qlik-preview`, Framework Other, без build. Тогда схема будет на `/` этого проекта; ссылка «Отчёт SEO» на `/` уже не ведёт на отчёт.
 
 Сайт внутренний: `X-Robots-Tag: noindex`.

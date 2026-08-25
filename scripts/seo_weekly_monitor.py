@@ -2,29 +2,32 @@
 """
 Weekly SEO/CWV monitor for a2c.by.
 
-Writes metrics/history.jsonl and posts a digest to Bitrix24 (im.message.add)
-or Telegram as a fallback.
+Writes metrics/history.jsonl (полный снимок недели) and
+metrics/weekly_snapshot.csv (длинная таблица — контракт для Qlik).
+
+Bitrix24 / Telegram — запасной канал, не основной.
 
 Usage:
+  python scripts/seo_weekly_monitor.py --export-csv
+  python scripts/seo_weekly_monitor.py --seed --export-csv
   python scripts/seo_weekly_monitor.py --dry-run --reuse-lh
+  python scripts/seo_weekly_monitor.py --no-post --reuse-lh
   python scripts/seo_weekly_monitor.py --post-only --dry-run
-  python scripts/seo_weekly_monitor.py --post-only
-  python scripts/seo_weekly_monitor.py --bitrix-recent
-  python scripts/seo_weekly_monitor.py --bitrix-ping
-  python scripts/seo_weekly_monitor.py              # live + LH + history + post
 
 Env (.env in repo root, not committed):
-  BITRIX24_WEBHOOK_URL   https://PORTAL/rest/USER/CODE/   (or full …/im.message.add)
-  BITRIX24_DIALOG_ID     chat123  |  sg123  |  USER_ID
-  TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID   (fallback)
+  QLIK_DROP_DIR          optional folder Qlik already reads (copy of the CSV)
   GSC_CLICKS             optional weekly organic clicks
+  BITRIX24_WEBHOOK_URL   optional fallback chat
+  BITRIX24_DIALOG_ID     chat123  |  sg123  |  USER_ID
 """
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import re
+import shutil
 import ssl
 import subprocess
 import sys
@@ -36,7 +39,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 HISTORY = ROOT / "metrics" / "history.jsonl"
+CSV_PATH = ROOT / "metrics" / "weekly_snapshot.csv"
 LH_TMP = ROOT / "_lh_tmp"
+HOME_URL = "https://a2c.by/"
+CSV_FIELDS = ["date", "contour", "device", "metric", "value", "unit", "source", "url"]
 URLS = [
     "https://a2c.by/",
     "https://a2c.by/services/dwh/",
@@ -258,6 +264,122 @@ def append_history(row: dict) -> None:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def _iso_day(row: dict) -> str:
+    return (row.get("date") or "")[:10]
+
+
+def _csv_add(
+    rows: list[dict],
+    date: str,
+    contour: str,
+    device: str,
+    metric: str,
+    value,
+    unit: str,
+    source: str,
+    url: str = HOME_URL,
+) -> None:
+    if value is None or value == "":
+        return
+    if isinstance(value, bool):
+        value = 1 if value else 0
+    rows.append(
+        {
+            "date": date,
+            "contour": contour,
+            "device": device,
+            "metric": metric,
+            "value": value,
+            "unit": unit,
+            "source": source,
+            "url": url,
+        }
+    )
+
+
+def snapshot_rows(history: list[dict] | None = None) -> list[dict]:
+    """Одна строка CSV = одна метрика за дату. Qlik сам делает широкую витрину."""
+    out: list[dict] = []
+    for rec in sorted(history or load_history(), key=_iso_day):
+        day = _iso_day(rec)
+        if not day:
+            continue
+        rec_src = rec.get("source") or f"lighthouse-{LH_VERSION}"
+        for device in ("mobile", "desktop"):
+            block = rec.get(device)
+            if not isinstance(block, dict) or block.get("perf") is None:
+                continue
+            ver = block.get("lh_version")
+            src = f"lighthouse-{ver}" if ver else rec_src
+            _csv_add(out, day, "lab", device, "perf", block.get("perf"), "score", src)
+            _csv_add(out, day, "lab", device, "seo", block.get("seo"), "score", src)
+            _csv_add(out, day, "lab", device, "lcp_ms", block.get("lcp_ms"), "ms", src)
+            _csv_add(out, day, "lab", device, "tbt_ms", block.get("tbt_ms"), "ms", src)
+            _csv_add(out, day, "lab", device, "fcp_ms", block.get("fcp_ms"), "ms", src)
+            cls = block.get("cls")
+            if cls is not None and cls != "":
+                _csv_add(out, day, "lab", device, "cls", cls, "score", src)
+        live = rec.get("live") or {}
+        if live:
+            _csv_add(
+                out,
+                day,
+                "live",
+                "",
+                "canonical_ok",
+                1 if live.get("canonical_ok") else 0,
+                "bool",
+                "html-probe",
+            )
+            if "robots_ok" in live:
+                _csv_add(
+                    out,
+                    day,
+                    "live",
+                    "",
+                    "robots_ok",
+                    1 if live.get("robots_ok") else 0,
+                    "bool",
+                    "html-probe",
+                )
+            if "sitemap_ok" in live:
+                _csv_add(
+                    out,
+                    day,
+                    "live",
+                    "",
+                    "sitemap_ok",
+                    1 if live.get("sitemap_ok") else 0,
+                    "bool",
+                    "html-probe",
+                )
+        clicks = (rec.get("gsc") or {}).get("clicks")
+        _csv_add(out, day, "gsc", "", "clicks_week", clicks, "count", "gsc")
+        org = (rec.get("metrica") or {}).get("organic_goals")
+        _csv_add(out, day, "biz", "", "metrica_goals_organic", org, "count", "metrica")
+        field_lcp = (rec.get("field") or {}).get("lcp")
+        _csv_add(out, day, "field", "mobile", "crux_lcp", field_lcp, "s", "crux")
+    return out
+
+
+def write_weekly_csv(history: list[dict] | None = None) -> Path:
+    rows = snapshot_rows(history)
+    CSV_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with CSV_PATH.open("w", encoding="utf-8-sig", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=CSV_FIELDS)
+        w.writeheader()
+        w.writerows(rows)
+    print(f"csv wrote {len(rows)} rows -> {CSV_PATH}")
+    drop = (os.environ.get("QLIK_DROP_DIR") or "").strip()
+    if drop:
+        dest_dir = Path(drop)
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        dest = dest_dir / CSV_PATH.name
+        shutil.copy2(CSV_PATH, dest)
+        print(f"csv copied -> {dest}")
+    return CSV_PATH
+
+
 def date_ru(iso: str | None) -> str:
     if not iso:
         return "—"
@@ -467,10 +589,30 @@ def bitrix_recent() -> None:
 
 
 def seed_baseline() -> int:
-    """Write 11.08 + 20.08 lab rows if those dates are missing."""
+    """Write known lab rows if those dates are missing (27.07 … 24.08)."""
     existing = { (r.get("date") or "")[:10] for r in load_history() }
     added = 0
     seed_rows = [
+        {
+            "date": "2026-07-27T12:00:00+00:00",
+            "source": "manual-progress",
+            "live": {"canonical_ok": False, "robots_ok": True, "sitemap_ok": True, "pages": []},
+            "mobile": {
+                "perf": 47,
+                "seo": None,
+                "lcp": "6.4 с",
+                "lcp_ms": 6400,
+                "tbt": "900 мс",
+                "tbt_ms": 900,
+                "cls": "0.001",
+                "fcp": "3.9 с",
+                "fcp_ms": 3900,
+            },
+            "desktop": None,
+            "gsc": {"clicks": None},
+            "field": {},
+            "metrica": {},
+        },
         {
             "date": "2026-08-11T12:00:00+00:00",
             "source": "manual-progress",
@@ -484,6 +626,7 @@ def seed_baseline() -> int:
                 "tbt_ms": 940,
                 "cls": "0",
                 "fcp": "2.3 с",
+                "fcp_ms": 2300,
             },
             "desktop": None,
             "gsc": {"clicks": None},
@@ -510,6 +653,7 @@ def seed_baseline() -> int:
                 "tbt_ms": 550,
                 "cls": "0",
                 "fcp": "2.3 с",
+                "fcp_ms": 2300,
                 "lh_version": "12.2.1",
                 "fetch_time": "2026-08-20T11:05:57.244Z",
             },
@@ -522,9 +666,39 @@ def seed_baseline() -> int:
                 "tbt_ms": 66,
                 "cls": "0.015",
                 "fcp": "0.5 с",
+                "fcp_ms": 500,
                 "lh_version": "12.2.1",
                 "fetch_time": "2026-08-20T11:06:18.812Z",
             },
+            "gsc": {"clicks": None},
+            "field": {},
+            "metrica": {},
+        },
+        {
+            "date": "2026-08-24T07:30:03+00:00",
+            "source": "lighthouse-12.2.1",
+            "live": {
+                "canonical_ok": False,
+                "robots_ok": True,
+                "sitemap_ok": True,
+                "pages": [
+                    {"url": u, "ok": True, "canonical": False} for u in URLS
+                ],
+            },
+            "mobile": {
+                "perf": 79,
+                "seo": 100,
+                "lcp": "3.7 с",
+                "lcp_ms": 3666,
+                "tbt": "326 мс",
+                "tbt_ms": 326,
+                "cls": "0.004",
+                "fcp": "2.4 с",
+                "fcp_ms": 2360,
+                "lh_version": "12.2.1",
+                "fetch_time": "2026-08-24T07:30:03.525Z",
+            },
+            "desktop": None,
             "gsc": {"clicks": None},
             "field": {},
             "metrica": {},
@@ -564,7 +738,8 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true", help="Print digest, do not write history or post")
     ap.add_argument("--post-only", action="store_true", help="Post last history row (no new probe/LH)")
     ap.add_argument("--no-post", action="store_true", help="Write history, skip webhook")
-    ap.add_argument("--seed", action="store_true", help="Insert 11.08 + 20.08 baseline rows")
+    ap.add_argument("--export-csv", action="store_true", help="Rebuild metrics/weekly_snapshot.csv from history")
+    ap.add_argument("--seed", action="store_true", help="Insert missing lab rows (27.07 … 24.08)")
     ap.add_argument("--bitrix-recent", action="store_true", help="List recent Bitrix dialogs")
     ap.add_argument("--bitrix-ping", action="store_true", help="Send a short test message")
     ap.add_argument("--gsc-clicks", type=int, default=None)
@@ -572,12 +747,18 @@ def main() -> int:
 
     if args.seed:
         seed_baseline()
-        if not (args.post_only or args.bitrix_ping or args.bitrix_recent):
+        write_weekly_csv()
+        if not (args.post_only or args.bitrix_ping or args.bitrix_recent or args.export_csv):
             hist = load_history()
             if hist:
                 prev = hist[-2] if len(hist) > 1 else None
                 print(format_digest(hist[-1], prev))
             return 0
+
+    if args.export_csv and not (args.post_only or args.bitrix_ping or args.bitrix_recent):
+        if not args.seed:
+            write_weekly_csv()
+        return 0
 
     if args.bitrix_recent:
         try:
@@ -648,6 +829,7 @@ def main() -> int:
 
     if not args.dry_run:
         append_history(row)
+        write_weekly_csv()
 
     digest = format_digest(row, prev)
     print(digest)
