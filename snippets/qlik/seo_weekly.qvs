@@ -1,4 +1,7 @@
 // SEO weekly a2c.by — Qlik Sense load script (каркас)
+// ТЗ: https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/f2-qlik-native-etl.md
+// Сид CSV: https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/metrics/weekly_snapshot.csv
+// Макет: https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik
 // Вставить в Data Load Editor. Подставить lib:// имена коннекторов.
 // Факт — длинная таблица. История копится в QVD.
 //

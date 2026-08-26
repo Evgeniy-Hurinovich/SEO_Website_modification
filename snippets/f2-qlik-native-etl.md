@@ -2,13 +2,58 @@
 
 Решение 26.08.2026 (Миша): приложение Qlik Sense **само** забирает источники (REST / JSON / HTML). Промежуточный Python→CSV больше не контур поставки.
 
-Макет листов (спека UI, не источник данных):
-https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik
-
 URL правды: `https://a2c.by/`  
 Листы: KPI+тренд · сырая таблица  
 Reload: пн 10:00  
 История: QVD, не git.
+
+Репозиторий: [Evgeniy-Hurinovich/SEO_Website_modification](https://github.com/Evgeniy-Hurinovich/SEO_Website_modification) · ветка `main`.  
+Если GitHub не открывается — нужен доступ к репо (напиши Жене Г.). Макет на Vercel доступа не требует.
+
+---
+
+## Ссылки для разработчика
+
+### Обязательные (открыть в первую очередь)
+
+| Что | Ссылка |
+|-----|--------|
+| Это ТЗ | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/f2-qlik-native-etl.md |
+| Load script Qlik (вставить в Data Load Editor) | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/qlik/seo_weekly.qvs |
+| Сид истории → QVD один раз (скачать raw) | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/metrics/weekly_snapshot.csv · [raw](https://raw.githubusercontent.com/Evgeniy-Hurinovich/SEO_Website_modification/main/metrics/weekly_snapshot.csv) |
+| Макет двух листов (спека UI) | https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik |
+| Схема потоков | https://seo-website-modification-3m77.vercel.app/qlik-preview/ |
+| Прод, который меряем | https://a2c.by/ |
+
+### Макет — исходники (цифры KPI и вёрстка)
+
+| Что | Ссылка |
+|-----|--------|
+| KPI, ряды lab, цели года | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/qlik-preview/assets/data.js |
+| Графики / плитки | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/qlik-preview/assets/qlik.js |
+| Листы HTML | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/qlik-preview/qlik.html |
+| Стили | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/qlik-preview/assets/app.css |
+
+Не подключать GitHub как Data Connection. Скачать CSV и `.qvs` локально / на шару Qlik (`lib://SEO/`).
+
+### Справка и архив (не слой поставки)
+
+| Что | Ссылка |
+|-----|--------|
+| Старый план встречи (архив Python→CSV) | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/f2-qlik-seo-dashboard-plan.md |
+| Полный jsonl-снимок недель (разбор, не грузить в Qlik целиком) | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/metrics/history.jsonl |
+| Бывший Python-сборщик (только чтобы понять, как считали lab) | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/scripts/seo_weekly_monitor.py |
+
+### Документация API
+
+| Источник | Документация |
+|----------|----------------|
+| PageSpeed Insights v5 | https://developers.google.com/speed/docs/insights/v5/get-started |
+| GSC Search Analytics | https://developers.google.com/webmaster-tools/v1/searchanalytics/query |
+| Яндекс Метрика Stat API | https://yandex.com/dev/metrika/doc/api2/api_v1/intro.html |
+| Яндекс Вебмастер API v4 | https://yandex.com/dev/webmaster/doc/dg/concepts/about.html |
+
+Live-probe без API: GET `https://a2c.by/`, `https://a2c.by/robots.txt`, `https://a2c.by/sitemap.xml` (и при необходимости `/services/dwh/`, `/services/bi/`, `/contacts/`).
 
 ---
 
@@ -59,10 +104,10 @@ Qlik Folder Connection читает JSON, load script вынимает Perf/LCP/
 
 ### 0. Сид истории (Женя Г. + Федя, 0.5 дня)
 
-Файл уже есть: `metrics/weekly_snapshot.csv` (длинная таблица).  
+Файл уже есть: [metrics/weekly_snapshot.csv](https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/metrics/weekly_snapshot.csv) (длинная таблица, [raw](https://raw.githubusercontent.com/Evgeniy-Hurinovich/SEO_Website_modification/main/metrics/weekly_snapshot.csv)).  
 Один раз загрузить в `seo_fact.qvd`. Без этого понедельничный REST начнёт ряд с нуля и Ткачёнок потеряет 47→79.
 
-Скрипт: `snippets/qlik/seo_weekly.qvs` секция `SEED`.
+Скрипт: [snippets/qlik/seo_weekly.qvs](https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/qlik/seo_weekly.qvs) секция `SEED`.
 
 ### 1. Допуски сервера (Миша / Ругарин, блокер)
 
@@ -122,7 +167,7 @@ Qlik Folder Connection читает JSON, load script вынимает Perf/LCP/
 
 ### 4. Load script (Федя)
 
-Готовый каркас: `snippets/qlik/seo_weekly.qvs`.
+Готовый каркас: [snippets/qlik/seo_weekly.qvs](https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/qlik/seo_weekly.qvs).
 
 Порядок в Data Load Editor:
 
@@ -302,8 +347,11 @@ User-Agent задать в коннекторе (`a2c-seo-qlik/1.0`), иначе
 
 ## Первый ответ Феде в чат (можно копировать)
 
-1. Макет: https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik  
-2. Сид: `metrics/weekly_snapshot.csv` → QVD один раз.  
-3. Миша подтверждает исходящий HTTPS. Нет сети → только JSON на шаре.  
-4. Load script: `snippets/qlik/seo_weekly.qvs`.  
-5. Lab: либо PSI (`contour=psi`), либо JSON LH 12.2.1 (`contour=lab`). Не оба в одной линии.
+ТЗ: https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/f2-qlik-native-etl.md  
+Load script: https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/qlik/seo_weekly.qvs  
+Сид CSV (в QVD один раз): https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/metrics/weekly_snapshot.csv  
+Макет листов: https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik  
+Схема: https://seo-website-modification-3m77.vercel.app/qlik-preview/  
+
+Миша подтверждает исходящий HTTPS. Нет сети → только JSON на шаре.  
+Lab: либо PSI (`contour=psi`), либо JSON LH 12.2.1 (`contour=lab`). Не оба в одной линии.
