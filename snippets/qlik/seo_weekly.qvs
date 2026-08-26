@@ -1,0 +1,229 @@
+// SEO weekly a2c.by — Qlik Sense load script (каркас)
+// Вставить в Data Load Editor. Подставить lib:// имена коннекторов.
+// Факт — длинная таблица. История копится в QVD.
+//
+// Ключ строки: date|contour|device|metric|url
+// Не смешивать contour lab (LH 12.2.1) и psi (PageSpeed API).
+
+SET ThousandSep=' ';
+SET DecimalSep='.';
+SET DateFormat='YYYY-MM-DD';
+SET TimestampFormat='YYYY-MM-DD hh:mm:ss';
+
+LET vQvd = 'lib://SEO/seo_fact.qvd';
+LET vSeedCsv = 'lib://SEO/weekly_snapshot.csv';   // один раз скопировать из git metrics/
+LET vLhFolder = 'lib://SEO/lh/';
+LET vHome = 'https://a2c.by/';
+LET vToday = Date(Today(), 'YYYY-MM-DD');
+
+// Полная прошлая календарная неделя (Пн–Вс) для GSC/Метрики
+LET vWeekEnd = Date(WeekStart(Today())-1, 'YYYY-MM-DD');
+LET vWeekStart = Date(WeekStart(Today())-7, 'YYYY-MM-DD');
+
+
+// ---------------------------------------------------------------------------
+// 0) SEED — только если QVD ещё нет
+// ---------------------------------------------------------------------------
+IF NOT FileSize('$(vQvd)') THEN
+
+  seo_fact:
+  LOAD
+    Date(Date#(date,'YYYY-MM-DD')) as date,
+    contour,
+    device,
+    metric,
+    Num(value) as value,
+    unit,
+    source,
+    url,
+    contour & '|' & device & '|' & metric & '|' & url & '|' & date as fact_key
+  FROM [$(vSeedCsv)]
+  (txt, utf8, embedded labels, delimiter is ',', msq);
+
+  STORE seo_fact INTO [$(vQvd)] (qvd);
+  DROP TABLE seo_fact;
+
+END IF
+
+
+// ---------------------------------------------------------------------------
+// 1) EXTRACT — раскомментировать коннекторы, когда Миша даст HTTPS
+// Имена RestConnector* — как в Data Connections.
+// ---------------------------------------------------------------------------
+
+// --- PSI mobile (вариант A). Таймаут коннектора ≥ 120 с.
+/*
+LIB CONNECT TO 'REST_psi_mobile';
+psi_m:
+SQL SELECT
+  "lighthouseResult",
+  "loadingExperience"
+FROM JSON (wrap on) "root";
+
+// Дальше — парсинг через WITH CONNECTION + Json-поля REST Connector
+// либо Qlik REST pagination wizard: снять numericValue аудитов в плоские поля.
+*/
+
+// --- PSI desktop
+// LIB CONNECT TO 'REST_psi_desktop';
+
+// --- GSC Search Analytics (OAuth в коннекторе, POST body = неделя)
+/*
+LIB CONNECT TO 'REST_gsc_query';
+*/
+
+// --- Метрика
+/*
+LIB CONNECT TO 'REST_metrica_week';
+*/
+
+// --- Вебмастер summary
+/*
+LIB CONNECT TO 'REST_webmaster_summary';
+*/
+
+// --- HTML probe
+/*
+LIB CONNECT TO 'REST_a2c_home';   // GET https://a2c.by/  Accept: text/html
+*/
+
+
+// ---------------------------------------------------------------------------
+// 2) Lighthouse JSON с шары (вариант B)
+// Имена файлов: 2026-08-24_mobile.json , 2026-08-24_desktop.json
+// ---------------------------------------------------------------------------
+/*
+lh_files:
+LOAD
+  FileName() as lh_file,
+  Date(Date#(Left(FileBaseName(), 10),'YYYY-MM-DD')) as date,
+  If(WildMatch(FileBaseName(), '*desktop*'), 'desktop', 'mobile') as device,
+  lighthouseVersion as lh_ver,
+  Num(categories.performance.score) * 100 as perf,
+  Num([audits.largest-contentful-paint.numericValue]) as lcp_ms,
+  Num([audits.total-blocking-time.numericValue]) as tbt_ms,
+  Num([audits.first-contentful-paint.numericValue]) as fcp_ms,
+  Num([audits.cumulative-layout-shift.numericValue]) as cls
+FROM [$(vLhFolder)*.json]
+(json, utf8);
+
+lh_long:
+CrossTable (metric, value, 3)
+LOAD date, device, 'lighthouse-' & lh_ver as source,
+  perf, lcp_ms, tbt_ms, fcp_ms, cls
+RESIDENT lh_files;
+
+DROP TABLE lh_files;
+*/
+
+
+// ---------------------------------------------------------------------------
+// 3) NORMALIZE — пример ручной сборки факта текущей даты (PSI или LH)
+// Заменить dummy на resident из EXTRACT.
+// ---------------------------------------------------------------------------
+new_fact:
+LOAD * INLINE [
+date, contour, device, metric, value, unit, source, url
+];
+
+// Пример, когда REST уже разложил поля в psi_flat (date, device, perf, lcp_ms, ...):
+/*
+CONCATENATE (new_fact)
+LOAD
+  date, 'psi' as contour, device, 'perf' as metric, perf as value,
+  'score' as unit, source, '$(vHome)' as url
+RESIDENT psi_flat;
+
+CONCATENATE (new_fact)
+LOAD
+  date, 'psi' as contour, device, 'lcp_ms' as metric, lcp_ms as value,
+  'ms' as unit, source, '$(vHome)' as url
+RESIDENT psi_flat;
+
+CONCATENATE (new_fact)
+LOAD
+  date, 'psi' as contour, device, 'tbt_ms' as metric, tbt_ms as value,
+  'ms' as unit, source, '$(vHome)' as url
+RESIDENT psi_flat;
+*/
+
+// GSC неделя → date = vWeekEnd, contour=gsc, metric=clicks_week / avg_position
+// Метрика → contour=metrica, metric=users_week / bounce_pct / organic_goals
+// HTML: canonical_ok 0/1, contour=live
+
+
+// ---------------------------------------------------------------------------
+// 4) UPSERT: история минус ключи incoming + новые строки
+// ---------------------------------------------------------------------------
+seo_fact:
+LOAD *
+FROM [$(vQvd)] (qvd);
+
+IF NoOfRows('new_fact') > 0 THEN
+
+  LEFT JOIN (new_fact)
+  LOAD
+    date, contour, device, metric, url,
+    contour & '|' & device & '|' & metric & '|' & url & '|' & date as fact_key
+  RESIDENT new_fact;
+
+  // убрать из истории ключи, которые пришли снова (повторный reload)
+  Concatenate (seo_fact)
+  LOAD * RESIDENT new_fact
+  WHERE 0;  // placeholder: Qlik не умеет DELETE; делаем через Not Exists
+
+  tmp_keys:
+  LOAD fact_key as drop_key
+  RESIDENT new_fact;
+
+  seo_kept:
+  NOCONCATENATE
+  LOAD *
+  RESIDENT seo_fact
+  WHERE Not Exists(drop_key, fact_key);
+
+  DROP TABLE seo_fact;
+  DROP TABLE tmp_keys;
+
+  CONCATENATE (seo_kept)
+  LOAD
+    Date(date) as date,
+    contour,
+    device,
+    metric,
+    Num(value) as value,
+    unit,
+    source,
+    url,
+    fact_key
+  RESIDENT new_fact;
+
+  DROP TABLE new_fact;
+
+  STORE seo_kept INTO [$(vQvd)] (qvd);
+  DROP TABLE seo_kept;
+
+ELSE
+
+  DROP TABLE new_fact;
+  DROP TABLE seo_fact;
+
+  seo_kept:
+  LOAD * FROM [$(vQvd)] (qvd);
+
+END IF
+
+
+// ---------------------------------------------------------------------------
+// 5) Витрина приложения — читать QVD каждый reload
+// ---------------------------------------------------------------------------
+seo_fact:
+LOAD * FROM [$(vQvd)] (qvd);
+
+Calendar:
+LOAD DISTINCT
+  date,
+  WeekStart(date) as week_start,
+  Year(date) as year,
+  Month(date) as month
+RESIDENT seo_fact;
