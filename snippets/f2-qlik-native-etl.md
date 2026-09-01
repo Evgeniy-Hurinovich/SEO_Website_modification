@@ -19,6 +19,7 @@ Reload: пн 10:00
 | Что | Ссылка |
 |-----|--------|
 | Это ТЗ | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/f2-qlik-native-etl.md |
+| Подключения и слоты (URL + API) | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/f2-qlik-connections.md |
 | Load script Qlik (вставить в Data Load Editor) | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/qlik/seo_weekly.qvs |
 | Сид истории → QVD один раз (скачать raw) | https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/metrics/weekly_snapshot.csv · [raw](https://raw.githubusercontent.com/Evgeniy-Hurinovich/SEO_Website_modification/main/metrics/weekly_snapshot.csv) |
 | Макет двух листов (спека UI) | https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik |
@@ -348,6 +349,7 @@ User-Agent задать в коннекторе (`a2c-seo-qlik/1.0`), иначе
 ## Первый ответ Феде в чат (можно копировать)
 
 ТЗ: https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/f2-qlik-native-etl.md  
+Подключения и слоты: https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/f2-qlik-connections.md  
 Load script: https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/snippets/qlik/seo_weekly.qvs  
 Сид CSV (в QVD один раз): https://github.com/Evgeniy-Hurinovich/SEO_Website_modification/blob/main/metrics/weekly_snapshot.csv  
 Макет листов: https://seo-website-modification-3m77.vercel.app/qlik-preview/qlik  
